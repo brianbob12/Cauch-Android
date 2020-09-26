@@ -56,7 +56,7 @@ class TaskInList :ConstraintLayout {
 
 
         name.textSize = 32F
-        name.text = task.name
+        name.text = task.getName()
         //set it to bold
         name.typeface = Typeface.DEFAULT_BOLD
         name.setTextColor(Color.parseColor("#000000"))
