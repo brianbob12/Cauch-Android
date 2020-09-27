@@ -1,5 +1,6 @@
 package com.example.scheduleapp
 
+import android.content.ClipData
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
@@ -27,10 +28,11 @@ class TaskInList :ConstraintLayout {
 
         layoutParams = taskParams
 
-
-
         addView(makeInfoView(task))
+
+
     }
+
 
     private fun makeInfoView(task: Task): LinearLayout {
         var infoView: LinearLayout= LinearLayout(context)

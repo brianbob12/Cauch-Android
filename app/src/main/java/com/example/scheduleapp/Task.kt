@@ -1,7 +1,7 @@
 package com.example.scheduleapp
 
 import java.sql.Time
-import java.util.*
+import java.sql.Date
 
 class Task {
     private var color:Int =0
