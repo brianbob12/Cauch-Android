@@ -1,38 +1,57 @@
 package com.example.scheduleapp.ui.home
 
-import android.app.AlertDialog
 import android.os.Bundle
-import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
-import com.example.scheduleapp.MainActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.scheduleapp.MyAdapter
 import com.example.scheduleapp.R
-import com.example.scheduleapp.Task
-import com.example.scheduleapp.TaskInList
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
+    //stuff to do with the RecyclerView
+    private var recyclerView:RecyclerView? = null
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        // Inflate the layout for this fragment
+        Log.e("Testing","T-1")
+        val root:View = inflater.inflate(R.layout.fragment_home, container, false)
+        // Add the following lines to create RecyclerView
+        recyclerView = root.findViewById<RecyclerView>(R.id.ListForTasks)
+        recyclerView?.setHasFixedSize(true)
+        recyclerView?.setLayoutManager(LinearLayoutManager(root.context))
+        recyclerView?.setAdapter(MyAdapter(1234))
+        Log.e("Testing","T-2")
+        return root
+    }
+    /*
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_home, container, false)
-        //val textView: TextView = root.findViewById(R.id.text_home)
-        //homeViewModel.text.observe(viewLifecycleOwner, Observer {
-        //    textView.text = it
-        //})
+        Log.e("Tesing","creating view")
+        //homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        val view:View = inflater.inflate(R.layout.fragment_home, container, false)
+        Log.e("Tesing","creating view2")
+        //deal with RecylerView wich is used for the drag and dropable tasks
+        // Add the following lines to create RecyclerView
+        val recyclerView:RecyclerView = view.findViewById(R.id.ListForTasks);
+        recyclerView.setHasFixedSize(true)
+        recyclerView.setLayoutManager(LinearLayoutManager(view.context))
+        recyclerView.setAdapter(MyAdapter(1234))
 
+        /*
         //show tasks
         val taskListLayout: LinearLayout? = root.findViewById(R.id.TaskListLayout)
         for (task in MainActivity.tasks){//iterate over all task
@@ -79,8 +98,9 @@ class HomeFragment : Fragment() {
             (activity as MainActivity?)?.startAddNewTaskFragment()
 
         }
-
-        return root
+        */
+        Log.e("Tesing","ending creating view")
+        return view
     }
-
+    */
 }
