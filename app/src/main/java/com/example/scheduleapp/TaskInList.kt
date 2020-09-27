@@ -1,12 +1,12 @@
 package com.example.scheduleapp
 
-import android.content.ClipData
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
+import android.text.Layout
 import android.view.View
+import android.widget.CheckBox
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 
@@ -15,6 +15,7 @@ class TaskInList :ConstraintLayout {
 
     //create label for the task
     var name: TextView = TextView(context)
+    var checkBox=CheckBox(context)
 
     constructor(context: Context, task: Task) : super(context) {
         this.task = task
@@ -64,6 +65,15 @@ class TaskInList :ConstraintLayout {
         name.setTextColor(Color.parseColor("#000000"))
 
         infoView.addView(name)
+
+        var checkBoxParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
+            LayoutParams.WRAP_CONTENT,
+            LayoutParams.WRAP_CONTENT
+        )
+        checkBoxParams.setMargins(0, 0, 0, 0)
+        checkBox.layoutParams=checkBoxParams
+        checkBox.text=""
+        infoView.addView(checkBox)
 
         return infoView
     }
