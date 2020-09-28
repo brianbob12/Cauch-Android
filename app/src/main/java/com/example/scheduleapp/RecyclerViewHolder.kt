@@ -10,6 +10,6 @@ class RecyclerViewHolder(itemView: View) :
     val view: TextView
 
     init {
-        view = itemView.findViewById(R.id.randomText)
+        view = itemView.findViewById(R.id.mainTitle)
     }
 }

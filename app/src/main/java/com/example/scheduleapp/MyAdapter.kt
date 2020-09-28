@@ -1,32 +1,77 @@
 package com.example.scheduleapp
 
+
+
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 
 
-class MyAdapter(seed: Int) : RecyclerView.Adapter<RecyclerViewHolder>() {
-    private val random: Random
+class MyAdapter(data: ArrayList<String>) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),ItemMoveCallback.ItemTouchHelperContract  {
+
+    private var data: ArrayList<String>? = null
+
+    init {
+        this.data = data
+    }
+
     override fun getItemViewType(position: Int): Int {
-        return R.layout.my_text_view
+        return R.layout.task_card_row
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(viewType, parent, false)
-        return RecyclerViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val itemView: View =
+            LayoutInflater.from(parent.context).inflate(R.layout.task_card_row, parent, false)
+        return MyViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
-        holder.view.setText(random.nextInt().toString())
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        holder.title.setText(data!![position])
     }
 
     override fun getItemCount(): Int {
-        return 100
+        return data?.size!!;
     }
 
-    init {
-        random = Random(seed.toLong())
+
+
+
+    override fun onRowMoved(fromPosition: Int, toPosition: Int) {
+        if (fromPosition < toPosition) {
+            for (i in fromPosition until toPosition) {
+                Collections.swap(data, i, i + 1)
+            }
+        } else {
+            for (i in fromPosition downTo toPosition + 1) {
+                Collections.swap(data, i, i - 1)
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition)
     }
+
+    override fun onRowSelected(myViewHolder: MyViewHolder?) {
+        myViewHolder?.rowView?.setBackgroundColor(Color.GRAY);
+    }
+
+    override fun onRowClear(myViewHolder: MyViewHolder?) {
+        myViewHolder?.rowView?.setBackgroundColor(Color.WHITE);
+    }
+
+    //viewholder for the list
+    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val title: TextView
+        var rowView: View
+
+        init {
+            rowView = itemView
+            title = itemView.findViewById(R.id.mainTitle)
+        }
+    }
+
+
 }

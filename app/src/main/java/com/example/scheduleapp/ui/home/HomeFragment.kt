@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.scheduleapp.ItemMoveCallback
 import com.example.scheduleapp.MyAdapter
 import com.example.scheduleapp.R
 
@@ -30,7 +32,13 @@ class HomeFragment : Fragment() {
         recyclerView = root.findViewById<RecyclerView>(R.id.ListForTasks)
         recyclerView?.setHasFixedSize(true)
         recyclerView?.setLayoutManager(LinearLayoutManager(root.context))
-        recyclerView?.setAdapter(MyAdapter(1234))
+        val recycleAdapter:MyAdapter= MyAdapter(arrayListOf<String>("hello 1","cyrus","did","it!"))
+        recyclerView?.setAdapter(recycleAdapter)
+
+        val callback: ItemTouchHelper.Callback = ItemMoveCallback(recycleAdapter)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(recyclerView)
+
         Log.e("Testing","T-2")
         return root
     }
