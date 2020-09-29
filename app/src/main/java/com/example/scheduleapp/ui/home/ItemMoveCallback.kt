@@ -1,4 +1,4 @@
-package com.example.scheduleapp
+package com.example.scheduleapp.ui.home
 
 
 import androidx.recyclerview.widget.ItemTouchHelper

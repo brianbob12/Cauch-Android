@@ -9,9 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.scheduleapp.ItemMoveCallback
 import com.example.scheduleapp.MainActivity
-import com.example.scheduleapp.MyAdapter
 import com.example.scheduleapp.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -34,10 +32,12 @@ class HomeFragment : Fragment() {
         recyclerView = root.findViewById<RecyclerView>(R.id.ListForTasks)
         recyclerView?.setHasFixedSize(true)
         recyclerView?.setLayoutManager(LinearLayoutManager(root.context))
-        val recycleAdapter:MyAdapter= MyAdapter(MainActivity.tasks)
+        val recycleAdapter: MyAdapter =
+            MyAdapter(MainActivity.tasks)
         recyclerView?.setAdapter(recycleAdapter)
 
-        val callback: ItemTouchHelper.Callback = ItemMoveCallback(recycleAdapter)
+        val callback: ItemTouchHelper.Callback =
+            ItemMoveCallback(recycleAdapter)
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(recyclerView)
 

@@ -1,4 +1,4 @@
-package com.example.scheduleapp
+package com.example.scheduleapp.ui.home
 
 
 
@@ -8,10 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.scheduleapp.R
+import com.example.scheduleapp.Task
 import java.util.*
 
 
-class MyAdapter(data: LinkedList<Task>) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),ItemMoveCallback.ItemTouchHelperContract  {
+class MyAdapter(data: LinkedList<Task>) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
+    ItemMoveCallback.ItemTouchHelperContract  {
 
     private var data:LinkedList<Task> =LinkedList<Task>()
 
