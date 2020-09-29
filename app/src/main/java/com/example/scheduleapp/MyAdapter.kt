@@ -3,7 +3,6 @@ package com.example.scheduleapp
 
 
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 
 
-class MyAdapter(data: ArrayList<String>) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),ItemMoveCallback.ItemTouchHelperContract  {
+class MyAdapter(data: LinkedList<Task>) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),ItemMoveCallback.ItemTouchHelperContract  {
 
-    private var data: ArrayList<String>? = null
+    private var data:LinkedList<Task> =LinkedList<Task>()
 
     init {
         this.data = data
@@ -31,7 +30,7 @@ class MyAdapter(data: ArrayList<String>) : RecyclerView.Adapter<MyAdapter.MyView
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.title.setText(data!![position])
+        holder.title.setText(data.get(position).getName())
     }
 
     override fun getItemCount(): Int {

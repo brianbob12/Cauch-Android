@@ -4,19 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
-
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="390dp"
-        android:layout_height="match_parent"
-        android:scaleX="500"
-        app:srcCompat="@android:drawable/edit_text" />
+    android:layout_margin="32dp">
 
     <TextView
         android:id="@+id/mainTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="This is some temp text" />
+
+    <Space
+        android:layout_width="350dp"
+        android:layout_height="50dp" />
 
 </FrameLayout>
