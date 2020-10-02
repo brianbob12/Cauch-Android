@@ -57,11 +57,11 @@ class MyAdapter(data: LinkedList<Task>) : RecyclerView.Adapter<MyAdapter.MyViewH
     }
 
     override fun onRowSelected(myViewHolder: MyViewHolder?) {
-        myViewHolder?.rowView?.setBackgroundColor(Color.GRAY);
+        myViewHolder?.rowView?.setBackgroundResource(R.drawable.card_shape_dark)
     }
 
     override fun onRowClear(myViewHolder: MyViewHolder?) {
-        myViewHolder?.rowView?.setBackgroundColor(Color.WHITE);
+        myViewHolder?.rowView?.setBackgroundResource(R.drawable.card_shape_light);
     }
 
     //viewholder for the list

@@ -4,16 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="32dp">
+    android:layout_margin="32dp"
+    android:background="@drawable/card_shape_light">
 
     <TextView
         android:id="@+id/mainTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:translationX="20dp"
+        android:translationY="20dp"
         tools:text="This is some temp text" />
 
     <Space
-        android:layout_width="350dp"
-        android:layout_height="50dp" />
+        android:layout_width="360dp"
+        android:layout_height="59dp" />
 
 </FrameLayout>
