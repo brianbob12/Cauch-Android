@@ -26,7 +26,6 @@ class HomeFragment : Fragment() {
     ): View? {
 
         // Inflate the layout for this fragment
-        Log.e("Testing","T-1")
         val root:View = inflater.inflate(R.layout.fragment_home, container, false)
         // Add the following lines to create RecyclerView
         recyclerView = root.findViewById<RecyclerView>(R.id.ListForTasks)
