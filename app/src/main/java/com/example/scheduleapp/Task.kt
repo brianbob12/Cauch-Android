@@ -6,7 +6,7 @@ import java.sql.Date
 
 class Task :Serializable{
     private var color:Int =0
-    private var plannedTime: Time? =null
+    private var plannedTime: Time
     private var plannedDate:Date?=null
     private var name:String=""
     private var active:Boolean =false
@@ -23,12 +23,12 @@ class Task :Serializable{
     public fun setActive(value:Boolean){
         active=value
     }
-    public fun getPlannedTime():Time?{
+    public fun getPlannedTime():Time{
         return plannedTime
     }
     //setPlannedTime creates a clone of the time provided
     public fun setPlannedTime(value:Time){
-        plannedTime=value.clone() as Time?
+        plannedTime= (value.clone() as Time?)!!
     }
     public fun getPlannedDate():Date?{
         return plannedDate
@@ -40,5 +40,6 @@ class Task :Serializable{
 
     constructor(name:String){
         this.name=name
+        this.plannedTime=Time(0,0,0)
     }
 }

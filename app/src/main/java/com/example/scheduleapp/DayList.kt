@@ -1,5 +1,6 @@
 package com.example.scheduleapp
 
+import android.util.Log
 import java.io.Serializable
 import java.sql.Date
 import java.util.*
@@ -43,6 +44,20 @@ class DayList : Serializable{
 
     public fun addTask(task: Task){
         //TODO deal witht he order of tasks
-        tasks.add(task)
+        if(tasks.size==0) {
+            tasks.add(task)
+        }
+        else{
+            //place task in order
+            for(i in 0..tasks.size-1){
+                if(task.getPlannedTime() <tasks.get(i).getPlannedTime()){
+                    //add task ahead of i
+                    tasks.add(i,task)
+                    return
+                }
+            }
+            //if we get here the task goes on the end
+            tasks.add(task)
+        }
     }
 }

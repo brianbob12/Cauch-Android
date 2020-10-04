@@ -51,7 +51,6 @@ class HomeFragment : Fragment() {
 
         }
 
-        Log.e("Testing","T-2")
         return root
     }
 
