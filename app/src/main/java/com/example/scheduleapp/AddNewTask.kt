@@ -1,48 +1,35 @@
 package com.example.scheduleapp
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.TimePicker
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_add_new_task.*
-import java.lang.IllegalArgumentException
-import java.sql.Date
 import java.sql.Time
 
 
 class AddNewTask : AppCompatActivity() {
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_new_task)
 
         SubmitButton.setOnClickListener {
-            if(!nameBox.text.isEmpty()){
-                val taskName:String = nameBox.text.toString()
-                val task:Task=Task(taskName)
-                var plannedTime: Time?=null
-                var plannedDate: Date?=null
-                //try to add date and time to the task
-                try {
-                    //plannedTime=Time.valueOf(timeBox.text.toString())
+            val taskName:String = nameInput.text.toString()
+            val timePicker:TimePicker=findViewById(R.id.timePicker)
 
-                    //task.setPlannedTime(plannedTime)
-                }
-                catch(e: IllegalArgumentException){
-                    try {//add seconds to the time in case user forgot
-                        //plannedTime = Time.valueOf(timeBox.text.toString()+":00")
+            val task:Task=Task(taskName)
+            var plannedTime: Time= Time(timePicker.hour,timePicker.minute,0)
+            task.setPlannedTime(plannedTime)
 
-                        //task.setPlannedTime(plannedTime)
-                    }
-                    catch(e: IllegalArgumentException){
-                        Log.e("Time Error",e.toString())
-                    }
-                }
-                //add the new task to the list
-                MainActivity.tasks.add(task)
-                //start main activity
-                startActivity(Intent(this, MainActivity::class.java))
-            }
+            //add the new task to the list
+            MainActivity.tasks.add(task)
+            //start main activity
+            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 }
