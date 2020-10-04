@@ -43,7 +43,7 @@ class DayList : Serializable{
     }
 
     public fun addTask(task: Task){
-        //TODO deal witht he order of tasks
+        //deals with the order of tasks
         if(tasks.size==0) {
             tasks.add(task)
         }
@@ -59,5 +59,18 @@ class DayList : Serializable{
             //if we get here the task goes on the end
             tasks.add(task)
         }
+    }
+
+    //this function is called during drag and drop when tasks are dragged over eachother
+    public fun swapTasks(ia:Int,ib:Int){
+        //swaps the position in the list as well as the times
+
+        //swap times
+        val timeA=tasks.get(ia).getPlannedTime()//note this is a clone of the time
+        tasks.get(ia).setPlannedTime(tasks.get(ib).getPlannedTime())
+        tasks.get(ib).setPlannedTime(timeA)
+
+        //swap positions in the list
+        Collections.swap(tasks, ia, ib )
     }
 }

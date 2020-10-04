@@ -23,15 +23,16 @@ class Task :Serializable{
     public fun setActive(value:Boolean){
         active=value
     }
+    //returns a clone of the time
     public fun getPlannedTime():Time{
-        return plannedTime
+        return plannedTime.clone() as Time
     }
     //setPlannedTime creates a clone of the time provided
     public fun setPlannedTime(value:Time){
         plannedTime= (value.clone() as Time?)!!
     }
     public fun getPlannedDate():Date?{
-        return plannedDate
+        return plannedDate?.clone() as Date?
     }
     //setPlannedDate creates a clone of the time provided
     public fun setPlannedDate(value:Date){

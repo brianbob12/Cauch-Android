@@ -49,13 +49,16 @@ class MyAdapter(data: DayList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
 
     override fun onRowMoved(fromPosition: Int, toPosition: Int) {
         if (fromPosition < toPosition) {
-            //TODO swap Collectins.swap with a function within DayList
+            notifyItemChanged(fromPosition)
             for (i in fromPosition until toPosition) {
-                Collections.swap(data.tasks, i, i + 1)
+                data.swapTasks( i, i + 1)
+                notifyItemChanged(i+1)
             }
         } else {
+            notifyItemChanged(fromPosition)
             for (i in fromPosition downTo toPosition + 1) {
-                Collections.swap(data.tasks, i, i - 1)
+                data.swapTasks(i, i - 1)
+                notifyItemChanged(i-1)
             }
         }
         notifyItemMoved(fromPosition, toPosition)
@@ -66,7 +69,7 @@ class MyAdapter(data: DayList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
     }
 
     override fun onRowClear(myViewHolder: MyViewHolder?) {
-        myViewHolder?.rowView?.setBackgroundResource(R.drawable.card_shape_light);
+        myViewHolder?.rowView?.setBackgroundResource(R.drawable.card_shape_light)
     }
 
     //viewholder for the list
