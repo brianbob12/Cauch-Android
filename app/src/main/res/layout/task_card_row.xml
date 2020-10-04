@@ -11,12 +11,28 @@
         android:id="@+id/mainTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="24sp"
         android:translationX="20dp"
-        android:translationY="20dp"
+        android:translationY="12dp"
         tools:text="This is some temp text" />
 
+    <TextView
+        android:id="@+id/timeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00"
+        android:translationX="300dp"
+        android:translationY="22dp" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationX="340dp"
+        android:translationY="18dp" />
+
     <Space
-        android:layout_width="360dp"
+        android:layout_width="390dp"
         android:layout_height="59dp" />
 
 </FrameLayout>

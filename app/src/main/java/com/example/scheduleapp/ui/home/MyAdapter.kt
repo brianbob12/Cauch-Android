@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scheduleapp.R
 import com.example.scheduleapp.Task
+import org.w3c.dom.Text
 import java.util.*
 
 
@@ -34,6 +35,8 @@ class MyAdapter(data: LinkedList<Task>) : RecyclerView.Adapter<MyAdapter.MyViewH
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.title.setText(data.get(position).getName())
+        val plannedTime=data.get(position).getPlannedTime()
+        holder.timeText.setText(plannedTime.toString().subSequence(0 ,5))
     }
 
     override fun getItemCount(): Int {
@@ -68,10 +71,12 @@ class MyAdapter(data: LinkedList<Task>) : RecyclerView.Adapter<MyAdapter.MyViewH
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView
         var rowView: View
+        val timeText:TextView
 
         init {
             rowView = itemView
             title = itemView.findViewById(R.id.mainTitle)
+            timeText=itemView.findViewById(R.id.timeText)
         }
     }
 
