@@ -24,42 +24,19 @@ class AddNewTask : AppCompatActivity() {
                 var plannedDate: Date?=null
                 //try to add date and time to the task
                 try {
-                    plannedTime=Time.valueOf(timeBox.text.toString())
+                    //plannedTime=Time.valueOf(timeBox.text.toString())
 
-                    task.setPlannedTime(plannedTime)
+                    //task.setPlannedTime(plannedTime)
                 }
                 catch(e: IllegalArgumentException){
                     try {//add seconds to the time in case user forgot
-                        plannedTime = Time.valueOf(timeBox.text.toString()+":00")
+                        //plannedTime = Time.valueOf(timeBox.text.toString()+":00")
 
-                        task.setPlannedTime(plannedTime)
+                        //task.setPlannedTime(plannedTime)
                     }
                     catch(e: IllegalArgumentException){
                         Log.e("Time Error",e.toString())
                     }
-                }
-                try{
-                    //this manipulates the date format a little to match that of java.sql.Date
-                    val now = Date(System.currentTimeMillis())
-                    val parts: List<String> = dateBox.text.toString().split("/")
-                    var text:String =""
-                    if(parts.size==2){
-                        text=now.year.toString()+"-"+parts.get(1)+"-"+parts.get(0)
-                        plannedDate=Date.valueOf(text)
-                        task.setPlannedDate(plannedDate)
-                    }
-                    else if (parts.size==3){
-                        text=parts.get(2)+"-"+parts.get(1)+"-"+parts.get(0)
-                        plannedDate=Date.valueOf(text)
-                        task.setPlannedDate(plannedDate)
-                    }
-                    else{
-                        Log.e("Date Error","Wrong date components")
-                    }
-
-                }
-                catch(e: IllegalArgumentException){
-                    Log.e("Date Error",e.toString())
                 }
                 //add the new task to the list
                 MainActivity.tasks.add(task)
