@@ -1,9 +1,10 @@
 package com.example.scheduleapp
 
+import java.io.Serializable
 import java.sql.Time
 import java.sql.Date
 
-class Task {
+class Task :Serializable{
     private var color:Int =0
     private var plannedTime: Time? =null
     private var plannedDate:Date?=null

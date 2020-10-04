@@ -12,7 +12,7 @@ import java.sql.Time
 
 
 class AddNewTask : AppCompatActivity() {
-
+    //TODO pass this activity the selected DayList
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +27,7 @@ class AddNewTask : AppCompatActivity() {
             task.setPlannedTime(plannedTime)
 
             //add the new task to the list
-            MainActivity.tasks.add(task)
+            MainActivity.todayDayList().addTask(task)
             //start main activity
             startActivity(Intent(this, MainActivity::class.java))
         }

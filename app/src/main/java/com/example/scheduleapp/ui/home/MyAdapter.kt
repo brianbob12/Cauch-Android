@@ -8,16 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.scheduleapp.DayList
 import com.example.scheduleapp.R
 import com.example.scheduleapp.Task
 import org.w3c.dom.Text
 import java.util.*
 
 
-class MyAdapter(data: LinkedList<Task>) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
+class MyAdapter(data: DayList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
     ItemMoveCallback.ItemTouchHelperContract  {
 
-    private var data:LinkedList<Task> =LinkedList<Task>()
+    private var data:DayList
 
     init {
         this.data = data
@@ -34,13 +35,13 @@ class MyAdapter(data: LinkedList<Task>) : RecyclerView.Adapter<MyAdapter.MyViewH
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.title.setText(data.get(position).getName())
-        val plannedTime=data.get(position).getPlannedTime()
+        holder.title.setText(data.tasks.get(position).getName())
+        val plannedTime=data.tasks.get(position).getPlannedTime()
         holder.timeText.setText(plannedTime.toString().subSequence(0 ,5))
     }
 
     override fun getItemCount(): Int {
-        return data?.size!!;
+        return data.tasks.size;
     }
 
 
@@ -48,12 +49,13 @@ class MyAdapter(data: LinkedList<Task>) : RecyclerView.Adapter<MyAdapter.MyViewH
 
     override fun onRowMoved(fromPosition: Int, toPosition: Int) {
         if (fromPosition < toPosition) {
+            //TODO swap Collectins.swap with a function within DayList
             for (i in fromPosition until toPosition) {
-                Collections.swap(data, i, i + 1)
+                Collections.swap(data.tasks, i, i + 1)
             }
         } else {
             for (i in fromPosition downTo toPosition + 1) {
-                Collections.swap(data, i, i - 1)
+                Collections.swap(data.tasks, i, i - 1)
             }
         }
         notifyItemMoved(fromPosition, toPosition)

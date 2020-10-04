@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.scheduleapp.DayList
 import com.example.scheduleapp.MainActivity
 import com.example.scheduleapp.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -19,6 +20,9 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     //stuff to do with the RecyclerView
     private var recyclerView:RecyclerView? = null
+
+    //the selected day
+    private var selectedDate:DayList = MainActivity.todayDayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +36,7 @@ class HomeFragment : Fragment() {
         recyclerView?.setHasFixedSize(true)
         recyclerView?.setLayoutManager(LinearLayoutManager(root.context))
         val recycleAdapter: MyAdapter =
-            MyAdapter(MainActivity.tasks)
+            MyAdapter(selectedDate)
         recyclerView?.setAdapter(recycleAdapter)
 
         val callback: ItemTouchHelper.Callback =

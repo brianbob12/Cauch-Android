@@ -2,6 +2,7 @@ package com.example.scheduleapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -13,22 +14,63 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+
+
+
     companion object {
-        //stores the all of the tasks
-        public var tasks: LinkedList<Task> = LinkedList<Task>()
+
+        //Hashmap maps java.sql.Date.toString() to a DayList
+        private var dayToDayList:HashMap<String,DayList> = HashMap<String,DayList>()
+
+        //TODO import and export DayLists
+        //list of days is used for the import and export of DayLists trough serializable
+        private var days: ArrayList<DayList> = arrayListOf()
+
+        //returns the day list for today and creates one if one does not exsist
+        fun todayDayList(): DayList {
+            val today:java.sql.Date= java.sql.Date(java.util.Date().time)//today's data as java.sql.Date
+            //creates a new day list for today
+            if(dayToDayList.get(today.toString())!=null){
+
+                return dayToDayList.get(today.toString())!!//dont' worry no runtime errors here
+            }
+            addDayList(today)//prevents the day being made again
+            return dayToDayList.get(today.toString())!!//dont' worry no runtime errors here 
+        }
+
+        //creates a new DayList from the date and adds it to days and dayToDayList
+        // if this date already exsits the funciton returns without doing anything
+        public fun addDayList(date: java.sql.Date){//java.sql.Date of disambiguation
+
+            //check to see if the date already exsits
+            if(dayToDayList.get(date.toString())!=null){
+                //day already exsits
+                return
+            }
+
+            val newDay=DayList(date)
+            //add to hashmap
+            dayToDayList.set(date.toString(),newDay)
+            days.add(newDay)
+
+            //TODO export dates
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //run manditory stuff
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        //TODO import dates
 
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -57,4 +99,7 @@ class MainActivity : AppCompatActivity() {
     public fun startAddNewTaskFragment(){
         startActivity(Intent(this, AddNewTask::class.java))
     }
+
+
+
 }
