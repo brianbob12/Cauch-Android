@@ -3,10 +3,14 @@ package com.example.scheduleapp.ui.home
 
 
 import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.shapes.Shape
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scheduleapp.DayList
 import com.example.scheduleapp.R
@@ -34,10 +38,24 @@ class MyAdapter(data: DayList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
         return MyViewHolder(itemView)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.title.setText(data.tasks.get(position).getName())
-        val plannedTime=data.tasks.get(position).getPlannedTime()
+        val task=data.tasks.get(position)
+        //deal with text
+        holder.title.setText(task.getName())
+        val plannedTime=task.getPlannedTime()
         holder.timeText.setText(plannedTime.toString().subSequence(0 ,5))
+        //deal with task
+        if(task.getMyTag()==null){
+            //TODO remove the thing
+        }
+        else{
+            //set name for task
+            val textHolder:TextView= holder.tagArea.findViewById(R.id.tagName)
+            textHolder.setText(task.getMyTag()!!.getName())
+            //set background color or the task thing.
+            holder.tagArea.background.setTint(task.getMyTag()!!.getColor())
+        }
     }
 
     override fun getItemCount(): Int {
@@ -77,11 +95,13 @@ class MyAdapter(data: DayList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
         val title: TextView
         var rowView: View
         val timeText:TextView
+        val tagArea:View
 
         init {
             rowView = itemView
             title = itemView.findViewById(R.id.mainTitle)
             timeText=itemView.findViewById(R.id.timeText)
+            tagArea=itemView.findViewById(R.id.tagArea)
         }
     }
 

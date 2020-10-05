@@ -1,9 +1,9 @@
 package com.example.scheduleapp
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.TimePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +25,10 @@ class AddNewTask : AppCompatActivity() {
             val task:Task=Task(taskName)
             var plannedTime: Time= Time(timePicker.hour,timePicker.minute,0)
             task.setPlannedTime(plannedTime)
+
+            //TODO add a mechanism to pick tags
+            var tagTaskTag:TaskTag = TaskTag("TAG", Color.parseColor("#FF0000"))
+            task.setMyTag(tagTaskTag)
 
             //add the new task to the list
             MainActivity.todayDayList().addTask(task)
