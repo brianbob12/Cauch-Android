@@ -17,4 +17,5 @@
     <string name="submit">Submit</string>
     <string name="_12_00_00">12:00:00</string>
     <string name="_01_01_01">01/01/01</string>
+    <string name="description">Description</string>
 </resources>

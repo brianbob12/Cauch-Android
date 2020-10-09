@@ -1,5 +1,6 @@
 package com.example.scheduleapp.ui.home
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.scheduleapp.DayList
 import com.example.scheduleapp.MainActivity
 import com.example.scheduleapp.R
+import com.example.scheduleapp.TaskTag
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.util.*
 
 
 class HomeFragment : Fragment() {
@@ -23,6 +26,8 @@ class HomeFragment : Fragment() {
 
     //the selected day
     private var selectedDate:DayList = MainActivity.todayDayList()
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +55,8 @@ class HomeFragment : Fragment() {
             (activity as MainActivity?)?.startAddNewTaskFragment()
 
         }
+
+
 
         return root
     }

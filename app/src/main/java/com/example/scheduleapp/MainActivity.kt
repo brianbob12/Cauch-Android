@@ -1,6 +1,7 @@
 package com.example.scheduleapp
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -24,6 +25,10 @@ class MainActivity : AppCompatActivity() {
 
 
     companion object {
+
+        //linked list of available tags
+        //TODO export and import tags
+        public var tags:ArrayList<TaskTag> = arrayListOf<TaskTag>()
 
         //Hashmap maps java.sql.Date.toString() to a DayList
         private var dayToDayList:HashMap<String,DayList> = HashMap<String,DayList>()
@@ -82,6 +87,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        //create tags as defult
+        tags= arrayListOf()
+        tags.add(TaskTag("Math", Color.parseColor("#E0FEFE")))
+        tags.add(TaskTag("English", Color.parseColor("#C7CEEA")))
+        tags.add(TaskTag("Physics", Color.parseColor("#FFDAC1")))
 
     }
 

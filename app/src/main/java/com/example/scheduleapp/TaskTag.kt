@@ -16,6 +16,12 @@ class TaskTag:Serializable {
     public fun getColor():Int{
         return color
     }
+    public fun copy():TaskTag{
+        val new:TaskTag=TaskTag(name,color)
+        //TODO update this as more variabes are added to tag
+        return new
+    }
+
     constructor(name:String, color: Int){
         this.name=name
         this.color=color
