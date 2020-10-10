@@ -47,7 +47,8 @@ class MyAdapter(data: DayList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
         holder.timeText.setText(plannedTime.toString().subSequence(0 ,5))
         //deal with task
         if(task.getMyTag()==null){
-            //TODO remove the thing
+            //make invisible
+            holder.tagArea.visibility=View.INVISIBLE
         }
         else{
             //set name for task
