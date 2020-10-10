@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">scheduleapp</string>
+    <string name="app_name">Couch</string>
     <string name="add_task">add task</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
