@@ -47,8 +47,7 @@ class AddNewTask() : AppCompatActivity() {
 
         //setup popup menu
         val popup = PopupMenu(this, newTagButton)
-        //add items only if the popup menu is empty
-        //TODO check which items are included int he popup menu and add only add excluded items
+
 
         if(popup.menu.size()==0) {
             for (task in MainActivity.tags) {
@@ -95,22 +94,24 @@ class AddNewTask() : AppCompatActivity() {
         }
 
         SubmitButton.setOnClickListener {
-            val taskName:String = nameInput.text.toString()
+            var taskName:String = nameInput.text.toString()
+            //repalce wierd chars with spce for when it is saved to a text file
+            taskName=taskName.replace("\n"," ")
+            taskName=taskName.replace("\t","")
+
             val timePicker:TimePicker=findViewById(R.id.timePicker)
 
             val task:Task=Task(taskName)
             var plannedTime: Time= Time(timePicker.hour,timePicker.minute,0)
             task.setPlannedTime(plannedTime)
 
-            //TODO add a mechanism to pick tags
-            var tagTaskTag:TaskTag = TaskTag("TAG", Color.parseColor("#FF0000"))
-            if(selectedTags.size>0) {
-                //TODO add all selected tags
-                task.setMyTag(selectedTags.get(0))
-            }
+            task.tags.addAll(selectedTags)
 
+            //TODO replace todayDayList with selected day
             //add the new task to the list
             MainActivity.todayDayList().addTask(task)
+            //save the main day with the new task
+            MainActivity.todayDayList().saveDay(this)
             //start main activity
             startActivity(Intent(this, MainActivity::class.java))
         }

@@ -1,5 +1,11 @@
 package com.example.scheduleapp
 
+/* Copyright (C) Cyrus Singer - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
+ */
+
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -20,9 +26,6 @@ import kotlin.collections.ArrayList
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-
-
-
 
     companion object {
 
@@ -76,7 +79,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         //TODO import dates
-
+        val testDay:DayList= todayDayList()
+        testDay.readDay(this)
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)

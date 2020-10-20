@@ -1,6 +1,10 @@
 package com.example.scheduleapp.ui.home
 
-
+/* Copyright (C) Cyrus Singer - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
+ */
 
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -46,16 +50,16 @@ class MyAdapter(data: DayList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
         val plannedTime=task.getPlannedTime()
         holder.timeText.setText(plannedTime.toString().subSequence(0 ,5))
         //deal with task
-        if(task.getMyTag()==null){
+        if(task.tags.size==0){
             //make invisible
             holder.tagArea.visibility=View.INVISIBLE
         }
         else{
             //set name for task
             val textHolder:TextView= holder.tagArea.findViewById(R.id.tagName)
-            textHolder.setText(task.getMyTag()!!.getName())
+            textHolder.setText(task.tags.get(0)!!.getName())
             //set background color or the task thing.
-            holder.tagArea.background.setTint(task.getMyTag()!!.getColor())
+            holder.tagArea.background.setTint(task.tags.get(0)!!.getColor())
         }
     }
 

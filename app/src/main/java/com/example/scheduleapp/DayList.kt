@@ -1,14 +1,23 @@
 package com.example.scheduleapp
 
+/* Copyright (C) Cyrus Singer - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
+ */
+
+import android.content.Context
 import android.util.Log
-import java.io.Serializable
+import java.io.File
+import java.io.FileInputStream
+import java.io.IOException
+import java.io.OutputStreamWriter
 import java.sql.Date
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 //stores a list of tasks for each day in order
-class DayList : Serializable{
+class DayList{
     //it is very important that this is immutable
     public val date:Date
 
@@ -73,4 +82,73 @@ class DayList : Serializable{
         //swap positions in the list
         Collections.swap(tasks, ia, ib )
     }
+
+
+
+    //saves the day to internal storage
+    //this will override anthing already there
+    public fun saveDay(context: Context){
+        //setup content
+        var content:String=""
+        for(task in tasks){
+            content+=task.toString()
+            content+="\n"//one character
+        }
+        //getFile
+        //var name:String="D"+this.date.toString()
+        var name:String=this.date.toString()+".txt"
+        val file = File(context.filesDir,name)
+
+        file.createNewFile()//creates a new empty file if this file does not exsist
+        try {
+            val outputStreamWriter = OutputStreamWriter(context.openFileOutput(name,Context.MODE_PRIVATE))
+            outputStreamWriter.write(content)
+            outputStreamWriter.close()
+        } catch (e: IOException) {
+            Log.e("Exception", "File write failed: " + e.toString())
+        }
+    }
+
+    //takes in the date.toString as the name
+    public fun readDay(context:Context){
+
+        var name:String=this.date.toString()+".txt"
+        //getFile
+
+        val file = File(context.filesDir,name)
+        var out:String=""
+
+        try{
+            val fis:FileInputStream=context.openFileInput(name)
+
+            var i:Int=0
+
+            while (fis.read().also { i = it } !== -1) {
+                out+=i.toChar()
+            }
+            fis.close()
+        }
+        catch(e:Exception){
+            Log.e("Test",e.toString())
+        }
+
+        Log.e("TESTING",out)
+
+        //implement read tasks
+        //clear old task
+        tasks= arrayListOf()
+        for(taskInfo in out.split("\n")){
+            if(taskInfo.length>0) {
+                var newTask: Task = Task("test")
+                try {
+                    newTask.fromString(taskInfo)
+                    this.addTask(newTask)
+                } catch (e: IndexOutOfBoundsException) {
+                    Log.e("Task Error", e.toString())
+                }
+            }
+        }
+        Log.e("TESTING",tasks.toString())
+    }
+
 }

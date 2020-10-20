@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--  res/drawable/card_shape_light.xml -->
+<!--
+Copyright (C) Cyrus Singer - All Rights Reserved
+Unauthorized copying of this file, via any medium is strictly prohibited
+Proprietary and confidential
+Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
+-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle"
     android:padding="10dp">
