@@ -74,6 +74,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         //run manditory stuff
         super.onCreate(savedInstanceState)
+
+        //google auth test
+        val myInterface:GoogleClassroomInterface= GoogleClassroomInterface()
+
+        myInterface.main(this, arrayOf())//this needs to be async
+
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
