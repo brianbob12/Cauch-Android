@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         //linked list of available tags
         //TODO export and import tags
         public var tags:ArrayList<TaskTag> = arrayListOf<TaskTag>()
+        public var tagLookup:HashMap<String,TaskTag> = HashMap<String,TaskTag>()//I love hash tables!
 
         //Hashmap maps java.sql.Date.toString() to a DayList
         private var dayToDayList:HashMap<String,DayList> = HashMap<String,DayList>()
@@ -74,11 +75,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         //run manditory stuff
         super.onCreate(savedInstanceState)
-
         //google auth test
         val myInterface:GoogleClassroomInterface= GoogleClassroomInterface()
 
-        myInterface.main(this, arrayOf())//this needs to be async
+        //myInterface.main(this, arrayOf())//this needs to be async
 
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -100,9 +100,9 @@ class MainActivity : AppCompatActivity() {
 
         //create tags as defult
         tags= arrayListOf()
-        tags.add(TaskTag("Math", Color.parseColor("#E0FEFE")))
-        tags.add(TaskTag("English", Color.parseColor("#C7CEEA")))
-        tags.add(TaskTag("Physics", Color.parseColor("#FFDAC1")))
+        this.addTag(TaskTag("Math", Color.parseColor("#E0FEFE")))
+        this.addTag(TaskTag("English", Color.parseColor("#C7CEEA")))
+        this.addTag(TaskTag("Physics", Color.parseColor("#FFDAC1")))
 
     }
 
@@ -121,6 +121,11 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this, AddNewTask::class.java))
     }
 
-
+    //adds tags
+    public fun addTag(tag:TaskTag){
+        tags.add(tag)
+        tagLookup.set(tag.toString(),tag)
+        //TODO export
+    }
 
 }

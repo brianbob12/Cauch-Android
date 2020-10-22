@@ -97,7 +97,10 @@ class Task {
 
         //tags
         val tagKeys: List<String> = stuff[3].split(",")
-        //todo tag lookup
+        //tag lookup
+        for(tagKey in tagKeys){
+            MainActivity.tagLookup.get(tagKey)?.let { this.tags.add(it) }
+        }
 
         if(stuff[4]!="NULL"){
             this.dueDate= Date.valueOf(stuff[4])

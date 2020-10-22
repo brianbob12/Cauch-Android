@@ -132,7 +132,6 @@ class DayList{
             Log.e("Test",e.toString())
         }
 
-        Log.e("TESTING",out)
 
         //implement read tasks
         //clear old task
@@ -148,7 +147,6 @@ class DayList{
                 }
             }
         }
-        Log.e("TESTING",tasks.toString())
     }
 
 }
