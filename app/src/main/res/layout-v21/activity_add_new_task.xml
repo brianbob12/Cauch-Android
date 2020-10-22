@@ -106,22 +106,28 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
                 android:layout_height="match_parent"
                 android:layout_margin="15dp">
 
-                <LinearLayout
-                    android:id="@+id/tagLayout"
+                <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent">
 
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/newTagButton"
+                    <LinearLayout
+                        android:id="@+id/tagLayout"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1"
-                        android:clickable="true"
-                        app:backgroundTint="#C3C3C3"
-                        app:srcCompat="@drawable/plus_button" />
-                </LinearLayout>
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/newTagButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:clickable="true"
+                            app:backgroundTint="#C3C3C3"
+                            app:srcCompat="@drawable/plus_button" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
