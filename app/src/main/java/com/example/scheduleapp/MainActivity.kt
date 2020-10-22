@@ -6,22 +6,23 @@ package com.example.scheduleapp
  * Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
  */
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import com.google.android.material.navigation.NavigationView
+import java.sql.Date
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity {
 
@@ -41,13 +42,11 @@ class MainActivity : AppCompatActivity {
         //Hashmap maps java.sql.Date.toString() to a DayList
         private var dayToDayList:HashMap<String,DayList> = HashMap<String,DayList>()
 
-        //TODO import and export DayLists
         //list of days is used for the import and export of DayLists trough serializable
         private var days: ArrayList<DayList> = arrayListOf()
 
-        //returns the day list for today and creates one if one does not exsist
+        //returns the day list for the selected day and creates one if one does not exsist
         fun getSelectedDayList(): DayList {
-
             //creates a new day list for selectedDay
             if(dayToDayList.get(selectedDay.toString())!=null){
 
@@ -66,14 +65,39 @@ class MainActivity : AppCompatActivity {
                 //day already exsits
                 return
             }
-
             val newDay=DayList(date)
             //add to hashmap
             dayToDayList.set(date.toString(),newDay)
             days.add(newDay)
 
-            //TODO export dates
+            //dates are exported in the AddNewTask activity
         }
+        //managing the selected day
+        //moves selected day forward by one
+        public fun forwardDay(context: Context){
+            //move selected day forward one
+            val c = Calendar.getInstance()
+            c.time = selectedDay
+            c.add(Calendar.DATE, 1)
+            selectedDay=java.sql.Date(c.timeInMillis)
+            //load day if need be
+            if(!getSelectedDayList().loaded){
+                getSelectedDayList().readDay(context)
+            }
+        }
+        //moves selected day backwards by one
+        public fun backDay(context: Context){
+            //move selected day back one
+            val c = Calendar.getInstance()
+            c.time = selectedDay
+            c.add(Calendar.DATE, -1)
+            selectedDay=java.sql.Date(c.timeInMillis)
+            //load day if need be
+            if(!getSelectedDayList().loaded){
+                getSelectedDayList().readDay(context)
+            }
+        }
+
     }
 
     constructor():super(){
@@ -135,5 +159,6 @@ class MainActivity : AppCompatActivity {
         tagLookup.set(tag.toString(),tag)
         //TODO export
     }
+
 
 }

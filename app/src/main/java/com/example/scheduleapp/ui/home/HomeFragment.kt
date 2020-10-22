@@ -6,11 +6,15 @@ package com.example.scheduleapp.ui.home
  */
 
 import android.graphics.Color
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +24,7 @@ import com.example.scheduleapp.MainActivity
 import com.example.scheduleapp.R
 import com.example.scheduleapp.TaskTag
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import org.mortbay.jetty.Main
 import java.util.*
 
 
@@ -28,6 +33,7 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     //stuff to do with the RecyclerView
     private var recyclerView:RecyclerView? = null
+    private var recycleAdapter: MyAdapter? = null
 
     //the selected day
     private var selectedDate:DayList = MainActivity.getSelectedDayList()
@@ -45,14 +51,10 @@ class HomeFragment : Fragment() {
         recyclerView = root.findViewById<RecyclerView>(R.id.ListForTasks)
         recyclerView?.setHasFixedSize(true)
         recyclerView?.setLayoutManager(LinearLayoutManager(root.context))
-        val recycleAdapter: MyAdapter =
-            MyAdapter(selectedDate)
-        recyclerView?.setAdapter(recycleAdapter)
 
-        val callback: ItemTouchHelper.Callback =
-            ItemMoveCallback(recycleAdapter)
-        val touchHelper = ItemTouchHelper(callback)
-        touchHelper.attachToRecyclerView(recyclerView)
+        this.setup(root)
+
+        //deal with onclick listeners
 
         //deal with plus button
         val addTask: FloatingActionButton =root.findViewById(R.id.addTaskButton)
@@ -61,10 +63,56 @@ class HomeFragment : Fragment() {
 
         }
 
+        val buttonForward: ImageButton =root.findViewById(R.id.dayForwardButton)
+        buttonForward.setOnClickListener {
+            //save before leaving
+            MainActivity.getSelectedDayList().saveDay(root.context)
+
+            //move on
+            MainActivity.forwardDay(root.context)
+            //show the name of the selected day
+            val dayName:TextView= root.findViewById(R.id.dayName)
+            dayName.text=MainActivity.getSelectedDayList().toString()
+            //change day
+            this.changeDay()
+        }
+
+        val buttonBack: ImageButton =root.findViewById(R.id.dayBackButton)
+        buttonBack.setOnClickListener {
+            //save before leaving
+            MainActivity.getSelectedDayList().saveDay(root.context)
+
+            //move on
+            MainActivity.backDay(root.context)
+            //show the name of the selected day
+            val dayName:TextView= root.findViewById(R.id.dayName)
+            dayName.text=MainActivity.getSelectedDayList().toString()
+            //change day
+            this.changeDay()
+        }
 
 
         return root
     }
 
+    private fun setup(root:View){
 
+        recycleAdapter =
+            MyAdapter(selectedDate)
+        recyclerView?.setAdapter(recycleAdapter)
+
+        val callback: ItemTouchHelper.Callback =
+            ItemMoveCallback(recycleAdapter!!)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(recyclerView)
+
+        //show the name of the selected day
+        val dayName:TextView= root.findViewById(R.id.dayName)
+        dayName.text=MainActivity.getSelectedDayList().toString()
+    }
+
+    //resets the recyler view adapter for whatever is in MainActivity.selectedDay
+    private fun changeDay(){
+        recycleAdapter!!.changeDay(MainActivity.getSelectedDayList())
+    }
 }

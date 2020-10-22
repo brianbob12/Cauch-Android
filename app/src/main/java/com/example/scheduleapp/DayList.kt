@@ -45,10 +45,21 @@ class DayList{
     }
 
     override fun toString(): String {
+        //check if day is today
+        val cal1:Calendar = Calendar.getInstance()
+        val cal2:Calendar = Calendar.getInstance()
+        cal1.time=this.date
+        cal2.time=java.sql.Date(java.util.Date().time)//represents today
+        if(cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
+                cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)){
+            return "Today"
+        }
+        //else
         var output:String=""
-        output+=daysOfWeek.get(this.getDayOfWeek())
+        output+=daysOfWeek.get(this.getDayOfWeek()-1)
         output+=" "
-        output+=this.date.day//depreciated
+        //add the day of month
+        output+= cal1[Calendar.DAY_OF_MONTH]
         return output
     }
 

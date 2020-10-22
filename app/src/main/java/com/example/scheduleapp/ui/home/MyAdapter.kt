@@ -28,9 +28,11 @@ class MyAdapter(data: DayList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
     ItemMoveCallback.ItemTouchHelperContract  {
 
     private var data:DayList
+    private var myTasks:ArrayList<Task>//this is a copy of data.tasks
 
     init {
         this.data = data
+        this.myTasks= data.tasks.clone() as ArrayList<Task>
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -45,7 +47,7 @@ class MyAdapter(data: DayList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val task=data.tasks.get(position)
+        val task=myTasks.get(position)
         //deal with text
         holder.title.setText(task.getName())
         val plannedTime=task.getPlannedTime()
@@ -65,11 +67,8 @@ class MyAdapter(data: DayList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
     }
 
     override fun getItemCount(): Int {
-        return data.tasks.size;
+        return myTasks.size
     }
-
-
-
 
     override fun onRowMoved(fromPosition: Int, toPosition: Int) {
         if (fromPosition < toPosition) {
@@ -85,6 +84,8 @@ class MyAdapter(data: DayList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
                 notifyItemChanged(i-1)
             }
         }
+        //reset myTasks
+        this.myTasks= data.tasks.clone() as ArrayList<Task>
         notifyItemMoved(fromPosition, toPosition)
     }
 
@@ -111,5 +112,23 @@ class MyAdapter(data: DayList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
         }
     }
 
+    public fun reCloneTasks(){
+        this.myTasks= data.tasks.clone() as ArrayList<Task>
+    }
 
+    //removes all items
+    fun clear(){
+        val size=myTasks.size
+        //Log.e("TESTING",myTasks.toString())
+        myTasks.clear()
+        notifyItemRangeRemoved(0,size)
+    }
+
+    //changes day to new DayList
+    fun changeDay(new:DayList){
+        this.clear()
+        data=new
+        this.myTasks= data.tasks.clone() as ArrayList<Task>
+
+    }
 }
