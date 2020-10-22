@@ -1,9 +1,13 @@
 package com.example.scheduleapp
 
+/* Copyright (C) Cyrus Singer - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
+ */
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -12,11 +16,11 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.PopupMenu
-import android.widget.TextView
 import android.widget.TimePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.children
 import androidx.core.view.contains
 import androidx.core.view.forEach
 import androidx.core.view.isEmpty
@@ -24,13 +28,12 @@ import kotlinx.android.synthetic.main.activity_add_new_task.*
 import java.sql.Time
 
 
-class AddNewTask() : AppCompatActivity() {
+class AddNewTask : AppCompatActivity() {
     //TODO pass this activity the selected DayList
 
-    //holds the tagList
-    var tagList: LinearLayout?=null
-
     var selectedTags: ArrayList<TaskTag> = arrayListOf()
+
+    var tagList: LinearLayout?=null
 
     //this is needed for my little onclick listeners
     var myContext: Context?=null
@@ -47,7 +50,6 @@ class AddNewTask() : AppCompatActivity() {
 
         //setup popup menu
         val popup = PopupMenu(this, newTagButton)
-
 
         if(popup.menu.size()==0) {
             for (task in MainActivity.tags) {
@@ -68,15 +70,10 @@ class AddNewTask() : AppCompatActivity() {
                 if(selectedTag!=null){
                     //TODO make sure the tag is not already selected
                     //render task
-                    var taskView: View = View.inflate(myContext,R.layout.task_tag, tagList)
-                    //wait for the view to finish inflating to begin configuring
-                    //set name
-                    taskView.findViewById<TextView>(R.id.tagName).setText(selectedTag.getName())
-                    //set background color or the tag thing.
-                    taskView.findViewById<ConstraintLayout>(R.id.layout).background.setTint(selectedTag.getColor())
-
-                    //add tag to selected tags
+                    val newTag = TagView(myContext!!,selectedTag)
                     selectedTags.add(selectedTag)
+                    tagList?.addView(newTag)
+                    Log.e("TESTING", newTag.width.toString())
                 }
 
                 return true
