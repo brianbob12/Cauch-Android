@@ -23,9 +23,11 @@ import androidx.appcompat.widget.Toolbar
 import java.util.*
 import kotlin.collections.ArrayList
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+
 
     companion object {
 
@@ -34,6 +36,8 @@ class MainActivity : AppCompatActivity() {
         public var tags:ArrayList<TaskTag> = arrayListOf<TaskTag>()
         public var tagLookup:HashMap<String,TaskTag> = HashMap<String,TaskTag>()//I love hash tables!
 
+        //days stuff
+        public var selectedDay:java.sql.Date= java.sql.Date(java.util.Date().time)//today's data as java.sql.Date
         //Hashmap maps java.sql.Date.toString() to a DayList
         private var dayToDayList:HashMap<String,DayList> = HashMap<String,DayList>()
 
@@ -42,15 +46,15 @@ class MainActivity : AppCompatActivity() {
         private var days: ArrayList<DayList> = arrayListOf()
 
         //returns the day list for today and creates one if one does not exsist
-        fun todayDayList(): DayList {
-            val today:java.sql.Date= java.sql.Date(java.util.Date().time)//today's data as java.sql.Date
-            //creates a new day list for today
-            if(dayToDayList.get(today.toString())!=null){
+        fun getSelectedDayList(): DayList {
 
-                return dayToDayList.get(today.toString())!!//dont' worry no runtime errors here
+            //creates a new day list for selectedDay
+            if(dayToDayList.get(selectedDay.toString())!=null){
+
+                return dayToDayList.get(selectedDay.toString())!!//dont' worry no runtime errors here
             }
-            addDayList(today)//prevents the day being made again
-            return dayToDayList.get(today.toString())!!//dont' worry no runtime errors here 
+            addDayList(selectedDay)//prevents the day being made again
+            return dayToDayList.get(selectedDay.toString())!!//dont' worry no runtime errors here
         }
 
         //creates a new DayList from the date and adds it to days and dayToDayList
@@ -72,6 +76,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    constructor():super(){
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         //run manditory stuff
         super.onCreate(savedInstanceState)
@@ -84,9 +91,10 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        //TODO import dates
-        val testDay:DayList= todayDayList()
-        testDay.readDay(this)
+        //load day if need be
+        if(!getSelectedDayList().loaded){
+            getSelectedDayList().readDay(this)
+        }
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)

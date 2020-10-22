@@ -106,9 +106,9 @@ class AddNewTask : AppCompatActivity() {
 
             //TODO replace todayDayList with selected day
             //add the new task to the list
-            MainActivity.todayDayList().addTask(task)
+            MainActivity.getSelectedDayList().addTask(task)
             //save the main day with the new task
-            MainActivity.todayDayList().saveDay(this)
+            MainActivity.getSelectedDayList().saveDay(this)
             //start main activity
             startActivity(Intent(this, MainActivity::class.java))
         }

@@ -30,7 +30,7 @@ class HomeFragment : Fragment() {
     private var recyclerView:RecyclerView? = null
 
     //the selected day
-    private var selectedDate:DayList = MainActivity.todayDayList()
+    private var selectedDate:DayList = MainActivity.getSelectedDayList()
 
 
 

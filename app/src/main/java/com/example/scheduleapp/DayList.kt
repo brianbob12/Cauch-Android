@@ -20,6 +20,7 @@ import java.util.*
 class DayList{
     //it is very important that this is immutable
     public val date:Date
+    public var loaded=false
 
     constructor(date: Date){
         this.date =date
@@ -147,6 +148,7 @@ class DayList{
                 }
             }
         }
+        loaded=true
     }
 
 }
