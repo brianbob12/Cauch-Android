@@ -32,10 +32,10 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
             android:layout_marginLeft="5dp"
             android:layout_marginTop="6dp"
             android:layout_weight="1"
-            android:rotation="90"
+            android:rotation="180"
             android:rotationX="0"
             android:rotationY="0"
-            android:src="@android:drawable/arrow_down_float" />
+            android:src="@drawable/ic_baseline_arrow_forward_ios_24" />
 
         <TextView
             android:id="@+id/dayName"
@@ -43,10 +43,10 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="25dp"
             android:layout_marginRight="25dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:text="DayView"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -59,10 +59,10 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:rotation="-90"
+            android:rotation="0"
             android:rotationX="0"
             android:rotationY="0"
-            android:src="@android:drawable/arrow_down_float" />
+            android:src="@drawable/ic_baseline_arrow_forward_ios_24" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

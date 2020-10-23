@@ -30,7 +30,6 @@ import java.util.*
 
 class HomeFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
     //stuff to do with the RecyclerView
     private var recyclerView:RecyclerView? = null
     private var recycleAdapter: MyAdapter? = null
