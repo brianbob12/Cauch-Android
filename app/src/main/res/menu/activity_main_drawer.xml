@@ -15,12 +15,16 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
             android:icon="@drawable/ic_menu_tasks"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_analytics"
-            android:icon="@drawable/ic_menu_analytics"
-            android:title="@string/menu_analytics" />
+            android:id="@+id/nav_tags"
+            android:icon="@drawable/ic_menu_tags"
+            android:title="@string/menu_tags" />
         <item
             android:id="@+id/nav_classroom"
             android:icon="@drawable/ic_menu_classroom"
             android:title="@string/menu_classroom" />
+        <item
+            android:id="@+id/nav_analytics"
+            android:icon="@drawable/ic_menu_analytics"
+            android:title="@string/menu_analytics" />
     </group>
 </menu>

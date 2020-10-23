@@ -1,4 +1,4 @@
-package com.example.scheduleapp.ui.classroom
+package com.example.scheduleapp.ui.tags
 
 /* Copyright (C) Cyrus Singer - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited
@@ -16,20 +16,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.scheduleapp.R
 
-class ClassroomFragment : Fragment() {
+class TagsFragment : Fragment() {
 
-    private lateinit var clasroomViewModel: ClasroomViewModel
+    private lateinit var tagsViewModel: TagsViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        clasroomViewModel =
-                ViewModelProviders.of(this).get(ClasroomViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_classroom, container, false)
+        tagsViewModel =
+                ViewModelProviders.of(this).get(TagsViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_tags, container, false)
         val textView: TextView = root.findViewById(R.id.text_tags)
-        clasroomViewModel.text.observe(viewLifecycleOwner, Observer {
+        tagsViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

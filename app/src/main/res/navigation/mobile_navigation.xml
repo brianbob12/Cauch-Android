@@ -22,6 +22,11 @@
         android:id="@+id/nav_classroom"
         android:name="com.example.scheduleapp.ui.classroom.ClassroomFragment"
         android:label="@string/menu_classroom"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_classroom" />
+    <fragment
+        android:id="@+id/nav_tags"
+        android:name="com.example.scheduleapp.ui.tags.TagsFragment"
+        android:label="@string/menu_tags"
+        tools:layout="@layout/fragment_tags" />
 
 </navigation>

@@ -11,6 +11,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_analytics">Analytics</string>
     <string name="menu_classroom">Google Classroom</string>
+    <string name="menu_tags">Your Tags</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="name">Name</string>

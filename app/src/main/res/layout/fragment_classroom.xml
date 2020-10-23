@@ -13,7 +13,7 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
     tools:context=".ui.classroom.ClassroomFragment">
 
     <TextView
-        android:id="@+id/text_slideshow"
+        android:id="@+id/text_tags"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
