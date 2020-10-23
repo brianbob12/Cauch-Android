@@ -10,7 +10,7 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.gallery.GalleryFragment">
+    tools:context=".ui.analytics.AnalyticsFragment">
 
     <TextView
         android:id="@+id/text_gallery"

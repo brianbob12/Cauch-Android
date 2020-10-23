@@ -13,15 +13,15 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.scheduleapp.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_analytics"
+        android:name="com.example.scheduleapp.ui.analytics.AnalyticsFragment"
+        android:label="@string/menu_analytics"
+        tools:layout="@layout/fragment_analytics" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.scheduleapp.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
+        android:id="@+id/nav_classroom"
+        android:name="com.example.scheduleapp.ui.classroom.ClassroomFragment"
+        android:label="@string/menu_classroom"
         tools:layout="@layout/fragment_slideshow" />
 
 </navigation>

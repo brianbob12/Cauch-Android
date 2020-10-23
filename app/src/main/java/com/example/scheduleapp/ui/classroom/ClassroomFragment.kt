@@ -1,4 +1,4 @@
-package com.example.scheduleapp.ui.slideshow
+package com.example.scheduleapp.ui.classroom
 
 /* Copyright (C) Cyrus Singer - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited
@@ -16,20 +16,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.scheduleapp.R
 
-class SlideshowFragment : Fragment() {
+class ClassroomFragment : Fragment() {
 
-    private lateinit var slideshowViewModel: SlideshowViewModel
+    private lateinit var clasroomViewModel: ClasroomViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel::class.java)
+        clasroomViewModel =
+                ViewModelProviders.of(this).get(ClasroomViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_slideshow, container, false)
         val textView: TextView = root.findViewById(R.id.text_slideshow)
-        slideshowViewModel.text.observe(viewLifecycleOwner, Observer {
+        clasroomViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

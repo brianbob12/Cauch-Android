@@ -1,4 +1,4 @@
-package com.example.scheduleapp.ui.gallery
+package com.example.scheduleapp.ui.classroom
 
 /* Copyright (C) Cyrus Singer - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited
@@ -10,10 +10,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class GalleryViewModel : ViewModel() {
+class ClasroomViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is gallery Fragment"
+        value = "Google Classroom Integration"
     }
     val text: LiveData<String> = _text
 }

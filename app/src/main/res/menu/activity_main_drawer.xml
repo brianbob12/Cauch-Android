@@ -12,15 +12,15 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_tasks"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:id="@+id/nav_analytics"
+            android:icon="@drawable/ic_menu_analytics"
+            android:title="@string/menu_analytics" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:id="@+id/nav_classroom"
+            android:icon="@drawable/ic_menu_classroom"
+            android:title="@string/menu_classroom" />
     </group>
 </menu>
