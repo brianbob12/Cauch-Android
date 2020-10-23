@@ -65,8 +65,6 @@ class HomeFragment : Fragment() {
 
         val buttonForward: ImageButton =root.findViewById(R.id.dayForwardButton)
         buttonForward.setOnClickListener {
-            //save before leaving
-            MainActivity.getSelectedDayList().saveDay(root.context)
 
             //move on
             MainActivity.forwardDay(root.context)
@@ -79,8 +77,6 @@ class HomeFragment : Fragment() {
 
         val buttonBack: ImageButton =root.findViewById(R.id.dayBackButton)
         buttonBack.setOnClickListener {
-            //save before leaving
-            MainActivity.getSelectedDayList().saveDay(root.context)
 
             //move on
             MainActivity.backDay(root.context)
@@ -98,7 +94,7 @@ class HomeFragment : Fragment() {
     private fun setup(root:View){
 
         recycleAdapter =
-            MyAdapter(selectedDate)
+            context?.let { MyAdapter(it,selectedDate) }
         recyclerView?.setAdapter(recycleAdapter)
 
         val callback: ItemTouchHelper.Callback =

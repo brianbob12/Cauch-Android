@@ -73,7 +73,6 @@ class AddNewTask : AppCompatActivity() {
                     val newTag = TagView(myContext!!,selectedTag)
                     selectedTags.add(selectedTag)
                     tagList?.addView(newTag)
-                    Log.e("TESTING", newTag.width.toString())
                 }
 
                 return true

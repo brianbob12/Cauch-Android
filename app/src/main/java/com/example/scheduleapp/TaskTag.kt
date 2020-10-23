@@ -10,8 +10,7 @@ import android.graphics.Color
 import java.io.Serializable
 
 //class that colds information about each task
-//serializable for export
-class TaskTag:Serializable {
+class TaskTag {
     private var name:String//tag names cannont include "\n" "\t" or ","
     private var color:Int
 

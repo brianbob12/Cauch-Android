@@ -6,6 +6,7 @@ package com.example.scheduleapp.ui.home
  * Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
  */
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.shapes.Shape
@@ -14,25 +15,30 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scheduleapp.DayList
 import com.example.scheduleapp.R
+import com.example.scheduleapp.TagView
 import com.example.scheduleapp.Task
 import org.w3c.dom.Text
 import java.util.*
 
 
-class MyAdapter(data: DayList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
+class MyAdapter(context: Context, data: DayList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
     ItemMoveCallback.ItemTouchHelperContract  {
 
     private var data:DayList
     private var myTasks:ArrayList<Task>//this is a copy of data.tasks
+    private val context:Context
 
     init {
         this.data = data
         this.myTasks= data.tasks.clone() as ArrayList<Task>
+        this.context=context
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -59,10 +65,22 @@ class MyAdapter(data: DayList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
         }
         else{
             //set name for task
-            val textHolder:TextView= holder.tagArea.findViewById(R.id.tagName)
-            textHolder.setText(task.tags.get(0)!!.getName())
-            //set background color or the task thing.
-            holder.tagArea.background.setTint(task.tags.get(0)!!.getColor())
+            //render task
+            val newTag = TagView(holder.tagArea.context,task.tags.get(0))
+            Log.e("TESTING","rendering "+task.tags.get(0).getName())
+            holder.tagArea.removeAllViews()
+            holder.tagArea.addView(newTag)
+        }
+        //set on click listener
+        holder.checkBox.setOnClickListener {
+            //remove task
+            data.tasks.removeAt(position)
+            this.myTasks= data.tasks.clone() as ArrayList<Task>
+            notifyItemRemoved(position)
+            //update all after to reset onclick listeners
+            notifyItemRangeChanged(position,myTasks.size)
+            //export day
+            data.saveDay(context)
         }
     }
 
@@ -87,6 +105,8 @@ class MyAdapter(data: DayList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
         //reset myTasks
         this.myTasks= data.tasks.clone() as ArrayList<Task>
         notifyItemMoved(fromPosition, toPosition)
+        //save
+        data.saveDay(context)
     }
 
     override fun onRowSelected(myViewHolder: MyViewHolder?) {
@@ -102,13 +122,15 @@ class MyAdapter(data: DayList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
         val title: TextView
         var rowView: View
         val timeText:TextView
-        val tagArea:View
+        val tagArea:LinearLayout
+        val checkBox:CheckBox
 
         init {
             rowView = itemView
             title = itemView.findViewById(R.id.mainTitle)
             timeText=itemView.findViewById(R.id.timeText)
             tagArea=itemView.findViewById(R.id.tagArea)
+            checkBox=itemView.findViewById((R.id.checkBox))
         }
     }
 
@@ -129,6 +151,6 @@ class MyAdapter(data: DayList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
         this.clear()
         data=new
         this.myTasks= data.tasks.clone() as ArrayList<Task>
-
+        notifyItemRangeInserted(0,myTasks.size)
     }
 }
