@@ -29,6 +29,7 @@
             android:layout_marginEnd="64dp"
             android:layout_marginRight="64dp"
             android:fontFamily="@font/oxygen"
+            android:padding="15dp"
             android:text="TextView"
             android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -54,16 +55,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tagsLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:fontFamily="@font/oxygen"
-                    android:gravity="center"
-                    android:text="Tags"
-                    android:textSize="24sp" />
-
                 <HorizontalScrollView
                     android:id="@+id/horizontalScrollView"
                     android:layout_width="match_parent"
@@ -77,22 +68,13 @@
                 </HorizontalScrollView>
 
                 <TextView
-                    android:id="@+id/dueDateLabel"
+                    android:id="@+id/dueDateBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:fontFamily="@font/oxygen"
-                    android:gravity="center"
-                    android:text="Due Date"
-                    android:textSize="24sp" />
-
-                <TextView
-                    android:id="@+id/dueDateBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/oxygen"
-                    android:text="Tomorrow"
-                    android:textSize="18sp" />
+                    android:text="Due: 30/10/20"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/descriptionBox"
