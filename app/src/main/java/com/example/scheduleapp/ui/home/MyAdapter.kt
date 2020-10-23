@@ -66,8 +66,8 @@ class MyAdapter(context: Context, data: DayList) : RecyclerView.Adapter<MyAdapte
         else{
             //set name for task
             //render task
+            holder.tagArea.visibility=View.VISIBLE
             val newTag = TagView(holder.tagArea.context,task.tags.get(0))
-            Log.e("TESTING","rendering "+task.tags.get(0).getName())
             holder.tagArea.removeAllViews()
             holder.tagArea.addView(newTag)
         }

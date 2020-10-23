@@ -115,6 +115,12 @@ class MainActivity : AppCompatActivity {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        //create tags as defult
+        tags= arrayListOf()
+        this.addTag(TaskTag("Math", Color.parseColor("#E0FEFE")))
+        this.addTag(TaskTag("English", Color.parseColor("#C7CEEA")))
+        this.addTag(TaskTag("Physics", Color.parseColor("#FFDAC1")))
+
         //load day if need be
         if(!getSelectedDayList().loaded){
             getSelectedDayList().readDay(this)
@@ -130,11 +136,7 @@ class MainActivity : AppCompatActivity {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        //create tags as defult
-        tags= arrayListOf()
-        this.addTag(TaskTag("Math", Color.parseColor("#E0FEFE")))
-        this.addTag(TaskTag("English", Color.parseColor("#C7CEEA")))
-        this.addTag(TaskTag("Physics", Color.parseColor("#FFDAC1")))
+
 
     }
 
