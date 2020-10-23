@@ -44,6 +44,8 @@ class AddNewTask : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_new_task)
 
+
+
         //setup variables
         tagList =findViewById(R.id.tagLayout)
         myContext=this as Context
