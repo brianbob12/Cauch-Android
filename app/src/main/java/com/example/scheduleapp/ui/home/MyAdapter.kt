@@ -12,18 +12,12 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.shapes.Shape
 import android.os.Build
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.view.*
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.example.scheduleapp.DayList
-import com.example.scheduleapp.R
-import com.example.scheduleapp.TagView
-import com.example.scheduleapp.Task
+import com.example.scheduleapp.*
+import kotlinx.android.synthetic.main.activity_add_new_task.*
 import org.w3c.dom.Text
 import java.util.*
 
@@ -82,6 +76,34 @@ class MyAdapter(context: Context, data: DayList) : RecyclerView.Adapter<MyAdapte
             //export day
             data.saveDay(context)
         }
+        //setup more popup menu
+        //setup popup menu
+        val popup = PopupMenu(context, holder.moreButton)
+        popup.menu.add("Postpone")
+        popup.menu.add("Edit")
+        popup.menu.add("Delete")
+        popup.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
+            override fun onMenuItemClick(menuItem: MenuItem?): Boolean {
+                val name: String = menuItem!!.toString()//gets selected option
+                //TODO do stuff
+                return true
+            }
+        })
+        holder.moreButton.setOnClickListener {
+            //open popup menu
+            //inflate menu
+            val inflater: MenuInflater = popup.getMenuInflater()
+            inflater.inflate(R.menu.tag_select_menu, popup.getMenu())
+            popup.show()
+        }
+
+        //setup quickview
+        holder.rowView.setOnClickListener {
+            //quickview
+            //inflate menu
+            val popUpClass = Quickview()
+            popUpClass.showPopupWindow(holder.rowView,myTasks.get(position))
+        }
     }
 
     override fun getItemCount(): Int {
@@ -124,6 +146,7 @@ class MyAdapter(context: Context, data: DayList) : RecyclerView.Adapter<MyAdapte
         val timeText:TextView
         val tagArea:LinearLayout
         val checkBox:CheckBox
+        val moreButton: ImageButton
 
         init {
             rowView = itemView
@@ -131,6 +154,7 @@ class MyAdapter(context: Context, data: DayList) : RecyclerView.Adapter<MyAdapte
             timeText=itemView.findViewById(R.id.timeText)
             tagArea=itemView.findViewById(R.id.tagArea)
             checkBox=itemView.findViewById((R.id.checkBox))
+            moreButton=itemView.findViewById(R.id.moreButton)
         }
     }
 

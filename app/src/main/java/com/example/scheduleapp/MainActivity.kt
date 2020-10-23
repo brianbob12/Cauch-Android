@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity {
     override fun onCreate(savedInstanceState: Bundle?) {
         //run manditory stuff
         super.onCreate(savedInstanceState)
-        //google auth test
+        //google auth task_quick.xml
         val myInterface:GoogleClassroomInterface= GoogleClassroomInterface()
 
         //myInterface.main(this, arrayOf())//this needs to be async

@@ -5,6 +5,7 @@ Unauthorized copying of this file, via any medium is strictly prohibited
 Proprietary and confidential
 Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
 -->
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

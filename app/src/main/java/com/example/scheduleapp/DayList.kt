@@ -150,7 +150,7 @@ class DayList{
         tasks= arrayListOf()
         for(taskInfo in out.split("\n")){
             if(taskInfo.length>0) {
-                var newTask: Task = Task("test")
+                var newTask: Task = Task("task_quick.xml")
                 try {
                     newTask.fromString(taskInfo)
                     this.addTask(newTask)

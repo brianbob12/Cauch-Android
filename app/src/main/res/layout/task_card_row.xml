@@ -13,6 +13,22 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
     android:layout_margin="8dp"
     android:background="@drawable/card_shape_light">
 
+    <ImageButton
+        android:id="@+id/moreButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:background="#00FFFFFF"
+        android:scaleX="2"
+        android:scaleY="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_more_vert_24" />
+
     <TextView
         android:id="@+id/mainTitle"
         android:layout_width="wrap_content"
@@ -21,8 +37,8 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.052"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/moreButton"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="This is some temp text" />
 
