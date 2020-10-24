@@ -8,6 +8,7 @@ package com.example.scheduleapp
 
 import android.util.Log
 import java.io.Serializable
+import java.lang.Exception
 import java.sql.Time
 import java.sql.Date
 
@@ -17,6 +18,7 @@ class Task {
     private var dueDate:Date?=null
     private var name:String=""
     private var active:Boolean =false
+    private var descripton:String=""
 
     //holds a tag for the task
     public var tags:ArrayList<TaskTag> = arrayListOf()
@@ -27,6 +29,12 @@ class Task {
     }
     public fun setName(value:String){
         name=value
+    }
+    public fun getDescription():String {
+        return descripton
+    }
+    public fun setDescription(value:String){
+        descripton=value
     }
     public fun getActive():Boolean {
         return active
@@ -82,6 +90,9 @@ class Task {
         else {
             out += this.dueDate.toString()
         }
+        out+="\t"
+        //5
+       out+=descripton
 
         return out
     }
@@ -104,6 +115,12 @@ class Task {
 
         if(stuff[4]!="NULL"){
             this.dueDate= Date.valueOf(stuff[4])
+        }
+        try{
+            this.descripton=stuff[5]
+        }
+        catch(e:Exception){
+            Log.e("Tag Import Error",e.toString())
         }
     }
 }

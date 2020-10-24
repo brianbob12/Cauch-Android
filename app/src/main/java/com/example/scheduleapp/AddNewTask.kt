@@ -25,6 +25,8 @@ import androidx.core.view.contains
 import androidx.core.view.forEach
 import androidx.core.view.isEmpty
 import kotlinx.android.synthetic.main.activity_add_new_task.*
+import kotlinx.android.synthetic.main.task_quick.*
+import java.sql.Date
 import java.sql.Time
 
 
@@ -93,15 +95,21 @@ class AddNewTask : AppCompatActivity() {
 
         SubmitButton.setOnClickListener {
             var taskName:String = nameInput.text.toString()
+            var descript:String= descriptionInput.text.toString()
             //repalce wierd chars with spce for when it is saved to a text file
             taskName=taskName.replace("\n"," ")
             taskName=taskName.replace("\t","")
+            descript=descript.replace("\n"," ")
+            descript=descript.replace("\t","")
 
             val timePicker:TimePicker=findViewById(R.id.timePicker)
 
             val task:Task=Task(taskName)
             var plannedTime: Time= Time(timePicker.hour,timePicker.minute,0)
+            //TODO add option ot exclude date
+            var dueDate:java.sql.Date = java.sql.Date(myDatePicker.year,myDatePicker.month,myDatePicker.dayOfMonth)
             task.setPlannedTime(plannedTime)
+            task.setDescription(descript)
 
             task.tags.addAll(selectedTags)
 

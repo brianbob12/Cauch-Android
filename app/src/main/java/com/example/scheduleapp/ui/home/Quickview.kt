@@ -35,7 +35,9 @@ class Quickview {
 
         //Initialize the elements of our window, install the handler
         val nameBox: TextView = popupView.findViewById(R.id.nameText)
-        nameBox.setText(task.getName())
+        nameBox.text=task.getName()
+        val descriptBox: TextView = popupView.findViewById(R.id.descriptionBox)
+        descriptBox.text=task.getDescription()
         val buttonEdit: Button = popupView.findViewById(R.id.editButton)
         buttonEdit.setOnClickListener{
             //As an example, display the message
