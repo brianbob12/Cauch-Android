@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi
 import com.example.scheduleapp.R
 import com.example.scheduleapp.TagView
 import com.example.scheduleapp.Task
+import java.util.*
 
 
 class Quickview {
@@ -33,11 +34,46 @@ class Quickview {
         //Set the location of the window on the screen
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
 
-        //Initialize the elements of our window, install the handler
+        //Add the information
         val nameBox: TextView = popupView.findViewById(R.id.nameText)
         nameBox.text=task.getName()
         val descriptBox: TextView = popupView.findViewById(R.id.descriptionBox)
         descriptBox.text=task.getDescription()
+
+        //due date
+        val dueDateText: TextView = popupView.findViewById(R.id.dueDateBox)
+        if(task.getdueDate()!=null) {
+            dueDateText.visibility=View.VISIBLE
+            var dayMessge = task.getdueDate().toString()
+            //check if day is today
+            val cal1: Calendar = Calendar.getInstance()
+            val cal2: Calendar = Calendar.getInstance()
+            cal1.time = task.getdueDate()
+            cal2.time = java.sql.Date(java.util.Date().time)//represents today
+            if (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
+                cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
+            ) {
+                dayMessge = "Today"
+            }
+            cal2.add(Calendar.DATE, 1)//now cal2 is tomorrow
+            if (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
+                cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
+            ) {
+                dayMessge = "Tomorrow"
+            }
+            cal2.add(Calendar.DATE, -2)//now cal2 is yesterday
+            if (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
+                cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
+            ) {
+                dayMessge = "Yesterday"
+            }
+            dueDateText.text = "Due: " + dayMessge
+        }
+        else{
+            dueDateText.visibility=View.INVISIBLE
+        }
+
+        //deal with button
         val buttonEdit: Button = popupView.findViewById(R.id.editButton)
         buttonEdit.setOnClickListener{
             //As an example, display the message

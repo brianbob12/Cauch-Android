@@ -107,13 +107,13 @@ class AddNewTask : AppCompatActivity() {
             val task:Task=Task(taskName)
             var plannedTime: Time= Time(timePicker.hour,timePicker.minute,0)
             //TODO add option ot exclude date
-            var dueDate:java.sql.Date = java.sql.Date(myDatePicker.year,myDatePicker.month,myDatePicker.dayOfMonth)
+            var dueDate:java.sql.Date = java.sql.Date(myDatePicker.year-1900,myDatePicker.month,myDatePicker.dayOfMonth)
+            task.setdueDate(dueDate)
             task.setPlannedTime(plannedTime)
             task.setDescription(descript)
 
             task.tags.addAll(selectedTags)
 
-            //TODO replace todayDayList with selected day
             //add the new task to the list
             MainActivity.getSelectedDayList().addTask(task)
             //save the main day with the new task
