@@ -26,6 +26,7 @@ import androidx.core.view.forEach
 import androidx.core.view.isEmpty
 import kotlinx.android.synthetic.main.activity_add_new_task.*
 import kotlinx.android.synthetic.main.task_quick.*
+import org.mortbay.jetty.Main
 import java.sql.Date
 import java.sql.Time
 
@@ -116,8 +117,11 @@ class AddNewTask : AppCompatActivity() {
 
             //add the new task to the list
             MainActivity.getSelectedDayList().addTask(task)
-            //save the main day with the new task
-            MainActivity.getSelectedDayList().saveDay(this)
+
+            //schedule the notification for the task
+            MainActivity.toSchedule.push(task)
+            MainActivity.toScheduleDays.push(MainActivity.getSelectedDayList())
+
             //start main activity
             startActivity(Intent(this, MainActivity::class.java))
         }

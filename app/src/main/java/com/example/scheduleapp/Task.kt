@@ -19,6 +19,7 @@ class Task {
     private var name:String=""
     private var active:Boolean =false
     private var descripton:String=""
+    public var scheduleID:Int?=null
 
     //holds a tag for the task
     public var tags:ArrayList<TaskTag> = arrayListOf()
@@ -65,6 +66,8 @@ class Task {
     }
 
     //makes task string for saving to files
+
+    //TODO add schedule id
     public override fun toString():String{
         var out:String=""
 
@@ -98,6 +101,7 @@ class Task {
     }
 
     //makes task from string
+    //TODO import schedule id
     public fun fromString(str:String) {
         //remember backwards compatibility
         val stuff=str.split("\t")

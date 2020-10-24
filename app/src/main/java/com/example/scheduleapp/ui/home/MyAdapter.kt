@@ -52,6 +52,7 @@ class MyAdapter(context: Context, data: DayList) : RecyclerView.Adapter<MyAdapte
         holder.title.setText(task.getName())
         val plannedTime=task.getPlannedTime()
         holder.timeText.setText(plannedTime.toString().subSequence(0 ,5))
+        holder.checkBox.isChecked=false
         //deal with task
         if(task.tags.size==0){
             //make invisible

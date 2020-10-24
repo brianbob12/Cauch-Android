@@ -26,6 +26,9 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
+        <service android:name=".NotificationJob"
+            android:label="Test"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>
