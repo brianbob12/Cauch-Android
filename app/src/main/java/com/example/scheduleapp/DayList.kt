@@ -163,6 +163,9 @@ class DayList{
     }
     //re orders a task to be placed correctly
     public fun reOrderTask(task: Task){
-
+        //remove task
+        tasks.remove(task)
+        //readd task
+        this.addTask(task)
     }
 }
