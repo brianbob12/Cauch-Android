@@ -22,17 +22,19 @@ import org.w3c.dom.Text
 import java.util.*
 
 
-class MyAdapter(context: Context, data: DayList) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
+class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
     ItemMoveCallback.ItemTouchHelperContract  {
 
     private var data:DayList
     private var myTasks:ArrayList<Task>//this is a copy of data.tasks
     private val context:Context
+    private val activity:MainActivity?
 
     init {
         this.data = data
         this.myTasks= data.tasks.clone() as ArrayList<Task>
         this.context=context
+        this.activity=activity
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -103,7 +105,7 @@ class MyAdapter(context: Context, data: DayList) : RecyclerView.Adapter<MyAdapte
             //quickview
             //inflate menu
             val popUpClass = Quickview()
-            popUpClass.showPopupWindow(holder.rowView,myTasks.get(position))
+            popUpClass.showPopupWindow(holder.rowView,myTasks.get(position),activity)
         }
     }
 

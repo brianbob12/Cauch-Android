@@ -29,6 +29,8 @@ import kotlinx.android.synthetic.main.task_quick.*
 import org.mortbay.jetty.Main
 import java.sql.Date
 import java.sql.Time
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class AddNewTask : AppCompatActivity() {
@@ -85,6 +87,26 @@ class AddNewTask : AppCompatActivity() {
 
         })
 
+        if(MainActivity.selectedTask!=null){
+            //there is a stask selected
+            //lets fill in the values
+            nameInput.setText(MainActivity.selectedTask!!.getName())
+            descriptionInput.setText(MainActivity.selectedTask!!.getDescription())
+            timePicker.hour=MainActivity.selectedTask!!.getPlannedTime().hours
+            timePicker.minute=MainActivity.selectedTask!!.getPlannedTime().minutes
+            //add tags
+            for(tag in MainActivity.selectedTask!!.tags){
+                val newTagView = TagView(myContext!!,tag)
+                selectedTags.add(tag)
+                tagList?.addView(newTagView)
+            }
+            //set date
+            val cal1:Calendar= Calendar.getInstance()
+            cal1.time=MainActivity.selectedTask!!.getdueDate()
+            myDatePicker.updateDate(cal1.get(Calendar.YEAR),cal1.get(Calendar.MONTH),
+                cal1.get(Calendar.DAY_OF_MONTH))
+
+        }
         //deal with adding tasks
         newTagButton.setOnClickListener {
 
@@ -95,6 +117,7 @@ class AddNewTask : AppCompatActivity() {
         }
 
         SubmitButton.setOnClickListener {
+            //setup our new task
             var taskName:String = nameInput.text.toString()
             var descript:String= descriptionInput.text.toString()
             //repalce wierd chars with spce for when it is saved to a text file
@@ -104,24 +127,52 @@ class AddNewTask : AppCompatActivity() {
             descript=descript.replace("\t","")
 
             val timePicker:TimePicker=findViewById(R.id.timePicker)
-
-            val task:Task=Task(taskName)
             var plannedTime: Time= Time(timePicker.hour,timePicker.minute,0)
             //TODO add option ot exclude date
             var dueDate:java.sql.Date = java.sql.Date(myDatePicker.year-1900,myDatePicker.month,myDatePicker.dayOfMonth)
-            task.setdueDate(dueDate)
-            task.setPlannedTime(plannedTime)
-            task.setDescription(descript)
 
-            task.tags.addAll(selectedTags)
+            if(MainActivity.selectedTask==null) {
+                val task:Task=Task(taskName)
 
-            //add the new task to the list
-            MainActivity.getSelectedDayList().addTask(task)
 
-            //schedule the notification for the task
-            MainActivity.toSchedule.push(task)
-            MainActivity.toScheduleDays.push(MainActivity.getSelectedDayList())
+                task.setdueDate(dueDate)
+                task.setPlannedTime(plannedTime)
+                task.setDescription(descript)
 
+                task.tags.addAll(selectedTags)
+
+                //we are going to make a new task
+                //add the new task to the list
+                MainActivity.getSelectedDayList().addTask(task)
+
+                //schedule the notification for the task
+                MainActivity.toSchedule.push(task)
+                MainActivity.toScheduleDays.push(MainActivity.getSelectedDayList())
+            }
+            else{
+
+                //we are going to update exsisting task
+                MainActivity.selectedTask!!.setName(taskName)
+                MainActivity.selectedTask!!.setdueDate(dueDate)
+                MainActivity.selectedTask!!.setPlannedTime(plannedTime)
+                MainActivity.selectedTask!!.setDescription(descript)
+
+                //deal with tags
+                //clear all tags
+                MainActivity.selectedTask!!.tags.clear()
+                //readd tags
+                MainActivity.selectedTask!!.tags.addAll(selectedTags)
+
+                //delete scheduled notification in case the time has changed
+                MainActivity.selectedTask!!.cancelNotification()
+
+                //the task has to be reordered in the daylist
+                MainActivity.getSelectedDayList().reOrderTask(MainActivity.selectedTask!!)
+
+                //schedule the notification for the task
+                MainActivity.toSchedule.push(MainActivity.selectedTask)
+                MainActivity.toScheduleDays.push(MainActivity.getSelectedDayList())
+            }
             //start main activity
             startActivity(Intent(this, MainActivity::class.java))
         }

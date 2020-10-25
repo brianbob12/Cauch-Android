@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.annotation.RequiresApi
+import com.example.scheduleapp.MainActivity
 import com.example.scheduleapp.R
 import com.example.scheduleapp.TagView
 import com.example.scheduleapp.Task
@@ -15,7 +16,7 @@ import java.util.*
 class Quickview {
     //PopupWindow display method
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    fun showPopupWindow(view: View, task: Task) {
+    fun showPopupWindow(view: View, task: Task,activity:MainActivity?) {
 
         //Create a View object yourself through inflater
         val inflater = LayoutInflater.from(view.context)
@@ -76,9 +77,10 @@ class Quickview {
         //deal with button
         val buttonEdit: Button = popupView.findViewById(R.id.editButton)
         buttonEdit.setOnClickListener{
-            //As an example, display the message
-            Toast.makeText(view.getContext(), "EditTask", Toast.LENGTH_SHORT)
-                .show()
+            //select task
+            MainActivity.selectedTask=task
+            //launch the AddNewTask activity
+            activity?.startAddNewTaskFragment()
         }
 
         //add tags

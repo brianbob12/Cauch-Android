@@ -58,6 +58,8 @@ class HomeFragment : Fragment() {
         //deal with plus button
         val addTask: FloatingActionButton =root.findViewById(R.id.addTaskButton)
         addTask.setOnClickListener {
+            //deselect taks
+            MainActivity.selectedTask=null
             (activity as MainActivity?)?.startAddNewTaskFragment()
 
         }
@@ -93,7 +95,7 @@ class HomeFragment : Fragment() {
     private fun setup(root:View){
 
         recycleAdapter =
-            context?.let { MyAdapter(it,selectedDate) }
+            context?.let { MyAdapter(it,selectedDate,activity as MainActivity?) }
         recyclerView?.setAdapter(recycleAdapter)
 
         val callback: ItemTouchHelper.Callback =

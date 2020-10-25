@@ -60,6 +60,10 @@ class MainActivity : AppCompatActivity {
         //the correspondong daylist of each task
         public var toScheduleDays:LinkedList<DayList> = LinkedList()
 
+        //the selected task
+        //if this is null nothing is selected
+        public var selectedTask:Task?=null
+
         //returns the day list for the selected day and creates one if one does not exsist
         fun getSelectedDayList(): DayList {
             //creates a new day list for selectedDay

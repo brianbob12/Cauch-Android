@@ -127,4 +127,10 @@ class Task {
             Log.e("Tag Import Error",e.toString())
         }
     }
+
+    //cancels the notification attributed to this task
+    public fun cancelNotification(){
+        //TODO cancel notification
+        return
+    }
 }
