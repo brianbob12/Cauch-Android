@@ -8,11 +8,15 @@ package com.example.scheduleapp
 
 import android.graphics.Color
 import java.io.Serializable
+import kotlin.random.Random
 
 //class that colds information about each task
-class TaskTag {
+class TaskTag :Serializable{//serializable for export
     private var name:String//tag names cannont include "\n" "\t" or ","
     private var color:Int
+
+    //this is a unique number for each tag
+    public var id:Int= Random.nextInt()
 
     //getters and setters
     public fun getName():String{

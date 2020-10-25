@@ -56,7 +56,10 @@ class AddNewTag : AppCompatActivity() {
 
 
         SubmitButton.setOnClickListener {
-            //TODO add the tag
+            MainActivity.tags.add(tag)
+            //save tasks
+            MainActivity.exportTags(this)
+            //go back
             finish()
         }
         redBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
@@ -119,6 +122,7 @@ class AddNewTag : AppCompatActivity() {
             refresh()
         }
     }
+
 
     //changes the textView so that the new name and color are shown
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

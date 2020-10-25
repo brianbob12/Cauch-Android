@@ -67,4 +67,24 @@ class TagsFragment : Fragment() {
 
         return root
     }
+
+    //runs after we come home after making us a new tag
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun onResume() {
+        super.onResume()
+        tagList?.removeAllViews()//clear it all
+        //add all tags
+        for(tag in MainActivity.tags){
+            val tagHolder:LinearLayout= LinearLayout(context)
+            val tagView= context?.let { TagView(it,tag) }
+            //todo layout perams
+            tagHolder.addView(tagView)
+
+            val deleteButton:ImageButton= ImageButton(context)
+            deleteButton.setImageResource(R.drawable.ic_delete)
+            deleteButton.background=null
+            tagHolder.addView(deleteButton)
+            tagList?.addView(tagHolder)
+        }
+    }
 }

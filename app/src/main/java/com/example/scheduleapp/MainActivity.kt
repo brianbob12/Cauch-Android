@@ -30,6 +30,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import org.mortbay.jetty.Main
+import java.io.*
 import java.util.*
 import kotlin.random.Random
 
@@ -116,7 +117,59 @@ class MainActivity : AppCompatActivity {
                 getSelectedDayList().readDay(context)
             }
         }
+        //import tags from cache
+        public fun importTags(context: Context){
+            //puts tags in MainActivity.tags
+            var file: FileInputStream? = null
+            //catch if no file exists
+            try {
+                file = FileInputStream(File(context.filesDir, "tagsFile.tags"))
+            } catch (e: Exception){
+                //in case of failure return empty now but later create file
+                Log.e("SETTING UP","Setting up files(tagsFile.tags) now")
+                val newFile = File(context.filesDir, "tagsFile.tags")
+                newFile.createNewFile()
+                return
+            }
 
+            //test for EOF in which case just return what has been successfully read from the file
+            try {
+                //clear tags
+                tags= arrayListOf()
+                var inStream: ObjectInputStream = ObjectInputStream(file)
+                var item: ArrayList<TaskTag>? = inStream.readObject() as ArrayList<TaskTag>?
+                //it is a valid list
+                if (item != null) {
+                    tags.addAll(item)
+                }
+
+
+                inStream.close()
+                file.close()
+            } catch (e: EOFException){
+                Log.e("ERROR",e.toString())
+            } catch (e: InvalidClassException) {
+                Log.e("ERROR",e.toString())
+            }
+
+        }
+        //uses serializable to write the tags
+        public fun exportTags(context: Context){
+            var file: FileOutputStream? = null
+            try {
+                file = FileOutputStream(File(context.filesDir, "tagsFile.tags"))
+            } catch (e: Exception){
+                //in case of failure opening file return for now but later message box error
+                Log.e("ERROR",e.toString())
+                return
+            }
+            val outStream: ObjectOutputStream = ObjectOutputStream(file)
+
+            outStream.writeObject(tags)
+
+            outStream.close()
+            file.close()
+        }
     }
 
     constructor():super(){
@@ -154,9 +207,13 @@ class MainActivity : AppCompatActivity {
 
         //create tags as defult
         tags= arrayListOf()
+        //defult tags these will be overwritten if tags are found in cache
         this.addTag(TaskTag("Math", Color.parseColor("#E0FEFE")))
         this.addTag(TaskTag("English", Color.parseColor("#C7CEEA")))
         this.addTag(TaskTag("Physics", Color.parseColor("#FFDAC1")))
+        importTags(this)
+        //this will only change the files if importTags failed
+        exportTags(this)
 
         //load day if need be
         if(!getSelectedDayList().loaded){
@@ -260,5 +317,6 @@ class MainActivity : AppCompatActivity {
             .build()
         jobScheduler.schedule(jobInfo)
     }
+
 
 }
