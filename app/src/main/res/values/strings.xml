@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Cauch</string>
     <string name="add_task">add task</string>
+    <string name="add_tag">add tag</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Cauch 0.0.7 Alpha</string>

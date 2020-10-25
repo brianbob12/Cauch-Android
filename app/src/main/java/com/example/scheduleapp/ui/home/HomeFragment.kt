@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
         //deal with plus button
         val addTask: FloatingActionButton =root.findViewById(R.id.addTaskButton)
         addTask.setOnClickListener {
-            //deselect taks
+            //deselect task
             MainActivity.selectedTask=null
             (activity as MainActivity?)?.startAddNewTaskFragment()
 

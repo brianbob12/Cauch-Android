@@ -10,6 +10,9 @@
         android:name="com.example.scheduleapp.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_tags"
+            app:destination="@id/nav_tags" />
     </fragment>
 
     <fragment
@@ -27,6 +30,10 @@
         android:id="@+id/nav_tags"
         android:name="com.example.scheduleapp.ui.tags.TagsFragment"
         android:label="@string/menu_tags"
-        tools:layout="@layout/fragment_tags" />
+        tools:layout="@layout/fragment_tags" >
+        <action
+            android:id="@+id/action_nav_tags_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
 
 </navigation>

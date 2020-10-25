@@ -31,7 +31,6 @@ import kotlin.collections.ArrayList
 
 
 class AddNewTask : AppCompatActivity() {
-    //TODO pass this activity the selected DayList
 
     var selectedTags: ArrayList<TaskTag> = arrayListOf()
 

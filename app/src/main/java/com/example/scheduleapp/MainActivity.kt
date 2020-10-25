@@ -189,6 +189,9 @@ class MainActivity : AppCompatActivity {
     public fun startAddNewTaskFragment(){
         startActivity(Intent(this, AddNewTask::class.java))
     }
+    public fun startAddNewTagFragment(){
+        startActivity(Intent(this, AddNewTag::class.java))
+    }
 
     //adds tags
     public fun addTag(tag:TaskTag){

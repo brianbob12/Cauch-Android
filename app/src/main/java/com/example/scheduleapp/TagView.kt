@@ -21,10 +21,14 @@ import androidx.core.view.isVisible
 import androidx.core.view.setMargins
 
 class TagView : ConstraintLayout {
+
+
+    val myTag:TaskTag
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     constructor(context: Context, tag: TaskTag) : super(context) {
 
-
+        myTag=tag
 
         //add text
         val textParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
@@ -68,5 +72,6 @@ class TagView : ConstraintLayout {
     fun Int.toDp(context: Context):Int = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,this.toFloat(),context.resources.displayMetrics
     ).toInt()
+
 
 }

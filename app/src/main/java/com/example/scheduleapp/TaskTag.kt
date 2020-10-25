@@ -21,6 +21,12 @@ class TaskTag {
     public fun getColor():Int{
         return color
     }
+    public fun setName(value:String){
+        name=value
+    }
+    public fun setColor(value:Int){
+        color=value
+    }
     public fun copy():TaskTag{
         val new:TaskTag=TaskTag(name,color)
         //TODO update this as more variabes are added to tag

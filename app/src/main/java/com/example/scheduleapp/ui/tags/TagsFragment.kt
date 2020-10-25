@@ -23,6 +23,7 @@ import com.example.scheduleapp.MainActivity
 import com.example.scheduleapp.R
 import com.example.scheduleapp.TagView
 import com.example.scheduleapp.TaskTag
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class TagsFragment : Fragment() {
 
@@ -53,6 +54,15 @@ class TagsFragment : Fragment() {
             deleteButton.background=null
             tagHolder.addView(deleteButton)
             tagList?.addView(tagHolder)
+        }
+
+        //deal with plus button
+        val addTask: FloatingActionButton =root.findViewById(R.id.addTagButton)
+        addTask.setOnClickListener {
+            //deselect task
+            MainActivity.selectedTask=null
+            (activity as MainActivity?)?.startAddNewTagFragment()
+
         }
 
         return root
