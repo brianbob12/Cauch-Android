@@ -71,6 +71,7 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
         //set on click listener
         holder.checkBox.setOnClickListener {
             //remove task
+            data.tasks.get(position).cancelNotification(context)
             data.tasks.removeAt(position)
             this.myTasks= data.tasks.clone() as ArrayList<Task>
             notifyItemRemoved(position)
@@ -88,7 +89,17 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
         popup.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
             override fun onMenuItemClick(menuItem: MenuItem?): Boolean {
                 val name: String = menuItem!!.toString()//gets selected option
-                //TODO do stuff
+                //do stuff
+                if(name=="Delete"){
+                    //remove task data.tasks.get(position).cancelNotification(context)
+                    data.tasks.removeAt(position)
+                    myTasks= data.tasks.clone() as ArrayList<Task>
+                    notifyItemRemoved(position)
+                    //update all after to reset onclick listeners
+                    notifyItemRangeChanged(position,myTasks.size)
+                    //export day
+                    data.saveDay(context)
+                }
                 return true
             }
         })

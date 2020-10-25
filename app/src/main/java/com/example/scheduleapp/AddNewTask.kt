@@ -20,10 +20,7 @@ import android.widget.TimePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.children
-import androidx.core.view.contains
-import androidx.core.view.forEach
-import androidx.core.view.isEmpty
+import androidx.core.view.*
 import kotlinx.android.synthetic.main.activity_add_new_task.*
 import kotlinx.android.synthetic.main.task_quick.*
 import org.mortbay.jetty.Main
@@ -79,6 +76,13 @@ class AddNewTask : AppCompatActivity() {
                     //render task
                     val newTag = TagView(myContext!!,selectedTag)
                     selectedTags.add(selectedTag)
+                    newTag.setOnClickListener {
+                        //remove tag
+                        selectedTags.remove(selectedTag)
+                        //remove View
+                        tagList?.removeView(newTag)
+
+                    }
                     tagList?.addView(newTag)
                 }
 
@@ -98,6 +102,13 @@ class AddNewTask : AppCompatActivity() {
             for(tag in MainActivity.selectedTask!!.tags){
                 val newTagView = TagView(myContext!!,tag)
                 selectedTags.add(tag)
+                newTagView.setOnClickListener {
+                    //remove tag
+                    selectedTags.remove(tag)
+                    //remove View
+                    tagList?.removeView(newTagView)
+
+                }
                 tagList?.addView(newTagView)
             }
             //set date
@@ -164,7 +175,9 @@ class AddNewTask : AppCompatActivity() {
                 MainActivity.selectedTask!!.tags.addAll(selectedTags)
 
                 //delete scheduled notification in case the time has changed
-                MainActivity.selectedTask!!.cancelNotification()
+                MainActivity.selectedTask!!.cancelNotification(this)
+                //this may not work
+                //because I suspect that one needs to pass the context for the MainActivity
 
                 //the task has to be reordered in the daylist
                 MainActivity.getSelectedDayList().reOrderTask(MainActivity.selectedTask!!)

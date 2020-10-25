@@ -6,7 +6,13 @@ package com.example.scheduleapp
  * Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
  */
 
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.Context
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.getSystemService
 import java.io.Serializable
 import java.lang.Exception
 import java.sql.Time
@@ -129,8 +135,10 @@ class Task {
     }
 
     //cancels the notification attributed to this task
-    public fun cancelNotification(){
-        //TODO cancel notification
-        return
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    public fun cancelNotification(context:Context){
+        // cancel notification
+        val jobScheduler:JobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+        this.scheduleID?.let { jobScheduler.cancel(it) }
     }
 }
