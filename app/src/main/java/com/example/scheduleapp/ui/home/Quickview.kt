@@ -1,5 +1,6 @@
 package com.example.scheduleapp.ui.home
 
+import android.graphics.Color
 import android.os.Build
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -45,12 +46,22 @@ class Quickview {
         val dueDateText: TextView = popupView.findViewById(R.id.dueDateBox)
         if(task.getdueDate()!=null) {
             dueDateText.visibility=View.VISIBLE
+            dueDateText.setTextColor(Color.BLACK)
             var dayMessge = task.getdueDate().toString()
             //check if day is today
             val cal1: Calendar = Calendar.getInstance()
             val cal2: Calendar = Calendar.getInstance()
             cal1.time = task.getdueDate()
             cal2.time = java.sql.Date(java.util.Date().time)//represents today
+            //make red if due soon
+            //check if tag is due tomorrow or sooner
+            val numberOfDays=(cal1.getTime().time - cal2.getTime().time) / (1000 * 60 * 60 * 24)//number of days between cal1 and cal2
+            if(numberOfDays<1){
+                //make text red
+                dueDateText.setTextColor(Color.RED)
+            }
+
+
             if (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
                 cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
             ) {

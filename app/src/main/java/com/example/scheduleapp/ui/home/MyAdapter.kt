@@ -56,6 +56,21 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
         holder.timeText.setText(plannedTime.toString().subSequence(0 ,5))
         holder.checkBox.isChecked=false
         //deal with task
+
+        holder.title.setTextColor(Color.BLACK)
+        //check if tag is due tomorrow or sooner
+        if(myTasks.get(position).getdueDate()!=null) {//checks that there is a due date
+            val cal1 = Calendar.getInstance()
+            val cal2 = Calendar.getInstance()
+            cal1.time = myTasks.get(position).getdueDate()
+            cal2.time = java.sql.Date(java.util.Date().time)//represents today
+            val numberOfDays=(cal1.getTime().time - cal2.getTime().time) / (1000 * 60 * 60 * 24)//number of days between cal1 and cal2
+            if(numberOfDays<1){
+                //make text red
+                holder.title.setTextColor(Color.RED)
+            }
+        }
+
         if(task.tags.size==0){
             //make invisible
             holder.tagArea.visibility=View.INVISIBLE
