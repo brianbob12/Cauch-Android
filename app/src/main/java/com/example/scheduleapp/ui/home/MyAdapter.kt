@@ -115,6 +115,12 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
                     //export day
                     data.saveDay(context)
                 }
+                else if(name=="Edit"){
+                    //select task
+                    MainActivity.selectedTask=task
+                    //launch the AddNewTask activity
+                    activity?.startAddNewTaskFragment()
+                }
                 return true
             }
         })
