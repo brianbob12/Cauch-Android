@@ -20,6 +20,7 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
             android:id="@+id/TagList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="false"
             android:orientation="vertical" />
     </ScrollView>
 
@@ -31,7 +32,6 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
         android:layout_marginRight="32dp"
         android:layout_marginBottom="32dp"
         android:clickable="true"
-        android:focusable="auto"
         android:src="@drawable/plus_button"
         app:backgroundTint="#C3C3C3"
         app:layout_constraintBottom_toBottomOf="parent"

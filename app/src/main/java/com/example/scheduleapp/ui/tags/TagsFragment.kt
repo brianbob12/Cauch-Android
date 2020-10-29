@@ -6,9 +6,13 @@ package com.example.scheduleapp.ui.tags
  * Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
  */
 
+import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.text.Html
+import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +43,6 @@ class TagsFragment : Fragment() {
 
         val root = inflater.inflate(R.layout.fragment_tags, container, false)
 
-
         tagList=root.findViewById(R.id.TagList)
 
         //add all tags
@@ -47,11 +50,55 @@ class TagsFragment : Fragment() {
             val tagHolder:LinearLayout= LinearLayout(root.context)
             val tagView=TagView(root.context,tag)
             //todo layout perams
+            val tagHolderParams:LinearLayout.LayoutParams=LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+            )
+            tagHolderParams.gravity=Gravity.CENTER
+            tagHolder.layoutParams=tagHolderParams
             tagHolder.addView(tagView)
 
+
             val deleteButton:ImageButton= ImageButton(root.context)
+            val deleteLayout:LinearLayout.LayoutParams=LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            deleteLayout.gravity=Gravity.RIGHT
+            deleteButton.layoutParams=deleteLayout
             deleteButton.setImageResource(R.drawable.ic_delete)
             deleteButton.background=null
+            deleteButton.setOnClickListener {
+                //an alert box confirming the delete
+                Log.e("TESTING","clicked")
+                //this builder is used to setup the dialogue box
+                val builder: AlertDialog.Builder= AlertDialog.Builder(root.context)
+                    .setMessage(
+                        Html.fromHtml(
+                        "Are you sure you want to delete the tag: <b>"
+                                + tag.getName() + "</b> ?"))
+                    .setCancelable(false)//prevents calculation
+                    //yes button deletes alarm
+                    .setPositiveButton("yes"
+                    ) { _, _ -> //delete alarm here
+
+                        //remove from view
+                        tagList?.removeView(tagHolder)
+
+                        //remove from the big list
+                        MainActivity.tags.remove(tag)
+
+                        //delete from storage
+                        MainActivity.exportTags(root.context)
+                    }
+                    //no button does nothing
+                    .setNegativeButton("no"
+                    ) { di, _ -> //this closes the message box
+                        di.cancel()
+                    }
+                builder.create().show()
+                true
+            }
             tagHolder.addView(deleteButton)
             tagList?.addView(tagHolder)
         }
