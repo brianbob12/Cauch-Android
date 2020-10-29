@@ -54,6 +54,18 @@ class DayList{
                 cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)){
             return "Today"
         }
+        cal2.add(Calendar.DATE, 1)//now cal2 is tomorrow
+        if (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
+            cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
+        ) {
+            return "Tomorrow"
+        }
+        cal2.add(Calendar.DATE, -2)//now cal2 is yesterday
+        if (cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
+            cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
+        ) {
+            return "Yesterday"
+        }
         //else
         var output:String=""
         output+=daysOfWeek.get(this.getDayOfWeek()-1)
