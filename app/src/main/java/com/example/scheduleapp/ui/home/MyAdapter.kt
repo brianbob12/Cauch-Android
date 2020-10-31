@@ -84,9 +84,12 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
             //set name for task
             //render task
             holder.tagArea.visibility=View.VISIBLE
-            val newTag = TagView(holder.tagArea.context,task.tags.get(0))
+            //render all tags
             holder.tagArea.removeAllViews()
-            holder.tagArea.addView(newTag)
+            for(tag in myTasks.get(position).tags){
+                val tagView=TagView(context,tag)
+                holder.tagArea.addView(tagView)
+            }
         }
         //set on click listener
         holder.checkBox.setOnClickListener {

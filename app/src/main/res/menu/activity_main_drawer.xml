@@ -26,5 +26,9 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
             android:id="@+id/nav_analytics"
             android:icon="@drawable/ic_menu_analytics"
             android:title="@string/menu_analytics" />
+        <item
+            android:id="@+id/nav_repeats"
+            android:icon="@drawable/ic_menu_repeats"
+            android:title="@string/menu_repeats" />
     </group>
 </menu>

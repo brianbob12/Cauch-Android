@@ -13,6 +13,7 @@
     <string name="menu_analytics">Analytics</string>
     <string name="menu_classroom">Google Classroom</string>
     <string name="menu_tags">Your Tags</string>
+    <string name="menu_repeats">Repeating Tasks</string>
     <string name="channel_name">CauchNotifications</string>
     <string name="channel_description">Task Notifications from Cauch.</string>
     <!-- TODO: Remove or change this placeholder text -->

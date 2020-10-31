@@ -36,4 +36,10 @@
             app:destination="@id/nav_home" />
     </fragment>
 
+    <fragment
+        android:id="@+id/nav_repeats"
+        android:name="com.example.scheduleapp.ui.repeats.RepeatsFragment"
+        android:label="@string/menu_repeats"
+        tools:layout="@layout/fragment_repeats" />
+
 </navigation>
