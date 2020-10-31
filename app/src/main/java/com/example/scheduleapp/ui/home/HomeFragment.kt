@@ -5,16 +5,15 @@ package com.example.scheduleapp.ui.home
  * Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
  */
 
-import android.graphics.Color
-import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,10 +21,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.scheduleapp.DayList
 import com.example.scheduleapp.MainActivity
 import com.example.scheduleapp.R
-import com.example.scheduleapp.TaskTag
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import org.mortbay.jetty.Main
-import java.util.*
+import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class HomeFragment : Fragment() {
@@ -37,7 +34,9 @@ class HomeFragment : Fragment() {
     //the selected day
     private var selectedDate:DayList = MainActivity.getSelectedDayList()
 
-
+    //gesture stuff
+    private var x1:Float? = null
+    private val minumumSwipeDistance = 300
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,6 +87,47 @@ class HomeFragment : Fragment() {
             this.changeDay()
         }
 
+        //swipe to move days
+        val myLayout:ConstraintLayout= root.findViewById(R.id.homeLayout)
+        myLayout.setOnTouchListener(object:View.OnTouchListener{
+            override fun onTouch(view: View?, motionEvent: MotionEvent?): Boolean {
+                if(motionEvent?.action== MotionEvent.ACTION_DOWN){
+                    x1 = motionEvent.getX()
+                    return true
+                }
+                else if(motionEvent?.action==MotionEvent.ACTION_UP){
+                    if(x1!=null){
+                        val distance= x1!! -motionEvent.getX()
+                        if(distance<-minumumSwipeDistance){
+                            //right swipe
+                            //move on
+                            MainActivity.forwardDay(root.context)
+                            //show the name of the selected day
+                            val dayName:TextView= root.findViewById(R.id.dayName)
+                            dayName.text=MainActivity.getSelectedDayList().toString()
+                            //change day
+                            changeDay()
+                        }
+                        else if(distance>minumumSwipeDistance){
+                            //left swipe
+                            //move on
+                            MainActivity.backDay(root.context)
+                            //show the name of the selected day
+                            val dayName:TextView= root.findViewById(R.id.dayName)
+                            dayName.text=MainActivity.getSelectedDayList().toString()
+                            //change day
+                            changeDay()
+                        }
+                    }
+                }
+                view?.performClick()
+                return true
+            }
+
+        })
+        //now the same for the recycler view
+        //it was easer not to make a class
+
 
         return root
     }
@@ -112,4 +152,6 @@ class HomeFragment : Fragment() {
     private fun changeDay(){
         recycleAdapter!!.changeDay(MainActivity.getSelectedDayList())
     }
+
+
 }

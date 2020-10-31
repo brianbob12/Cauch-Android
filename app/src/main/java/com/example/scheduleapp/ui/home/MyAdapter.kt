@@ -299,6 +299,8 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
         myViewHolder?.rowView?.setBackgroundResource(R.drawable.card_shape_light)
     }
 
+
+
     //viewholder for the list
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView
