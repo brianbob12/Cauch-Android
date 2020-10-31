@@ -7,18 +7,17 @@ package com.example.scheduleapp
  */
 
 import android.content.Context
-import android.graphics.drawable.Drawable
+import android.graphics.Typeface
 import android.os.Build
 import android.util.TypedValue
 import android.view.View
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.isVisible
 import androidx.core.view.setMargins
+
 
 class TagView : ConstraintLayout {
 
@@ -43,6 +42,9 @@ class TagView : ConstraintLayout {
         textView.text=tag.getName()
         textView.textSize= 14F
         textView.layoutParams=textParams
+        //set font
+        val face = resources.getFont(R.font.oxygen)//"getFont" is going red for me but everything is working
+        textView.setTypeface(face)
 
         val holder:LinearLayout= LinearLayout(context)
         holder.addView(textView)

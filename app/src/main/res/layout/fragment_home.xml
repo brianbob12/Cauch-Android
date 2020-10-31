@@ -49,6 +49,7 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
             android:layout_marginEnd="25dp"
             android:layout_marginRight="25dp"
             android:layout_marginBottom="10dp"
+            android:fontFamily="@font/oxygen"
             android:text="DayView"
             android:textSize="24sp"
             android:textStyle="bold" />
