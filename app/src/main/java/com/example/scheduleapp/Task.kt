@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.getSystemService
 import java.io.Serializable
 import java.lang.Exception
+import java.lang.NumberFormatException
 import java.sql.Time
 import java.sql.Date
 
@@ -88,7 +89,7 @@ class Task {
         out+="\t"
         //3
         for(tag in this.tags){
-            out+=tag.toString()
+            out+=tag.id.toString()
             out+=","
         }
         out+="\t"
@@ -117,10 +118,17 @@ class Task {
         this.active=stuff[2]=="true"
 
         //tags
-        val tagKeys: List<String> = stuff[3].split(",")
+        val rawTagKeys: List<String> = stuff[3].split(",")
         //tag lookup
-        for(tagKey in tagKeys){
-            MainActivity.tagLookup.get(tagKey)?.let { this.tags.add(it) }
+        for(tagKey in rawTagKeys){
+            try {
+                MainActivity.tagLookup.get(tagKey.toInt())?.let { this.tags.add(it) }
+            }
+            catch(e:NumberFormatException){
+                //not valid int
+                Log.e("BAD TAG ID",tagKey)
+                continue
+            }
         }
 
         if(stuff[4]!="NULL"){

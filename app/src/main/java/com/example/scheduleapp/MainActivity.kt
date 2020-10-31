@@ -32,6 +32,7 @@ import com.google.android.material.navigation.NavigationView
 import org.mortbay.jetty.Main
 import java.io.*
 import java.util.*
+import kotlin.collections.HashMap
 import kotlin.random.Random
 
 
@@ -46,7 +47,7 @@ class MainActivity : AppCompatActivity {
         //linked list of available tags
         //TODO export and import tags
         public var tags:ArrayList<TaskTag> = arrayListOf<TaskTag>()
-        public var tagLookup:HashMap<String,TaskTag> = HashMap<String,TaskTag>()//I love hash tables!
+        public var tagLookup:HashMap<Int,TaskTag> = HashMap<Int,TaskTag>()//I love hash tables!
 
         //days stuff
         public var selectedDay:java.sql.Date= java.sql.Date(java.util.Date().time)//today's data as java.sql.Date
@@ -64,6 +65,10 @@ class MainActivity : AppCompatActivity {
         //the selected task
         //if this is null nothing is selected
         public var selectedTask:Task?=null
+
+        //the selected tag
+        //if this is null nothing is selected
+        public var selectedTag:TaskTag?=null
 
         //returns the day list for the selected day and creates one if one does not exsist
         fun getSelectedDayList(): DayList {
@@ -136,11 +141,17 @@ class MainActivity : AppCompatActivity {
             try {
                 //clear tags
                 tags= arrayListOf()
+                tagLookup=HashMap<Int,TaskTag>()
                 var inStream: ObjectInputStream = ObjectInputStream(file)
                 var item: ArrayList<TaskTag>? = inStream.readObject() as ArrayList<TaskTag>?
                 //it is a valid list
                 if (item != null) {
-                    tags.addAll(item)
+                    for(tag in item){
+                        //add tag
+                        tags.add(tag)
+                        //add lookup
+                        tagLookup.put(tag.id,tag)
+                    }
                 }
 
 
@@ -253,7 +264,7 @@ class MainActivity : AppCompatActivity {
     //adds tags
     public fun addTag(tag:TaskTag){
         tags.add(tag)
-        tagLookup.set(tag.toString(),tag)
+        tagLookup.set(tag.id,tag)
         //TODO export
     }
 

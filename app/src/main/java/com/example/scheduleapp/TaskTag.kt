@@ -16,7 +16,7 @@ class TaskTag :Serializable{//serializable for export
     private var color:Int
 
     //this is a unique number for each tag
-    public var id:Int= Random.nextInt()
+    public val id:Int
 
     //getters and setters
     public fun getName():String{
@@ -40,6 +40,7 @@ class TaskTag :Serializable{//serializable for export
     constructor(name:String, color: Int){
         this.name=name
         this.color=color
+        this.id=Random.nextInt()
     }
 
     //returs a string identifier

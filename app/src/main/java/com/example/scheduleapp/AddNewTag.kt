@@ -15,6 +15,9 @@ import android.widget.SeekBar
 import android.widget.TimePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.blue
+import androidx.core.graphics.green
+import androidx.core.graphics.red
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_add_new_tag.*
@@ -44,8 +47,27 @@ class AddNewTag : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_new_tag)
 
-        val tag=TaskTag("", Color.parseColor("#E0FEFE"))
-        tagView=TagView(this,tag)
+        var tag=TaskTag("", Color.parseColor("#E0FEFE"))
+        if(MainActivity.selectedTag==null) {
+            //if no tag selected
+
+        }
+        else{
+            //tag selected
+            tag= MainActivity.selectedTag!!
+            red=tag.getColor().red
+            green=tag.getColor().green
+            blue=tag.getColor().blue
+            //setprogress
+            redBar.progress=red
+            greenBar.progress=green
+            blueBar.progress=blue
+
+            //change name
+            nameInputTag.setText(tag.getName())
+        }
+        tagView = TagView(this, tag)
+
         val tagHolder:LinearLayout=findViewById(R.id.tagHolder)
 
         //add tagView to tag hlder
@@ -56,12 +78,16 @@ class AddNewTag : AppCompatActivity() {
 
 
         SubmitButton.setOnClickListener {
-            MainActivity.tags.add(tag)
+            if(MainActivity.selectedTag==null) {
+                MainActivity.tags.add(tag)
+            }
             //save tasks
             MainActivity.exportTags(this)
             //go back
             finish()
         }
+        //there is a better way to do this
+        //todo clean this up
         redBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {

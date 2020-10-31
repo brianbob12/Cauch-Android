@@ -32,7 +32,7 @@ import kotlin.collections.ArrayList
 
 class AddNewTask : AppCompatActivity() {
 
-    var selectedTags: ArrayList<TaskTag> = arrayListOf()
+    var selectedTags: ArrayList<TaskTag> = arrayListOf()//holds pointers to the tags
 
     var tagList: LinearLayout?=null
 
@@ -66,8 +66,8 @@ class AddNewTask : AppCompatActivity() {
                 var selectedTag:TaskTag? =null//this will stay null if the task cannot be found
                 for(tag in MainActivity.tags){
                     if(tag.getName()==name){
-                        //put copy of tag into selected tag
-                        selectedTag=tag.copy()
+                        //put pointer to the tag into selected tag
+                        selectedTag=tag
                     }
                 }
                 if(selectedTag!=null){
