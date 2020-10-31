@@ -49,7 +49,11 @@ class TagsFragment : Fragment() {
         for(tag in MainActivity.tags){
             val tagHolder:LinearLayout= LinearLayout(root.context)
             val tagView=TagView(root.context,tag)
-            //todo layout perams
+            tagView.setOnClickListener {
+                //deselect tag
+                MainActivity.selectedTag=tag
+                (activity as MainActivity?)?.startAddNewTagFragment()
+            }
             val tagHolderParams:LinearLayout.LayoutParams=LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT
@@ -106,10 +110,9 @@ class TagsFragment : Fragment() {
         //deal with plus button
         val addTask: FloatingActionButton =root.findViewById(R.id.addTagButton)
         addTask.setOnClickListener {
-            //deselect task
-            MainActivity.selectedTask=null
+            //deselect tag
+            MainActivity.selectedTag=null
             (activity as MainActivity?)?.startAddNewTagFragment()
-
         }
 
         return root
@@ -124,12 +127,60 @@ class TagsFragment : Fragment() {
         for(tag in MainActivity.tags){
             val tagHolder:LinearLayout= LinearLayout(context)
             val tagView= context?.let { TagView(it,tag) }
-            //todo layout perams
+            tagView?.setOnClickListener {
+                //deselect tag
+                MainActivity.selectedTag=tag
+                (activity as MainActivity?)?.startAddNewTagFragment()
+            }
+
+            val tagHolderParams:LinearLayout.LayoutParams=LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+            )
+            tagHolderParams.gravity=Gravity.CENTER
+            tagHolder.layoutParams=tagHolderParams
             tagHolder.addView(tagView)
 
+
             val deleteButton:ImageButton= ImageButton(context)
+            val deleteLayout:LinearLayout.LayoutParams=LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            deleteLayout.gravity=Gravity.RIGHT
+            deleteButton.layoutParams=deleteLayout
             deleteButton.setImageResource(R.drawable.ic_delete)
             deleteButton.background=null
+            deleteButton.setOnClickListener {
+                //an alert box confirming the delete
+                //this builder is used to setup the dialogue box
+                val builder: AlertDialog.Builder= AlertDialog.Builder(context)
+                    .setMessage(
+                        Html.fromHtml(
+                            "Are you sure you want to delete the tag: <b>"
+                                    + tag.getName() + "</b> ?"))
+                    .setCancelable(false)//prevents calculation
+                    //yes button deletes alarm
+                    .setPositiveButton("yes"
+                    ) { _, _ -> //delete alarm here
+
+                        //remove from view
+                        tagList?.removeView(tagHolder)
+
+                        //remove from the big list
+                        MainActivity.tags.remove(tag)
+
+                        //delete from storage
+                        context?.let { it1 -> MainActivity.exportTags(it1) }
+                    }
+                    //no button does nothing
+                    .setNegativeButton("no"
+                    ) { di, _ -> //this closes the message box
+                        di.cancel()
+                    }
+                builder.create().show()
+                true
+            }
             tagHolder.addView(deleteButton)
             tagList?.addView(tagHolder)
         }
