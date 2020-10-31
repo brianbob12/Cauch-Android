@@ -10,21 +10,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.TimePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.*
 import kotlinx.android.synthetic.main.activity_add_new_task.*
-import kotlinx.android.synthetic.main.task_quick.*
-import org.mortbay.jetty.Main
-import java.sql.Date
 import java.sql.Time
 import java.util.*
 import kotlin.collections.ArrayList
@@ -113,7 +106,7 @@ class AddNewTask : AppCompatActivity() {
             //set date
             val cal1:Calendar= Calendar.getInstance()
             cal1.time=MainActivity.selectedTask!!.getdueDate()
-            myDatePicker.updateDate(cal1.get(Calendar.YEAR),cal1.get(Calendar.MONTH),
+            addTaskDatePicker.updateDate(cal1.get(Calendar.YEAR),cal1.get(Calendar.MONTH),
                 cal1.get(Calendar.DAY_OF_MONTH))
 
         }
@@ -139,7 +132,7 @@ class AddNewTask : AppCompatActivity() {
             val timePicker:TimePicker=findViewById(R.id.timePicker)
             var plannedTime: Time= Time(timePicker.hour,timePicker.minute,0)
             //TODO add option ot exclude date
-            var dueDate:java.sql.Date = java.sql.Date(myDatePicker.year-1900,myDatePicker.month,myDatePicker.dayOfMonth)
+            var dueDate:java.sql.Date = java.sql.Date(addTaskDatePicker.year-1900,addTaskDatePicker.month,addTaskDatePicker.dayOfMonth)
 
             if(MainActivity.selectedTask==null) {
                 val task:Task=Task(taskName)

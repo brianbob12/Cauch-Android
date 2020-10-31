@@ -6,11 +6,13 @@ package com.example.scheduleapp.ui.home
  * Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
  */
 
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.shapes.Shape
 import android.os.Build
+import android.text.Html
 import android.util.Log
 import android.view.*
 import android.widget.*
@@ -18,7 +20,9 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scheduleapp.*
 import kotlinx.android.synthetic.main.activity_add_new_task.*
+import org.mortbay.jetty.Main
 import org.w3c.dom.Text
+import java.sql.Date
 import java.util.*
 
 
@@ -98,7 +102,7 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
         //setup more popup menu
         //setup popup menu
         val popup = PopupMenu(context, holder.moreButton)
-        popup.menu.add("Postpone")
+        popup.menu.add("Change Day")
         popup.menu.add("Edit")
         popup.menu.add("Delete")
         popup.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
@@ -120,6 +124,107 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
                     MainActivity.selectedTask=task
                     //launch the AddNewTask activity
                     activity?.startAddNewTaskFragment()
+                }
+                else if(name=="Change Day"){
+                    //show day selector
+                    //Create a View object yourself through inflater
+                    val inflater = LayoutInflater.from(context)
+                    val popupView: View = inflater.inflate(R.layout.day_select_popup,null)
+
+                    //Specify the length and width through constants
+                    val width = LinearLayout.LayoutParams.MATCH_PARENT
+                    val height = LinearLayout.LayoutParams.MATCH_PARENT
+
+                    //Make Inactive Items Outside Of PopupWindow
+                    val focusable = true
+
+                    //Create a window with our parameters
+                    val popupWindow = PopupWindow(popupView, width, height, focusable)
+
+                    //Set the location of the window on the screen
+                    popupWindow.showAtLocation(holder.rowView, Gravity.CENTER, 0, 0)
+
+                    //Add the information
+
+                    //deal with date
+                    //defult postpone to next day
+                    var targetDate: Calendar= Calendar.getInstance()
+                    targetDate.time=data.date//represents selected day
+                    targetDate.add(Calendar.DATE,1)//represents selected day + 1
+
+                    val dateBox: DatePicker = popupView.findViewById(R.id.changeDayDatePick)
+                    dateBox.updateDate(targetDate.get(Calendar.YEAR),targetDate.get(Calendar.MONTH),targetDate.get(Calendar.DAY_OF_MONTH))
+
+                    //Handler for clicking on the inactive zone of the window
+                    popupView.setOnTouchListener { v, event -> //Close the window when clicked
+                        popupWindow.dismiss()
+                        true
+                    }
+
+                    //set onsubmit confirmation
+                    val submitButton:Button =popupView.findViewById(R.id.changeDaySubmit)
+                    submitButton.setOnClickListener {
+                        //update selected day
+                        targetDate.time=java.sql.Date(dateBox.year-1900,dateBox.month,dateBox.dayOfMonth)
+                        var targetLabel:String= DayList(java.sql.Date(targetDate.timeInMillis)).toString()
+                        //an alert box confirming the details
+
+                        //this builder is used to setup the dialogue box
+                        val builder: AlertDialog.Builder= AlertDialog.Builder(context)
+                            .setMessage(
+                                Html.fromHtml(
+                                    "Would you like to postpone your task to <b>"
+                                            + targetLabel + "</b> ?"))
+                            .setCancelable(true)//allows calculation
+                            //yes button postpones task
+                            .setPositiveButton("yes"
+                            ) { _, _ ->
+                                //make new task
+                                val newTask=myTasks.get(position).copy()
+
+                                //save original date for later
+                                val originalDate:java.sql.Date= MainActivity.selectedDay.clone() as Date
+
+                                //remove old task
+                                data.tasks.get(position).cancelNotification(context)
+                                data.tasks.removeAt(position)
+                                myTasks= data.tasks.clone() as ArrayList<Task>
+                                notifyItemRemoved(position)
+                                //update all after to reset onclick listeners
+                                notifyItemRangeChanged(position,myTasks.size)
+                                //export day
+                                data.saveDay(context)
+
+                                //select target day
+                                MainActivity.selectedDay=java.sql.Date(targetDate.timeInMillis)
+                                //load day if need be
+                                if(!MainActivity.getSelectedDayList().loaded){
+                                    MainActivity.getSelectedDayList().readDay(context)
+                                }
+                                //add new task to target day
+                                MainActivity.getSelectedDayList().addTask(newTask)
+                                //export again
+                                MainActivity.getSelectedDayList().saveDay(context)
+
+                                //add notification for new task
+                                MainActivity.toSchedule.push(newTask)
+                                MainActivity.toScheduleDays.push(MainActivity.getSelectedDayList())
+
+                                //reselect original date
+                                MainActivity.selectedDay=originalDate
+
+                                //close popup
+                                popupWindow.dismiss()
+                            }
+                            //no button does nothing
+                            .setNegativeButton("no"
+                            ) { di, _ -> //this closes the message box
+                                di.cancel()
+                            }
+
+
+                        builder.create().show()
+                    }
                 }
                 return true
             }

@@ -149,4 +149,13 @@ class Task {
         val jobScheduler:JobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
         this.scheduleID?.let { jobScheduler.cancel(it) }
     }
+
+    public fun copy():Task{
+        var out=Task(name)
+        out.setDescription(descripton)
+        out.setActive(active)
+        out.setPlannedTime(plannedTime)
+        dueDate?.let { out.setdueDate(it) }
+        return out
+    }
 }

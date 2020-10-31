@@ -6,32 +6,47 @@ package com.example.scheduleapp.ui.classroom
  * Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
  */
 
+import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import com.example.scheduleapp.MainActivity
 import com.example.scheduleapp.R
+
 
 class ClassroomFragment : Fragment() {
 
-    private lateinit var clasroomViewModel: ClasroomViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        clasroomViewModel =
-                ViewModelProviders.of(this).get(ClasroomViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_classroom, container, false)
         val textView: TextView = root.findViewById(R.id.text_tags)
-        clasroomViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
+
+        /*
+        object : AsyncTask<Void?, Void?, Void?>() {
+            var result: String? = null
+            protected override fun doInBackground(vararg voids: Void?): Void? {
+                MainActivity.myInterface.main(root.context, arrayOf())
+                return null
+            }
+
+            override fun onPostExecute(aVoid: Void?) {
+                Log.e("TESTING CLASSROOM","FINISHED")
+                super.onPostExecute(aVoid)
+            }
+
+        }.execute()
+        */
+
+
+
         return root
     }
 }

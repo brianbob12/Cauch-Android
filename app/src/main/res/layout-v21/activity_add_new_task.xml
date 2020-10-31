@@ -173,7 +173,7 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
                 android:layout_height="match_parent">
 
                 <DatePicker
-                    android:id="@+id/myDatePicker"
+                    android:id="@+id/addTaskDatePicker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:headerBackground="@color/colorPrimary"

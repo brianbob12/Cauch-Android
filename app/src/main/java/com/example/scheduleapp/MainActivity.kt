@@ -70,6 +70,9 @@ class MainActivity : AppCompatActivity {
         //if this is null nothing is selected
         public var selectedTag:TaskTag?=null
 
+        //a neat little package to integreate with google classroom
+        public val myInterface:GoogleClassroomInterface= GoogleClassroomInterface()
+
         //returns the day list for the selected day and creates one if one does not exsist
         fun getSelectedDayList(): DayList {
             //creates a new day list for selectedDay
@@ -109,6 +112,8 @@ class MainActivity : AppCompatActivity {
             if(!getSelectedDayList().loaded){
                 getSelectedDayList().readDay(context)
             }
+
+
         }
         //moves selected day backwards by one
         public fun backDay(context: Context){
@@ -207,10 +212,8 @@ class MainActivity : AppCompatActivity {
 
         //run manditory stuff
         super.onCreate(savedInstanceState)
-        //google auth task_quick.xml
-        val myInterface:GoogleClassroomInterface= GoogleClassroomInterface()
 
-        //myInterface.main(this, arrayOf())//this needs to be async
+
 
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
