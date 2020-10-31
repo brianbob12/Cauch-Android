@@ -49,11 +49,19 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView: View =
             LayoutInflater.from(parent.context).inflate(R.layout.task_card_row, parent, false)
-        return MyViewHolder(itemView)
+
+        val myViewHolder=MyViewHolder(itemView)
+
+        return myViewHolder
     }
+
+
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        //resize stuff
+        holder.tagArea.requestLayout()
+
         val task=myTasks.get(position)
         //deal with text
         holder.title.setText(task.getName())
@@ -81,15 +89,19 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
             holder.tagArea.visibility=View.INVISIBLE
         }
         else{
+
             //set name for task
             //render task
             holder.tagArea.visibility=View.VISIBLE
             //render all tags
             holder.tagArea.removeAllViews()
+
             for(tag in myTasks.get(position).tags){
                 val tagView=TagView(context,tag)
                 holder.tagArea.addView(tagView)
+                break//for now only display one tag
             }
+
         }
         //set on click listener
         holder.checkBox.setOnClickListener {
