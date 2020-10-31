@@ -6,6 +6,7 @@ package com.example.scheduleapp
  * Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
  */
 
+import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.job.JobInfo
@@ -28,6 +29,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.gms.analytics.HitBuilders
+import com.google.android.gms.analytics.Tracker
 import com.google.android.material.navigation.NavigationView
 import org.mortbay.jetty.Main
 import java.io.*
@@ -44,8 +47,10 @@ class MainActivity : AppCompatActivity {
 
     companion object {
 
+        var mTracker: Tracker?=null
+
         //linked list of available tags
-        //TODO export and import tags
+
         public var tags:ArrayList<TaskTag> = arrayListOf<TaskTag>()
         public var tagLookup:HashMap<Int,TaskTag> = HashMap<Int,TaskTag>()//I love hash tables!
 
@@ -194,6 +199,11 @@ class MainActivity : AppCompatActivity {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        //Google Analytics
+        // Obtain the shared Tracker instance.
+        val application: AnalyticsApplication =  (getApplication() as android.app.Application) as AnalyticsApplication
+        mTracker = application.getDefaultTracker()
+
         // Create an explicit intent for an Activity in your app
 
         //create noticication channel
@@ -246,6 +256,13 @@ class MainActivity : AppCompatActivity {
 
     }
 
+    override fun onResume(){
+        super.onResume()
+        //Google analytics stuff
+        mTracker?.setScreenName("Home");
+        mTracker?.send(HitBuilders.ScreenViewBuilder().build())
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
@@ -268,7 +285,7 @@ class MainActivity : AppCompatActivity {
     public fun addTag(tag:TaskTag){
         tags.add(tag)
         tagLookup.set(tag.id,tag)
-        //TODO export
+
     }
 
     //setup notification channell

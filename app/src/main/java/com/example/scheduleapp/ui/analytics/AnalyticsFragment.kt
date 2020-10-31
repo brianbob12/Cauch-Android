@@ -14,7 +14,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.scheduleapp.MainActivity
 import com.example.scheduleapp.R
+import com.google.android.gms.analytics.HitBuilders
 
 class AnalyticsFragment : Fragment() {
 
@@ -33,5 +35,11 @@ class AnalyticsFragment : Fragment() {
             textView.text = it
         })
         return root
+    }
+    override fun onResume(){
+        super.onResume()
+        //Google analytics stuff
+        MainActivity.mTracker?.setScreenName("Analytics");
+        MainActivity.mTracker?.send(HitBuilders.ScreenViewBuilder().build())
     }
 }

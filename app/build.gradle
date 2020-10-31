@@ -60,6 +60,10 @@ dependencies {
     androidTestImplementation 'androidx.task_quick.xml.ext:junit:1.1.1'
     androidTestImplementation 'androidx.task_quick.xml.espresso:espresso-core:3.2.0'
 
+    implementation 'com.google.android.gms:play-services-analytics:17.0.0'
+
+    implementation 'com.android.support:multidex:1.0.3'
+
     implementation "com.android.support:support-compat:28.0.0"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])

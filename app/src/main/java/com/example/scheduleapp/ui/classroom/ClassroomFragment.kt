@@ -16,6 +16,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.scheduleapp.MainActivity
 import com.example.scheduleapp.R
+import com.google.android.gms.analytics.HitBuilders
 
 
 class ClassroomFragment : Fragment() {
@@ -48,5 +49,11 @@ class ClassroomFragment : Fragment() {
 
 
         return root
+    }
+    override fun onResume(){
+        super.onResume()
+        //Google analytics stuff
+        MainActivity.mTracker?.setScreenName("GoogleClassroom");
+        MainActivity.mTracker?.send(HitBuilders.ScreenViewBuilder().build())
     }
 }

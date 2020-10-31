@@ -19,6 +19,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scheduleapp.*
+import com.google.android.gms.analytics.HitBuilders
 import kotlinx.android.synthetic.main.activity_add_new_task.*
 import org.mortbay.jetty.Main
 import org.w3c.dom.Text
@@ -98,6 +99,13 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
             notifyItemRangeChanged(position,myTasks.size)
             //export day
             data.saveDay(context)
+
+            //google analytics
+            MainActivity.mTracker?.send(
+                HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("CheckOffTask")
+                .build())
         }
         //setup more popup menu
         //setup popup menu
@@ -118,6 +126,12 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
                     notifyItemRangeChanged(position,myTasks.size)
                     //export day
                     data.saveDay(context)
+
+                    //google analytics
+                    MainActivity.mTracker?.send(HitBuilders.EventBuilder()
+                        .setCategory("Action")
+                        .setAction("DeleteTask")
+                        .build())
                 }
                 else if(name=="Edit"){
                     //select task
@@ -173,7 +187,7 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
                         val builder: AlertDialog.Builder= AlertDialog.Builder(context)
                             .setMessage(
                                 Html.fromHtml(
-                                    "Would you like to postpone your task to <b>"
+                                    "Would you like to change your task's planned date to <b>"
                                             + targetLabel + "</b> ?"))
                             .setCancelable(true)//allows calculation
                             //yes button postpones task
@@ -212,6 +226,12 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
 
                                 //reselect original date
                                 MainActivity.selectedDay=originalDate
+
+                                //google analytics
+                                MainActivity.mTracker?.send(HitBuilders.EventBuilder()
+                                    .setCategory("Action")
+                                    .setAction("ChangeTaskDate")
+                                    .build())
 
                                 //close popup
                                 popupWindow.dismiss()

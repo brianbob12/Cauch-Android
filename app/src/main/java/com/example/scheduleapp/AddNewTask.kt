@@ -17,6 +17,7 @@ import android.widget.PopupMenu
 import android.widget.TimePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.analytics.HitBuilders
 import kotlinx.android.synthetic.main.activity_add_new_task.*
 import java.sql.Time
 import java.util.*
@@ -35,6 +36,12 @@ class AddNewTask : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        //Google Analytics
+        // Obtain the shared Tracker instance.
+        val application: AnalyticsApplication =  getApplication() as AnalyticsApplication
+        val mTracker = application.getDefaultTracker()
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_new_task)
 
@@ -151,6 +158,12 @@ class AddNewTask : AppCompatActivity() {
                 //schedule the notification for the task
                 MainActivity.toSchedule.push(task)
                 MainActivity.toScheduleDays.push(MainActivity.getSelectedDayList())
+
+                //google analytics
+                mTracker.send(HitBuilders.EventBuilder()
+                    .setCategory("Action")
+                    .setAction("NewTask")
+                    .build())
             }
             else{
 
@@ -177,9 +190,22 @@ class AddNewTask : AppCompatActivity() {
                 //schedule the notification for the task
                 MainActivity.toSchedule.push(MainActivity.selectedTask)
                 MainActivity.toScheduleDays.push(MainActivity.getSelectedDayList())
+
+                //google analytics
+                mTracker.send(HitBuilders.EventBuilder()
+                    .setCategory("Action")
+                    .setAction("EditTask")
+                    .build())
             }
             //start main activity
             startActivity(Intent(this, MainActivity::class.java))
         }
+    }
+
+    override fun onResume(){
+        super.onResume()
+        //Google analytics stuff
+        MainActivity.mTracker?.setScreenName("AddNewTask");
+        MainActivity.mTracker?.send(HitBuilders.ScreenViewBuilder().build())
     }
 }

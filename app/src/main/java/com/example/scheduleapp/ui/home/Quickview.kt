@@ -11,6 +11,7 @@ import com.example.scheduleapp.MainActivity
 import com.example.scheduleapp.R
 import com.example.scheduleapp.TagView
 import com.example.scheduleapp.Task
+import com.google.android.gms.analytics.HitBuilders
 import java.util.*
 
 
@@ -18,6 +19,10 @@ class Quickview {
     //PopupWindow display method
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun showPopupWindow(view: View, task: Task,activity:MainActivity?) {
+
+        //Google analytics stuff
+        MainActivity.mTracker?.setScreenName("TaskQuickView");
+        MainActivity.mTracker?.send(HitBuilders.ScreenViewBuilder().build())
 
         //Create a View object yourself through inflater
         val inflater = LayoutInflater.from(view.context)

@@ -27,6 +27,7 @@ import com.example.scheduleapp.MainActivity
 import com.example.scheduleapp.R
 import com.example.scheduleapp.TagView
 import com.example.scheduleapp.TaskTag
+import com.google.android.gms.analytics.HitBuilders
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class TagsFragment : Fragment() {
@@ -92,6 +93,12 @@ class TagsFragment : Fragment() {
                         //remove from the big list
                         MainActivity.tags.remove(tag)
 
+                        //google analytics
+                        MainActivity.mTracker?.send(HitBuilders.EventBuilder()
+                            .setCategory("Action")
+                            .setAction("DeleteTask")
+                            .build())
+
                         //delete from storage
                         MainActivity.exportTags(root.context)
                     }
@@ -122,6 +129,11 @@ class TagsFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onResume() {
         super.onResume()
+
+        //Google analytics stuff
+        MainActivity.mTracker?.setScreenName("TagsFragment");
+        MainActivity.mTracker?.send(HitBuilders.ScreenViewBuilder().build())
+
         tagList?.removeAllViews()//clear it all
         //add all tags
         for(tag in MainActivity.tags){
@@ -170,6 +182,12 @@ class TagsFragment : Fragment() {
                         //remove from the big list
                         MainActivity.tags.remove(tag)
 
+                        //google analytics
+                        MainActivity.mTracker?.send(HitBuilders.EventBuilder()
+                            .setCategory("Action")
+                            .setAction("DeleteTag")
+                            .build())
+
                         //delete from storage
                         context?.let { it1 -> MainActivity.exportTags(it1) }
                     }
@@ -185,4 +203,6 @@ class TagsFragment : Fragment() {
             tagList?.addView(tagHolder)
         }
     }
+
+
 }

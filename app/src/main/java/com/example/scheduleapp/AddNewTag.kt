@@ -19,6 +19,7 @@ import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
 import androidx.core.widget.addTextChangedListener
+import com.google.android.gms.analytics.HitBuilders
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_add_new_tag.*
 import kotlinx.android.synthetic.main.activity_add_new_task.*
@@ -44,6 +45,12 @@ class AddNewTag : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        //Google Analytics
+        // Obtain the shared Tracker instance.
+        val application: AnalyticsApplication =  getApplication() as AnalyticsApplication
+        val mTracker = application.getDefaultTracker()
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_new_tag)
 
@@ -80,9 +87,17 @@ class AddNewTag : AppCompatActivity() {
         SubmitButton.setOnClickListener {
             if(MainActivity.selectedTag==null) {
                 MainActivity.tags.add(tag)
+                mTracker.send(HitBuilders.EventBuilder()
+                    .setCategory("Action")
+                    .setAction("NewTag")
+                    .build())
             }
             //save tasks
             MainActivity.exportTags(this)
+            mTracker.send(HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("EditTag")
+                .build())
             //go back
             finish()
         }
@@ -149,6 +164,12 @@ class AddNewTag : AppCompatActivity() {
         }
     }
 
+    override fun onResume(){
+        super.onResume()
+        //Google analytics stuff
+        MainActivity.mTracker?.setScreenName("AddNewTag");
+        MainActivity.mTracker?.send(HitBuilders.ScreenViewBuilder().build())
+    }
 
     //changes the textView so that the new name and color are shown
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
