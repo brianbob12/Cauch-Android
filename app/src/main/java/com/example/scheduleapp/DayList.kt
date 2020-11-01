@@ -7,7 +7,9 @@ package com.example.scheduleapp
  */
 
 import android.content.Context
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -95,13 +97,23 @@ class DayList{
     }
 
     //this function is called during drag and drop when tasks are dragged over eachother
-    public fun swapTasks(ia:Int,ib:Int){
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    public fun swapTasks(context:Context, ia:Int, ib:Int){
         //swaps the position in the list as well as the times
 
         //swap times
         val timeA=tasks.get(ia).getPlannedTime()//note this is a clone of the time
         tasks.get(ia).setPlannedTime(tasks.get(ib).getPlannedTime())
         tasks.get(ib).setPlannedTime(timeA)
+
+        //now deal with notifications
+        tasks.get(ia).cancelNotification(context)
+        tasks.get(ib).cancelNotification(context)
+        //shedule new notifications
+        MainActivity.toSchedule.add(tasks.get(ia))
+        MainActivity.toScheduleDays.add(this)
+        MainActivity.toSchedule.add(tasks.get(ib))
+        MainActivity.toScheduleDays.add(this)
 
         //swap positions in the list
         Collections.swap(tasks, ia, ib )

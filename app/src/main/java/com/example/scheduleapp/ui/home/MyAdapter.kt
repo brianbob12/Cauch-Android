@@ -285,17 +285,18 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
         return myTasks.size
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onRowMoved(fromPosition: Int, toPosition: Int) {
         if (fromPosition < toPosition) {
             notifyItemChanged(fromPosition)
             for (i in fromPosition until toPosition) {
-                data.swapTasks( i, i + 1)
+                data.swapTasks(context, i, i + 1)
                 notifyItemChanged(i+1)
             }
         } else {
             notifyItemChanged(fromPosition)
             for (i in fromPosition downTo toPosition + 1) {
-                data.swapTasks(i, i - 1)
+                data.swapTasks(context,i, i - 1)
                 notifyItemChanged(i-1)
             }
         }
