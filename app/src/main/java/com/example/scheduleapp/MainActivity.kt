@@ -71,6 +71,10 @@ class MainActivity : AppCompatActivity {
         //if this is null nothing is selected
         public var selectedTask:Task?=null
 
+        //the selected repeating task
+        //if this is null nothing is selected
+        public var selectedRepeatingTask:Task?=null
+
         //the selected tag
         //if this is null nothing is selected
         public var selectedTag:TaskTag?=null
@@ -279,6 +283,9 @@ class MainActivity : AppCompatActivity {
     }
     public fun startAddNewTagFragment(){
         startActivity(Intent(this, AddNewTag::class.java))
+    }
+    public fun startAddNewRepeatingTaskFragment(){
+        startActivity(Intent(this, AddNewRepeatingTask::class.java))
     }
 
     //adds tags

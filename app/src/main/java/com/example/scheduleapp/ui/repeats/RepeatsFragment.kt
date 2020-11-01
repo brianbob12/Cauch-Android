@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import com.example.scheduleapp.MainActivity
 import com.example.scheduleapp.R
 import com.google.android.gms.analytics.HitBuilders
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class RepeatsFragment : Fragment() {
@@ -29,6 +30,18 @@ class RepeatsFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_repeats, container, false)
 
+        //deal with plus button
+        val addTask: FloatingActionButton =root.findViewById(R.id.addRepeatingTaskButton)
+
+        //temporary
+        addTask.visibility=View.INVISIBLE
+
+        addTask.setOnClickListener {
+            //deselect task
+            MainActivity.selectedTask=null
+            (activity as MainActivity?)?.startAddNewRepeatingTaskFragment()
+
+        }
 
         return root
     }

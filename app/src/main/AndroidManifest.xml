@@ -28,6 +28,12 @@
 
         </activity>
         <activity
+            android:name=".AddNewRepeatingTask"
+            android:label="@string/add_repating_task"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity
             android:name=".AddNewTag"
             android:label="@string/add_tag"
             android:theme="@style/AppTheme.NoActionBar">
