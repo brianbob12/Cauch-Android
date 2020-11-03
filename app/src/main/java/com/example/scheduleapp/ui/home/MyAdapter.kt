@@ -132,8 +132,8 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
                 val name: String = menuItem!!.toString()//gets selected option
                 //do stuff
                 if(name=="Delete"){
-                    //remove task data.tasks.get(position).cancelNotification(context)
-                    data.tasks.removeAt(position)
+                    //remove task
+                    data.removeTask(context,data.tasks.get(position))
                     myTasks= data.tasks.clone() as ArrayList<Task>
                     notifyItemRemoved(position)
                     //update all after to reset onclick listeners
@@ -230,7 +230,7 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
                                     MainActivity.getSelectedDayList().readDay(context)
                                 }
                                 //add new task to target day
-                                MainActivity.getSelectedDayList().addTask(newTask)
+                                MainActivity.getSelectedDayList().addTask(context,newTask)
                                 //export again
                                 MainActivity.getSelectedDayList().saveDay(context)
 

@@ -7,9 +7,11 @@ package com.example.scheduleapp
  */
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import org.mortbay.jetty.Main
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -24,8 +26,23 @@ class DayList{
     public val date:Date
     public var loaded=false
 
+    //this is true when the the daylist is today or later
+    //this is false when the dayList is yesterday or earlier
+    public var future=true
+
     constructor(date: Date){
         this.date =date
+
+        //setup future(the variable)
+        //check if it is today or later
+        val cal1 = Calendar.getInstance()
+        val cal2 = Calendar.getInstance()
+        cal1.time = date//this dayList
+        cal2.time = java.sql.Date(java.util.Date().time)//represents today
+        val numberOfDays=(cal1.getTime().time - cal2.getTime().time) / (1000 * 60 * 60 * 24)//number of days between cal1 and cal2
+        //bool
+        future=numberOfDays>=0
+
     }
 
     //days of week for int to string conversion
@@ -84,7 +101,7 @@ class DayList{
         return output
     }
 
-    public fun addTask(task: Task){
+    public fun addTask(context: Context,task:Task){
         //deals with the order of tasks
         if(tasks.size==0) {
             tasks.add(task)
@@ -100,6 +117,29 @@ class DayList{
             }
             //if we get here the task goes on the end
             tasks.add(task)
+        }
+        if(future){
+            //add to daysWithStuff
+            MainActivity.persistentContainer.daysWithStuffAdd(context,date)
+            //this function makes sure not to add the date if it is already in the list
+        }
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    public fun removeTask(context: Context, task:Task){
+        //cancell notification
+        task.cancelNotification(context)
+
+        //remove task
+        tasks.remove(task)
+        //check if now have no taks
+        if(tasks.size==0) {
+            if (future) {
+                //add to daysWithStuff
+                MainActivity.persistentContainer.daysWithStuffRemove(context, date)
+                //this function makes sure not to add the date if it is already in the list
+            }
         }
     }
 
@@ -184,7 +224,7 @@ class DayList{
                 var newTask: Task = Task("task_quick.xml")
                 try {
                     newTask.fromString(taskInfo)
-                    this.addTask(newTask)
+                    this.addTask(context,newTask)
                 } catch (e: IndexOutOfBoundsException) {
                     Log.e("Task Error", e.toString())
                 }
@@ -193,10 +233,10 @@ class DayList{
         loaded=true
     }
     //re orders a task to be placed correctly
-    public fun reOrderTask(task: Task){
+    public fun reOrderTask(context:Context,task: Task){
         //remove task
         tasks.remove(task)
         //readd task
-        this.addTask(task)
+        this.addTask(context,task)
     }
 }

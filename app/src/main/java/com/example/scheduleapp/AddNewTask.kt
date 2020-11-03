@@ -154,7 +154,7 @@ class AddNewTask : AppCompatActivity() {
 
                 //we are going to make a new task
                 //add the new task to the list
-                MainActivity.getSelectedDayList().addTask(task)
+                MainActivity.getSelectedDayList().addTask(this,task)
 
                 //schedule the notification for the task
                 MainActivity.toSchedule.push(task)
@@ -186,7 +186,7 @@ class AddNewTask : AppCompatActivity() {
                 //because I suspect that one needs to pass the context for the MainActivity
 
                 //the task has to be reordered in the daylist
-                MainActivity.getSelectedDayList().reOrderTask(MainActivity.selectedTask!!)
+                MainActivity.getSelectedDayList().reOrderTask(this,MainActivity.selectedTask!!)
 
                 //schedule the notification for the task
                 MainActivity.toSchedule.push(MainActivity.selectedTask)

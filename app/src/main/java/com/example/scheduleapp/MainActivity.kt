@@ -49,6 +49,9 @@ class MainActivity : AppCompatActivity {
 
         var mTracker: Tracker?=null
 
+        //holds a bunch of stuff that is persistent
+        public var persistentContainer:PersistentContainer = PersistentContainer()
+
         //linked list of available tags
 
         public var tags:ArrayList<TaskTag> = arrayListOf<TaskTag>()
@@ -251,7 +254,9 @@ class MainActivity : AppCompatActivity {
 
         //setup dayList
         getSelectedDayList().setup(this)
-
+        
+        //import persistent container
+        persistentContainer.load(this)
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
