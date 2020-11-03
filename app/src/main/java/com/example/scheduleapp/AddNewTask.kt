@@ -71,7 +71,8 @@ class AddNewTask : AppCompatActivity() {
                     }
                 }
                 if(selectedTag!=null){
-                    //TODO make sure the tag is not already selected
+                    //make sure the tag cannot be selected again
+                    menuItem.setEnabled(false)
                     //render task
                     val newTag = TagView(myContext!!,selectedTag)
                     selectedTags.add(selectedTag)

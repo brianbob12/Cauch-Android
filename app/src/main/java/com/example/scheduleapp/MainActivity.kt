@@ -249,10 +249,9 @@ class MainActivity : AppCompatActivity {
         //this will only change the files if importTags failed
         exportTags(this)
 
-        //load day if need be
-        if(!getSelectedDayList().loaded){
-            getSelectedDayList().readDay(this)
-        }
+        //setup dayList
+        getSelectedDayList().setup(this)
+
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)

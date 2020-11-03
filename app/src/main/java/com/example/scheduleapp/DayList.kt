@@ -37,6 +37,13 @@ class DayList{
     //sets up a liked list of tasks for itterating over all tasks
     public var tasks: ArrayList<Task> = arrayListOf<Task>()
 
+    //do various setup stuff
+    public fun setup(context: Context){
+        //load day if need be
+        if(!MainActivity.getSelectedDayList().loaded){
+            MainActivity.getSelectedDayList().readDay(context)
+        }
+    }
 
     //gets an integer value of the day of the week for this day starting with 0 as a Sunday
     fun getDayOfWeek():Int{
