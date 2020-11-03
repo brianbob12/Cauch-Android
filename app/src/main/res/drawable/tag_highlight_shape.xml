@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  res/drawable/tag_highlight_shape.xml -->
+<!--
+Copyright (C) Cyrus Singer - All Rights Reserved
+Unauthorized copying of this file, via any medium is strictly prohibited
+Proprietary and confidential
+Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle"
+    android:padding="10dp">
+
+    <solid android:color="#FFFF00FF" />
+    <corners
+        android:bottomRightRadius="0dp"
+        android:bottomLeftRadius="15dp"
+        android:topLeftRadius="15dp"
+        android:topRightRadius="0dp" />
+</shape>

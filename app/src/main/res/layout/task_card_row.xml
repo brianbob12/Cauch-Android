@@ -13,6 +13,19 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
     android:layout_margin="8dp"
     android:background="@drawable/card_shape_light">
 
+    <LinearLayout
+        android:id="@+id/tagHighlight"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/tag_highlight_shape"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/mainTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+
     <ImageButton
         android:id="@+id/moreButton"
         android:layout_width="wrap_content"
@@ -34,15 +47,12 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="17dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
         android:ellipsize="end"
         android:fontFamily="@font/oxygen"
         android:singleLine="true"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tagArea"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/timeText"
         app:layout_constraintStart_toEndOf="@+id/moreButton"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="This is some temp text" />
@@ -68,19 +78,6 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
         android:layout_marginRight="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/tagArea"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/timeText"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -91,16 +91,15 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
         else{
 
             //set name for task
-            //render task
+            //render tag highlight
             holder.tagArea.visibility=View.VISIBLE
-            //render all tags
-            holder.tagArea.removeAllViews()
 
-            for(tag in myTasks.get(position).tags){
-                val tagView=TagView(context,tag)
-                holder.tagArea.addView(tagView)
-                break//for now only display one tag
-            }
+            //change the color of tag highlight to the tag's color
+            val background= context.getDrawable(R.drawable.tag_highlight_shape)
+            //use the color of the first tag
+            background?.setTint(task.tags.get(0).getColor())
+
+            holder.tagArea.background=background
 
         }
         //set on click listener
@@ -330,7 +329,7 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
             rowView = itemView
             title = itemView.findViewById(R.id.mainTitle)
             timeText=itemView.findViewById(R.id.timeText)
-            tagArea=itemView.findViewById(R.id.tagArea)
+            tagArea=itemView.findViewById(R.id.tagHighlight)
             checkBox=itemView.findViewById((R.id.checkBox))
             moreButton=itemView.findViewById(R.id.moreButton)
         }
