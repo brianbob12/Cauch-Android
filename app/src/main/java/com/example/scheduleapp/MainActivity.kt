@@ -195,6 +195,7 @@ class MainActivity : AppCompatActivity {
             outStream.close()
             file.close()
         }
+
     }
 
     constructor():super(){
@@ -218,10 +219,15 @@ class MainActivity : AppCompatActivity {
 
         for(i in 0..MainActivity.toSchedule.size-1){
             this.scheduleTaskNotification(MainActivity.toSchedule.get(i),MainActivity.toScheduleDays.get(i).date)
+
             //save tasks here
+            //I am not sure why I put this here but it works
             //save the main day with the new task
             MainActivity.getSelectedDayList().saveDay(this)
         }
+        //clear the toShedule lits
+        MainActivity.toSchedule.clear()
+        MainActivity.toScheduleDays.clear()
 
 
         //run manditory stuff
@@ -356,5 +362,23 @@ class MainActivity : AppCompatActivity {
         jobScheduler.schedule(jobInfo)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun onStop(){
+        //shedule any remaining take        //schedule unsheduled tasks
+
+        for(i in 0..MainActivity.toSchedule.size-1){
+            this.scheduleTaskNotification(MainActivity.toSchedule.get(i),MainActivity.toScheduleDays.get(i).date)
+
+            //save tasks here
+            //I am not sure why I put this here but it works
+            //save the main day with the new task
+            MainActivity.getSelectedDayList().saveDay(this)
+        }
+        //clear the toShedule lits
+        MainActivity.toSchedule.clear()
+        MainActivity.toScheduleDays.clear()
+
+        super.onStop()
+    }
 
 }
