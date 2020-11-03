@@ -81,6 +81,8 @@ class AddNewTask : AppCompatActivity() {
                         selectedTags.remove(selectedTag)
                         //remove View
                         tagList?.removeView(newTag)
+                        //reenable tag opton
+                        menuItem.setEnabled(true)
 
                     }
                     tagList?.addView(newTag)
