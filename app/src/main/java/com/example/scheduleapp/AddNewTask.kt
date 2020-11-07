@@ -189,7 +189,7 @@ class AddNewTask : AppCompatActivity() {
                 //we are going to update exsisting task
                 MainActivity.selectedTask!!.setName(taskName)
                 MainActivity.selectedTask!!.setdueDate(dueDate)
-                MainActivity.selectedTask!!.setPlannedTime(plannedTime)
+
                 MainActivity.selectedTask!!.setDescription(descript)
 
                 //deal with tags
@@ -220,6 +220,9 @@ class AddNewTask : AppCompatActivity() {
                 //select the day from the box
                 MainActivity.selectedDay=chosenDay
                 MainActivity.getSelectedDayList().setup(this)
+                
+                //remember that changeDayOfTask also changes the time of the task
+                MainActivity.selectedTask!!.setPlannedTime(plannedTime)
 
                 //schedule the notification for the task
                 MainActivity.toSchedule.push(MainActivity.selectedTask)
