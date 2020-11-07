@@ -151,6 +151,7 @@ class HomeFragment : Fragment() {
                                 dayName.text = MainActivity.getSelectedDayList().toString()
                                 //change day
                                 changeDay()
+                                return true
                             } else if (distance > minumumSwipeXDistance) {
                                 //left swipe
                                 //move on
@@ -160,6 +161,7 @@ class HomeFragment : Fragment() {
                                 dayName.text = MainActivity.getSelectedDayList().toString()
                                 //change day
                                 changeDay()
+                                return true
                             }
                         }
                     }
