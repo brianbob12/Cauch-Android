@@ -27,19 +27,21 @@ import java.sql.Date
 import java.util.*
 
 
-class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
+class MyAdapter(context: Context, data: DayList,activity: MainActivity?,homeFragment: HomeFragment) : RecyclerView.Adapter<MyAdapter.MyViewHolder>(),
     ItemMoveCallback.ItemTouchHelperContract  {
 
     private var data:DayList
     private var myTasks:ArrayList<Task>//this is a copy of data.tasks
     private val context:Context
     private val activity:MainActivity?
+    private val homeFragment:HomeFragment
 
     init {
         this.data = data
         this.myTasks= data.tasks.clone() as ArrayList<Task>
         this.context=context
         this.activity=activity
+        this.homeFragment=homeFragment
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -286,6 +288,10 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onRowMoved(fromPosition: Int, toPosition: Int) {
+        //cancel swipe to switch days
+        homeFragment.x1 = null // this will stop any swiping
+        homeFragment.y1 = null
+
         if (fromPosition < toPosition) {
             notifyItemChanged(fromPosition)
             for (i in fromPosition until toPosition) {
@@ -342,7 +348,6 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?) : Recyc
     //removes all items
     fun clear(){
         val size=myTasks.size
-        //Log.e("TESTING",myTasks.toString())
         myTasks.clear()
         notifyItemRangeRemoved(0,size)
     }

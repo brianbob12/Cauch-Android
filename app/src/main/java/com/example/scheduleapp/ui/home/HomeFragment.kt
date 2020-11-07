@@ -35,8 +35,10 @@ class HomeFragment : Fragment() {
     private var selectedDate:DayList = MainActivity.getSelectedDayList()
 
     //gesture stuff
-    private var x1:Float? = null
-    private val minumumSwipeDistance = 300
+    public var x1:Float? = null //public because it has to be changed by MyAdapter
+    public var y1:Float? = null //public because it has to be changed by MyAdapter
+    private val minumumSwipeXDistance = 300
+    private val maximumSwipeYDistace = 500
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -98,7 +100,7 @@ class HomeFragment : Fragment() {
                 else if(motionEvent?.action==MotionEvent.ACTION_UP){
                     if(x1!=null){
                         val distance= x1!! -motionEvent.getX()
-                        if(distance<-minumumSwipeDistance){
+                        if(distance<-minumumSwipeXDistance){
                             //right swipe
                             //move on
                             MainActivity.forwardDay(root.context)
@@ -108,7 +110,7 @@ class HomeFragment : Fragment() {
                             //change day
                             changeDay()
                         }
-                        else if(distance>minumumSwipeDistance){
+                        else if(distance>minumumSwipeXDistance){
                             //left swipe
                             //move on
                             MainActivity.backDay(root.context)
@@ -127,7 +129,46 @@ class HomeFragment : Fragment() {
         })
         //now the same for the recycler view
         //it was easer not to make a class
+        //more swiping to switch days
+        recyclerView?.setOnTouchListener(object:View.OnTouchListener{
+            override fun onTouch(view: View?, motionEvent: MotionEvent?): Boolean {
+                if(motionEvent?.action== MotionEvent.ACTION_DOWN){
+                    x1 = motionEvent.getX()
+                    y1 = motionEvent.getY()
+                    return true
+                }
+                else if(motionEvent?.action==MotionEvent.ACTION_UP){
+                    if(x1!=null&&y1!=null) {
+                        val distance = x1!! - motionEvent.getX()
+                        var distanceY = y1!! - motionEvent.getY()
+                        if (distanceY < maximumSwipeYDistace && distanceY > -maximumSwipeYDistace) {
+                            if (distance < -minumumSwipeXDistance) {
+                                //right swipe
+                                //move on
+                                MainActivity.forwardDay(root.context)
+                                //show the name of the selected day
+                                val dayName: TextView = root.findViewById(R.id.dayName)
+                                dayName.text = MainActivity.getSelectedDayList().toString()
+                                //change day
+                                changeDay()
+                            } else if (distance > minumumSwipeXDistance) {
+                                //left swipe
+                                //move on
+                                MainActivity.backDay(root.context)
+                                //show the name of the selected day
+                                val dayName: TextView = root.findViewById(R.id.dayName)
+                                dayName.text = MainActivity.getSelectedDayList().toString()
+                                //change day
+                                changeDay()
+                            }
+                        }
+                    }
+                }
+                view?.performClick()
+                return false
+            }
 
+        })
 
         return root
     }
@@ -135,7 +176,7 @@ class HomeFragment : Fragment() {
     private fun setup(root:View){
 
         recycleAdapter =
-            context?.let { MyAdapter(it,selectedDate,activity as MainActivity?) }
+            context?.let { MyAdapter(it,selectedDate,activity as MainActivity?,this) }
         recyclerView?.setAdapter(recycleAdapter)
 
         val callback: ItemTouchHelper.Callback =
