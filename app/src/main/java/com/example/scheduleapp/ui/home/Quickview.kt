@@ -62,6 +62,10 @@ class Quickview {
             //check if tag is due tomorrow or sooner
             val numberOfDays=(cal1.getTime().time - cal2.getTime().time) / (1000 * 60 * 60 * 24)//number of days between cal1 and cal2
             if(numberOfDays<1){
+                //make text orange
+                dueDateText.setTextColor(Color.argb(255,255,125,0))
+            }
+            if(numberOfDays<0){
                 //make text red
                 dueDateText.setTextColor(Color.RED)
             }
