@@ -257,7 +257,9 @@ class DayList{
      */
     public fun findNewTime():java.sql.Time{
         var outTime:java.sql.Time = java.sql.Time(8,0,0)//depreciated
-
+        if(tasks.size==0){
+            return outTime
+        }
         if(tasks.get(0).getPlannedTime().after(outTime)){//the earliest time is after 8 am
             //check if there is a half hour difference
             if(tasks.get(0).getPlannedTime().time-1800000>outTime.time){
