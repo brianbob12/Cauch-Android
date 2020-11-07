@@ -218,6 +218,8 @@ class MainActivity : AppCompatActivity {
         //note if the channel alredy exsits nothing is done
         createNotificationChannel()
 
+
+
         //schedule unsheduled tasks
 
         for(i in 0..MainActivity.toSchedule.size-1){
@@ -257,6 +259,10 @@ class MainActivity : AppCompatActivity {
         
         //import persistent container
         persistentContainer.load(this)
+
+        //check peristant container for days that have now passed
+        //this would mean that tasks are left uncompleted
+
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)

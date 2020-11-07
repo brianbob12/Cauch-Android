@@ -11,6 +11,7 @@ import android.graphics.Color
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.google.android.gms.analytics.HitBuilders
 import org.mortbay.jetty.Main
 import java.io.File
 import java.io.FileInputStream
@@ -238,5 +239,97 @@ class DayList{
         tasks.remove(task)
         //readd task
         this.addTask(context,task)
+    }
+
+    //finds a suitable time during the day to schedule a new task
+    /*
+    To begin with the the new time will be the earliest possible that meets these conditions,
+    1. Must be after 8am or after the first task
+    2. Must be a half hour from any other task
+
+    If no time exists that matches tease conditions the time will be 8am.
+
+    TODO Change this system in future
+    Find out what time the user usually starts task on each day of the week.
+    Find out what time the user usually ends tasks on each day of the week.
+    Find out how long tasks take(through survey) for each tag.
+    Allow for a day to be full.
+     */
+    public fun findNewTime():java.sql.Time{
+        var outTime:java.sql.Time = java.sql.Time(8,0,0)//depreciated
+
+        if(tasks.get(0).getPlannedTime().after(outTime)){//the earliest time is after 8 am
+            //check if there is a half hour difference
+            if(tasks.get(0).getPlannedTime().time-1800000>outTime.time){
+                return outTime
+            }
+        }
+        //remember tasks are in order from earliest to latest
+        for(i in 0..tasks.size-2){//this includes the first task but excludes the last task
+            outTime=java.sql.Time(tasks.get(i).getPlannedTime().time+1800000)
+            //a half hour after the selected task
+            if(outTime.time>=86400000){
+                //the time is no longer today
+                break //leads to returning eight am
+            }
+            //else
+            //check if it is a half hour before the next task
+            if(tasks.get(i+1).getPlannedTime().time-1800000>outTime.time){
+                //we are good to go
+                return outTime
+            }
+            //else continue
+        }
+        return java.sql.Time(8,0,0)
+    }
+
+    //changes the day of a task to another day
+    //the task in question bust be a member of this DayList
+    //returns true if successful
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    public fun changeDayOfTask(context:Context, task: Task,targetDate:Calendar):Boolean{
+        if(!(task in this.tasks)){
+            return false
+        }
+        //make new task
+        val newTask=task.copy()
+
+        //remove old task
+        task.cancelNotification(context)
+        this.tasks.remove(task)
+
+        //export day
+        this.saveDay(context)
+
+        //select target day
+        MainActivity.selectedDay=java.sql.Date(targetDate.timeInMillis)
+        //load day if need be
+        if(!MainActivity.getSelectedDayList().loaded){
+            MainActivity.getSelectedDayList().readDay(context)
+        }
+
+        //reset the time of the task
+        newTask.setPlannedTime(MainActivity.getSelectedDayList().findNewTime())
+
+        //add new task to target day
+        MainActivity.getSelectedDayList().addTask(context,newTask)
+        //export again
+        MainActivity.getSelectedDayList().saveDay(context)
+
+        //add notification for new task
+        MainActivity.toSchedule.push(newTask)
+        MainActivity.toScheduleDays.push(MainActivity.getSelectedDayList())
+
+        //reselect original date
+        MainActivity.selectedDay=this.date
+
+        //google analytics
+        MainActivity.mTracker?.send(
+            HitBuilders.EventBuilder()
+            .setCategory("Action")
+            .setAction("ChangeTaskDate")
+            .build())
+
+        return true
     }
 }

@@ -209,45 +209,17 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?,homeFrag
                             //yes button postpones task
                             .setPositiveButton("yes"
                             ) { _, _ ->
-                                //make new task
-                                val newTask=myTasks.get(position).copy()
+                                //push task
+                                MainActivity.getSelectedDayList().changeDayOfTask(
+                                    context,data.tasks.get(position),targetDate)
 
-                                //save original date for later
-                                val originalDate:java.sql.Date= MainActivity.selectedDay.clone() as Date
-
-                                //remove old task
-                                data.tasks.get(position).cancelNotification(context)
-                                data.tasks.removeAt(position)
+                                //refresh MyTasks
                                 myTasks= data.tasks.clone() as ArrayList<Task>
+
+
                                 notifyItemRemoved(position)
                                 //update all after to reset onclick listeners
                                 notifyItemRangeChanged(position,myTasks.size)
-                                //export day
-                                data.saveDay(context)
-
-                                //select target day
-                                MainActivity.selectedDay=java.sql.Date(targetDate.timeInMillis)
-                                //load day if need be
-                                if(!MainActivity.getSelectedDayList().loaded){
-                                    MainActivity.getSelectedDayList().readDay(context)
-                                }
-                                //add new task to target day
-                                MainActivity.getSelectedDayList().addTask(context,newTask)
-                                //export again
-                                MainActivity.getSelectedDayList().saveDay(context)
-
-                                //add notification for new task
-                                MainActivity.toSchedule.push(newTask)
-                                MainActivity.toScheduleDays.push(MainActivity.getSelectedDayList())
-
-                                //reselect original date
-                                MainActivity.selectedDay=originalDate
-
-                                //google analytics
-                                MainActivity.mTracker?.send(HitBuilders.EventBuilder()
-                                    .setCategory("Action")
-                                    .setAction("ChangeTaskDate")
-                                    .build())
 
                                 //close popup
                                 popupWindow.dismiss()
