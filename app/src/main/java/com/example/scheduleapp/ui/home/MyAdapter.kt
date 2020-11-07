@@ -81,6 +81,10 @@ class MyAdapter(context: Context, data: DayList,activity: MainActivity?,homeFrag
             cal2.time = java.sql.Date(java.util.Date().time)//represents today
             val numberOfDays=(cal1.getTime().time - cal2.getTime().time) / (1000 * 60 * 60 * 24)//number of days between cal1 and cal2
             if(numberOfDays<1){
+                //make text orange
+                holder.title.setTextColor(Color.argb(255,255,125,0))
+            }
+            if(numberOfDays<0){
                 //make text red
                 holder.title.setTextColor(Color.RED)
             }
