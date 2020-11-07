@@ -12,6 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.DatePicker
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.TimePicker
@@ -93,6 +94,14 @@ class AddNewTask : AppCompatActivity() {
 
         })
 
+        //setup
+        //set addTaskPlannedDatePicker
+        var targetDate: Calendar= Calendar.getInstance()
+        targetDate.time=MainActivity.selectedDay//represents selected day
+
+        val dateSetBox: DatePicker = findViewById(R.id.addTaskPlannedDatePicker)
+        dateSetBox.updateDate(targetDate.get(Calendar.YEAR),targetDate.get(Calendar.MONTH),targetDate.get(Calendar.DAY_OF_MONTH))//update date
+
         if(MainActivity.selectedTask!=null){
             //there is a stask selected
             //lets fill in the values
@@ -144,7 +153,14 @@ class AddNewTask : AppCompatActivity() {
             //TODO add option ot exclude date
             var dueDate:java.sql.Date = java.sql.Date(addTaskDatePicker.year-1900,addTaskDatePicker.month,addTaskDatePicker.dayOfMonth)
 
+
             if(MainActivity.selectedTask==null) {
+
+                //select the day from the box
+                MainActivity.selectedDay=java.sql.Date(dateSetBox.year-1900,dateSetBox.month,dateSetBox.dayOfMonth)
+                MainActivity.getSelectedDayList().setup(this)
+
+
                 val task:Task=Task(taskName)
 
 
@@ -187,8 +203,23 @@ class AddNewTask : AppCompatActivity() {
                 //this may not work
                 //because I suspect that one needs to pass the context for the MainActivity
 
-                //the task has to be reordered in the daylist
-                MainActivity.getSelectedDayList().reOrderTask(this,MainActivity.selectedTask!!)
+                val chosenDay=java.sql.Date(dateSetBox.year-1900,dateSetBox.month,dateSetBox.dayOfMonth)
+
+                if(chosenDay.time-MainActivity.selectedDay.time!=0L) {
+                    //the day is bing changed
+                    //move task if need be
+                    val cal:Calendar= Calendar.getInstance()
+                    cal.time=chosenDay
+                    MainActivity.getSelectedDayList().changeDayOfTask(this,MainActivity.selectedTask!!,cal)
+                }
+                else{
+                    //the task has to be reordered in the daylist
+                    MainActivity.getSelectedDayList().reOrderTask(this,MainActivity.selectedTask!!)
+                }
+
+                //select the day from the box
+                MainActivity.selectedDay=chosenDay
+                MainActivity.getSelectedDayList().setup(this)
 
                 //schedule the notification for the task
                 MainActivity.toSchedule.push(MainActivity.selectedTask)

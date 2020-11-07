@@ -287,6 +287,7 @@ class MainActivity : AppCompatActivity {
 
         //reset selected day
         MainActivity.selectedDay=oldDate
+        getSelectedDayList().setup(this)
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)

@@ -58,10 +58,28 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="auto"
+                        android:fontFamily="@font/oxygen"
                         android:hint="@string/name"
                         android:textColorLink="@color/colorPrimary" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/oxygen"
+                    android:text="Time to get it done"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -93,6 +111,7 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
                     android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/oxygen"
                     android:text="Tags"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -147,8 +166,42 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
                         android:id="@+id/descriptionInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/oxygen"
                         android:hint="@string/description" />
                 </com.google.android.material.textfield.TextInputLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp">
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/oxygen"
+                    android:text="Date To Get It Done"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <DatePicker
+                    android:id="@+id/addTaskPlannedDatePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:headerBackground="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -160,6 +213,7 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/oxygen"
                     android:text="Due Date"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
