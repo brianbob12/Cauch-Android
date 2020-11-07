@@ -294,7 +294,9 @@ class DayList{
             return false
         }
         //make new task
-        val newTask=task.copy()
+        val newTask=task.copy()//shallow copy
+        //copy over tags
+        newTask.tags=task.tags//pointer is being passed here
 
         //remove old task
         task.cancelNotification(context)
