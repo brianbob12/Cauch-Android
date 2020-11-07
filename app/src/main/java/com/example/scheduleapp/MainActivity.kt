@@ -6,7 +6,6 @@ package com.example.scheduleapp
  * Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
  */
 
-import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.job.JobInfo
@@ -32,7 +31,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.gms.analytics.HitBuilders
 import com.google.android.gms.analytics.Tracker
 import com.google.android.material.navigation.NavigationView
-import org.mortbay.jetty.Main
 import java.io.*
 import java.util.*
 import kotlin.collections.HashMap
@@ -260,9 +258,35 @@ class MainActivity : AppCompatActivity {
         //import persistent container
         persistentContainer.load(this)
 
+        //this is to do with postponing tasks
         //check peristant container for days that have now passed
         //this would mean that tasks are left uncompleted
+        val oldDate = MainActivity.selectedDay
+        val today:Calendar= Calendar.getInstance()
+        today.time=java.util.Date()
+        for(date in persistentContainer.daysWithStuff.clone() as LinkedList<java.sql.Date>){
+            //TODO check Date is now in the past
+            if(date.time-oldDate.time==0L){
+                continue
+            }
+            if(!MainActivity.getSelectedDayList().future) {
+                //setup date
+                MainActivity.selectedDay = date
+                getSelectedDayList().setup(this)
+                //move all tasks to today
+                while (getSelectedDayList().tasks.size != 0) {
+                    getSelectedDayList().changeDayOfTask(
+                        this, getSelectedDayList().tasks.get(0), today
+                    )
+                }
+            }
+        }
+        //clear persisteantContainer's daysWithStuff
+        persistentContainer.daysWithStuff.clear()
+        persistentContainer.save(this)
 
+        //reset selected day
+        MainActivity.selectedDay=oldDate
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)

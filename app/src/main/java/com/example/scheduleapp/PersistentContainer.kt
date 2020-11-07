@@ -124,4 +124,12 @@ class PersistentContainer(){
         }
     }
 
+    //finds days that had tasks that were never completed. Offers to move them to today
+    public fun moveUncompletedTasks(context:Context){
+        //find today
+        var calToday:Calendar = Calendar.getInstance()
+        calToday.time=java.util.Date()
+
+    }
+
 }

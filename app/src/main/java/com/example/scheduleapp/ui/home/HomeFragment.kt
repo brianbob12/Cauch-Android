@@ -5,6 +5,7 @@ package com.example.scheduleapp.ui.home
  * Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
  */
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -40,6 +42,7 @@ class HomeFragment : Fragment() {
     private val minumumSwipeXDistance = 300
     private val maximumSwipeYDistace = 500
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,6 +56,8 @@ class HomeFragment : Fragment() {
         recyclerView?.setLayoutManager(LinearLayoutManager(root.context))
 
         this.setup(root)
+
+
 
         //deal with onclick listeners
 
@@ -190,6 +195,7 @@ class HomeFragment : Fragment() {
         val dayName:TextView= root.findViewById(R.id.dayName)
         dayName.text=MainActivity.getSelectedDayList().toString()
     }
+
 
     //resets the recyler view adapter for whatever is in MainActivity.selectedDay
     private fun changeDay(){
