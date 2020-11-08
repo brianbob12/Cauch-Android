@@ -220,7 +220,7 @@ class AddNewTask : AppCompatActivity() {
                 //select the day from the box
                 MainActivity.selectedDay=chosenDay
                 MainActivity.getSelectedDayList().setup(this)
-                
+
                 //remember that changeDayOfTask also changes the time of the task
                 MainActivity.selectedTask!!.setPlannedTime(plannedTime)
 

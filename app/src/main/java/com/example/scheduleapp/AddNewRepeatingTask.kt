@@ -1,21 +1,29 @@
 package com.example.scheduleapp
 
+/* Copyright (C) Cyrus Singer - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
+ */
+
+
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.LinearLayout
-import android.widget.PopupMenu
-import android.widget.TimePicker
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.gms.analytics.HitBuilders
 import kotlinx.android.synthetic.main.activity_add_new_task.*
 import java.sql.Time
-import java.util.*
-import kotlin.collections.ArrayList
+
 
 class AddNewRepeatingTask : AppCompatActivity() {
 
@@ -44,6 +52,29 @@ class AddNewRepeatingTask : AppCompatActivity() {
         tagList =findViewById(R.id.tagLayout)
         myContext=this as Context
 
+        //setup spinner
+        val mySpinner1:Spinner = findViewById(R.id.addRepeatingTaskSpinner1)
+        val mySpinner2:Spinner = findViewById(R.id.addRepeatingTaskSpinner2)
+        val arraySpinner1 = arrayOf(
+            "Day","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday","Weekday"
+        )
+        val adapter1 = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item, arraySpinner1
+        )
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        mySpinner1.adapter = adapter1
+
+        val arraySpinner2 = arrayOf(
+            "Every","Every Other"
+        )
+        val adapter2 = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item, arraySpinner2
+        )
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        mySpinner2.adapter = adapter2
+
         //setup popup menu
         val popup = PopupMenu(this, newTagButton)
 
@@ -64,7 +95,8 @@ class AddNewRepeatingTask : AppCompatActivity() {
                     }
                 }
                 if(selectedTag!=null){
-                    //TODO make sure the tag is not already selected
+                    //make sure the tag cannot be selected again
+                    menuItem.setEnabled(false)
                     //render task
                     val newTag = TagView(myContext!!,selectedTag)
                     selectedTags.add(selectedTag)
@@ -73,6 +105,8 @@ class AddNewRepeatingTask : AppCompatActivity() {
                         selectedTags.remove(selectedTag)
                         //remove View
                         tagList?.removeView(newTag)
+                        //reenable tag opton
+                        menuItem.setEnabled(true)
 
                     }
                     tagList?.addView(newTag)
@@ -112,6 +146,20 @@ class AddNewRepeatingTask : AppCompatActivity() {
             inflater.inflate(R.menu.tag_select_menu, popup.getMenu())
             popup.show()
         }
+        //deal with switch
+        val switch:Switch=findViewById(R.id.fixedTimeSwitch)
+        val timePicker: TimePicker =findViewById(R.id.timePicker)
+        val timeHolder:ConstraintLayout=findViewById(R.id.timeHolder)
+        switch.setOnCheckedChangeListener { compoundButton, b ->
+            if(b){
+                //is checked, hide clock
+                timeHolder.background.setTint(Color.argb(100,0,0,0))
+            }
+            else{
+                //show clock
+                timeHolder.background.setTint(Color.argb(0,0,0,0))
+            }
+        }
 
         SubmitButton.setOnClickListener {
             //setup our new repeating task
@@ -123,7 +171,7 @@ class AddNewRepeatingTask : AppCompatActivity() {
             descript=descript.replace("\n"," ")
             descript=descript.replace("\t","")
 
-            val timePicker: TimePicker =findViewById(R.id.timePicker)
+
             var plannedTime: Time = Time(timePicker.hour,timePicker.minute,0)
             //TODO add option ot exclude date
             var dueDate:java.sql.Date = java.sql.Date(addTaskDatePicker.year-1900,addTaskDatePicker.month,addTaskDatePicker.dayOfMonth)
