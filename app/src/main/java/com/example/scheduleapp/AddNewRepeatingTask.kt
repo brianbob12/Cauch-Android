@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.gms.analytics.HitBuilders
 import kotlinx.android.synthetic.main.activity_add_new_repeating_task.*
+import org.mortbay.jetty.Main
 import java.sql.Time
 import java.util.*
 import kotlin.collections.ArrayList
@@ -55,11 +56,12 @@ class AddNewRepeatingTask : AppCompatActivity() {
         tagList =findViewById(R.id.tagLayout)
         myContext=this as Context
 
+        val switch:Switch=findViewById(R.id.fixedTimeSwitch)//for later
         //setup spinner
         val mySpinner1:Spinner = findViewById(R.id.addRepeatingTaskSpinner1)
         val mySpinner2:Spinner = findViewById(R.id.addRepeatingTaskSpinner2)
         val arraySpinner1 = arrayOf(
-            "Day","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday","Weekday"
+            "Day","Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Weekday"
         )
         val adapter1 = ArrayAdapter(
             this,
@@ -123,12 +125,14 @@ class AddNewRepeatingTask : AppCompatActivity() {
         if(MainActivity.selectedRepeatingTask!=null){
             //there is a task selected
             //lets fill in the values
-            nameInput.setText(MainActivity.selectedTask!!.getName())
-            descriptionInput.setText(MainActivity.selectedTask!!.getDescription())
-            timePicker.hour=MainActivity.selectedTask!!.getPlannedTime().hours
-            timePicker.minute=MainActivity.selectedTask!!.getPlannedTime().minutes
+            nameInput.setText(MainActivity.selectedRepeatingTask!!.getName())
+            descriptionInput.setText(MainActivity.selectedRepeatingTask!!.getDescription())
+            if(MainActivity.selectedRepeatingTask!!.getPlannedTime()!=null) {
+                timePicker.hour = MainActivity.selectedRepeatingTask!!.getPlannedTime()!!.hours
+                timePicker.minute = MainActivity.selectedRepeatingTask!!.getPlannedTime()!!.minutes
+            }
             //add tags
-            for(tag in MainActivity.selectedTask!!.tags){
+            for(tag in MainActivity.selectedRepeatingTask!!.tags){
                 val newTagView = TagView(myContext!!,tag)
                 selectedTags.add(tag)
                 newTagView.setOnClickListener {
@@ -140,6 +144,48 @@ class AddNewRepeatingTask : AppCompatActivity() {
                 }
                 tagList?.addView(newTagView)
             }
+            //set fixed time switch
+            switch.isChecked= MainActivity.selectedRepeatingTask!!.fixedTime
+
+            //deal with start date
+            val cal:Calendar = Calendar.getInstance()
+            cal.time=MainActivity.selectedRepeatingTask!!.getStartDate()
+            addRepeatingTaskDatePicker.updateDate(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH))
+
+            //deal with spinners
+            if(MainActivity.selectedRepeatingTask!!.everyOther){
+                mySpinner2.setSelection(1)
+            }
+            //set spinner 1
+            //there was probably a better way to do this
+            if(MainActivity.selectedRepeatingTask!!.repeatsSettingString=="Day"){
+                mySpinner1.setSelection(0)
+            }
+            if(MainActivity.selectedRepeatingTask!!.repeatsSettingString=="Sunday"){
+                mySpinner1.setSelection(1)
+            }
+            if(MainActivity.selectedRepeatingTask!!.repeatsSettingString=="Monday"){
+                mySpinner1.setSelection(2)
+            }
+            if(MainActivity.selectedRepeatingTask!!.repeatsSettingString=="Tuesday"){
+                mySpinner1.setSelection(3)
+            }
+            if(MainActivity.selectedRepeatingTask!!.repeatsSettingString=="Wednesday"){
+                mySpinner1.setSelection(4)
+            }
+            if(MainActivity.selectedRepeatingTask!!.repeatsSettingString=="Thursday"){
+                mySpinner1.setSelection(5)
+            }
+            if(MainActivity.selectedRepeatingTask!!.repeatsSettingString=="Friday"){
+                mySpinner1.setSelection(6)
+            }
+            if(MainActivity.selectedRepeatingTask!!.repeatsSettingString=="Saturday"){
+                mySpinner1.setSelection(7)
+            }
+            if(MainActivity.selectedRepeatingTask!!.repeatsSettingString=="Weekday"){
+                mySpinner1.setSelection(8)
+            }
         }
         //deal with adding tasks
         newTagButton.setOnClickListener {
@@ -150,19 +196,9 @@ class AddNewRepeatingTask : AppCompatActivity() {
             popup.show()
         }
         //deal with switch
-        val switch:Switch=findViewById(R.id.fixedTimeSwitch)
+
         val timePicker: TimePicker =findViewById(R.id.timePicker)
         val timeHolder:ConstraintLayout=findViewById(R.id.timeHolder)
-        switch.setOnCheckedChangeListener { compoundButton, b ->
-            if(b){
-                //is checked, hide clock
-                timeHolder.background.setTint(Color.argb(100,0,0,0))
-            }
-            else{
-                //show clock
-                timeHolder.background.setTint(Color.argb(0,0,0,0))
-            }
-        }
 
         SubmitButton.setOnClickListener {
             //setup our new repeating task
@@ -188,7 +224,16 @@ class AddNewRepeatingTask : AppCompatActivity() {
             //get day of week
             val dayChoice= mySpinner1.selectedItem as String
             //check that the start date is correct
-            if(dayChoice=="Monday"){
+
+            if(dayChoice=="Sunday"){
+            //check that that start date is a sunday
+            if(startCal.get(Calendar.DAY_OF_WEEK)!=Calendar.SUNDAY){
+                this.invalidStartDate(dayChoice)
+                //end this onClickListener function
+                return@setOnClickListener
+                }
+            }
+            else if(dayChoice=="Monday"){
                 //check that that start date is a monday
                 if(startCal.get(Calendar.DAY_OF_WEEK)!=Calendar.MONDAY){
                     this.invalidStartDate(dayChoice)
@@ -236,14 +281,6 @@ class AddNewRepeatingTask : AppCompatActivity() {
                     return@setOnClickListener
                 }
             }
-            else if(dayChoice=="Sunday"){
-                //check that that start date is a sunday
-                if(startCal.get(Calendar.DAY_OF_WEEK)!=Calendar.SUNDAY){
-                    this.invalidStartDate(dayChoice)
-                    //end this onClickListener function
-                    return@setOnClickListener
-                }
-            }
             else if(dayChoice=="Weekday"){
                 //check that hte start dat is not a saturday or sunday
                 if(startCal.get(Calendar.DAY_OF_WEEK)==Calendar.SATURDAY){
@@ -259,12 +296,14 @@ class AddNewRepeatingTask : AppCompatActivity() {
             }
 
 
-            val fixedTime= fixedTimeSwitch.isSelected
+            val fixedTime= fixedTimeSwitch.isChecked
 
-            if(MainActivity.selectedTask==null) {
+            if(MainActivity.selectedRepeatingTask==null) {
                 val task:RepeatingTask=RepeatingTask(taskName,fixedTime,startDate,everyOther)
 
-                if(fixedTime) {
+                task.setRepeatsSetting(dayChoice)
+
+                if(!fixedTime) {
                     task.setPlannedTime(plannedTime)
                 }
                 task.setDescription(descript)
@@ -286,8 +325,9 @@ class AddNewRepeatingTask : AppCompatActivity() {
 
                 //we are going to update exsisting task
                 MainActivity.selectedRepeatingTask!!.setName(taskName)
+                MainActivity.selectedRepeatingTask!!.setRepeatsSetting(dayChoice)
                 MainActivity.selectedRepeatingTask!!.setStartDate(startDate)
-                if(fixedTime) {
+                if(!fixedTime) {
                     MainActivity.selectedRepeatingTask!!.setPlannedTime(plannedTime)
                 }
                 else{

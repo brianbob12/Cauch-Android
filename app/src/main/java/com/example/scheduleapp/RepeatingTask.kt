@@ -19,15 +19,17 @@ import java.sql.Time
 
 class RepeatingTask {
     //everything is private to avoid pointers leaving the object
-    private var fixedTime:Boolean//this is false when the user wants the task to be fit into thier day whenever is best
+    public var fixedTime:Boolean//this is false when the user wants the task to be fit into thier day whenever is best
     private var plannedTime: Time? = null
     private var startDate:Date
     private var name:String=""
     private var descripton:String=""
     //this variable is true if the task repeats every other week or day
     //if this is false, task repeats every week or day
-    private var everyOther:Boolean=false
-        get() {return this.everyOther}
+    public var everyOther:Boolean=false
+    //a string describing the repetition of this task
+    //does not include every or every other
+    public var repeatsSettingString:String =""
 
     //weekday variables
     //if a weekday variable is true the task will repeat on that week
@@ -80,6 +82,55 @@ class RepeatingTask {
         this.fixedTime=fixedTime
         if(!fixedTime) {
             this.plannedTime = Time(0, 0, 0)
+        }
+    }
+    
+    //takes in a string describing the repeats setting and sets up object variables accordingly
+    public fun setRepeatsSetting(repeatsSettingString:String){
+        this.repeatsSettingString=repeatsSettingString
+        //set all days to false
+        this.sunday=false
+        this.monday=false
+        this.tuesday=false
+        this.thursday=false
+        this.friday=false
+        this.saturday=false
+        if(repeatsSettingString=="Sunday"){
+            this.sunday=true
+        }
+        else if(repeatsSettingString=="Monday"){
+            this.monday=true
+        }
+        else if(repeatsSettingString=="Tuesday"){
+            this.tuesday=true
+        }
+        else if(repeatsSettingString=="Wednesday"){
+            this.wednesday=true
+        }
+        else if(repeatsSettingString=="Thursday"){
+            this.thursday=true
+        }
+        else if(repeatsSettingString=="Friday"){
+            this.friday=true
+        }
+        else if(repeatsSettingString=="Saturday"){
+            this.saturday=true
+        }
+        else if(repeatsSettingString=="Weekdays"){
+            this.monday=true
+            this.tuesday=true
+            this.wednesday=true
+            this.thursday=true
+            this.friday=true
+        }
+        else if(repeatsSettingString=="Day"){
+            //this means every day
+            this.sunday=true
+            this.monday=true
+            this.tuesday=true
+            this.thursday=true
+            this.friday=true
+            this.saturday=true
         }
     }
 
