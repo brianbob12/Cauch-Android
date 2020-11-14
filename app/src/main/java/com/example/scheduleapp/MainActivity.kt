@@ -74,7 +74,10 @@ class MainActivity : AppCompatActivity {
 
         //the selected repeating task
         //if this is null nothing is selected
-        public var selectedRepeatingTask:Task?=null
+        public var selectedRepeatingTask:RepeatingTask?=null
+
+        //a list of all of the repeating tasks
+        public var repatingTasks:LinkedList<RepeatingTask> = LinkedList<RepeatingTask>()
 
         //the selected tag
         //if this is null nothing is selected

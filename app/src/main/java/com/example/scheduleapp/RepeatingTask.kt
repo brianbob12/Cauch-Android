@@ -24,6 +24,21 @@ class RepeatingTask {
     private var startDate:Date
     private var name:String=""
     private var descripton:String=""
+    //this variable is true if the task repeats every other week or day
+    //if this is false, task repeats every week or day
+    private var everyOther:Boolean=false
+        get() {return this.everyOther}
+
+    //weekday variables
+    //if a weekday variable is true the task will repeat on that week
+    public var sunday=false
+    public var monday=false
+    public var tuesday=false
+    public var wednesday=false
+    public var thursday=false
+    public var friday=false
+    public var saturday=false
+
     public var scheduleID:Int?=null
 
     //holds a tag for the task
@@ -47,8 +62,8 @@ class RepeatingTask {
         return plannedTime?.clone() as Time
     }
     //setPlannedTime creates a clone of the time provided
-    public fun setPlannedTime(value: Time){
-        plannedTime= (value.clone() as Time?)!!
+    public fun setPlannedTime(value: Time?){
+        plannedTime= value?.clone() as Time?
     }
     public fun getStartDate():Date{
         return startDate.clone() as Date
@@ -58,9 +73,10 @@ class RepeatingTask {
         startDate=value.clone() as Date
     }
 
-    constructor(name:String,fixedTime:Boolean,startDate:Date){
+    constructor(name:String,fixedTime:Boolean,startDate:Date,everyOther:Boolean){
         this.name=name
         this.startDate=startDate
+        this.everyOther=everyOther
         this.fixedTime=fixedTime
         if(!fixedTime) {
             this.plannedTime = Time(0, 0, 0)
@@ -146,7 +162,7 @@ class RepeatingTask {
     }
 
     public fun copy():RepeatingTask{
-        var out=RepeatingTask(name,fixedTime,startDate)
+        var out=RepeatingTask(name,fixedTime,startDate,everyOther)
         out.setDescription(descripton)
         plannedTime?.let { out.setPlannedTime(it) }
         out.setStartDate(startDate)

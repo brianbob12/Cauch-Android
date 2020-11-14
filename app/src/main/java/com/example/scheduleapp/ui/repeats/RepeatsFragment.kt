@@ -34,7 +34,7 @@ class RepeatsFragment : Fragment() {
         val addTask: FloatingActionButton =root.findViewById(R.id.addRepeatingTaskButton)
 
         //temporary
-        addTask.visibility=View.INVISIBLE
+        //addTask.visibility=View.INVISIBLE
 
         addTask.setOnClickListener {
             //deselect task

@@ -12,6 +12,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
@@ -21,8 +22,10 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.gms.analytics.HitBuilders
-import kotlinx.android.synthetic.main.activity_add_new_task.*
+import kotlinx.android.synthetic.main.activity_add_new_repeating_task.*
 import java.sql.Time
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class AddNewRepeatingTask : AppCompatActivity() {
@@ -173,26 +176,104 @@ class AddNewRepeatingTask : AppCompatActivity() {
 
 
             var plannedTime: Time = Time(timePicker.hour,timePicker.minute,0)
-            //TODO add option ot exclude date
-            var dueDate:java.sql.Date = java.sql.Date(addTaskDatePicker.year-1900,addTaskDatePicker.month,addTaskDatePicker.dayOfMonth)
+            var startDate:java.sql.Date = java.sql.Date(addRepeatingTaskDatePicker.year-1900,addRepeatingTaskDatePicker.month,addRepeatingTaskDatePicker.dayOfMonth)
+            //a calendar of the startDate for checking stuff
+            val startCal:Calendar = Calendar.getInstance()
+            startCal.time=startDate
+
+
+            //get repetition settings
+            val everyOther:Boolean = (mySpinner2.selectedItem as String) =="Every Other"
+
+            //get day of week
+            val dayChoice= mySpinner1.selectedItem as String
+            //check that the start date is correct
+            if(dayChoice=="Monday"){
+                //check that that start date is a monday
+                if(startCal.get(Calendar.DAY_OF_WEEK)!=Calendar.MONDAY){
+                    this.invalidStartDate(dayChoice)
+                    //end this onClickListener function
+                    return@setOnClickListener
+                }
+            }
+            else if(dayChoice=="Tuesday"){
+                //check that that start date is a tuesday
+                if(startCal.get(Calendar.DAY_OF_WEEK)!=Calendar.TUESDAY){
+                    this.invalidStartDate(dayChoice)
+                    //end this onClickListener function
+                    return@setOnClickListener
+                }
+            }
+            else if(dayChoice=="Wednesday"){
+                //check that that start date is a wednesday
+                if(startCal.get(Calendar.DAY_OF_WEEK)!=Calendar.WEDNESDAY){
+                    this.invalidStartDate(dayChoice)
+                    //end this onClickListener function
+                    return@setOnClickListener
+                }
+            }
+            else if(dayChoice=="Thursday"){
+                //check that that start date is a thursday
+                if(startCal.get(Calendar.DAY_OF_WEEK)!=Calendar.THURSDAY){
+                    this.invalidStartDate(dayChoice)
+                    //end this onClickListener function
+                    return@setOnClickListener
+                }
+            }
+            else if(dayChoice=="Friday"){
+                //check that that start date is a friday
+                if(startCal.get(Calendar.DAY_OF_WEEK)!=Calendar.FRIDAY){
+                    this.invalidStartDate(dayChoice)
+                    //end this onClickListener function
+                    return@setOnClickListener
+                }
+            }
+            else if(dayChoice=="Saturday"){
+                //check that that start date is a saturday
+                if(startCal.get(Calendar.DAY_OF_WEEK)!=Calendar.SATURDAY){
+                    this.invalidStartDate(dayChoice)
+                    //end this onClickListener function
+                    return@setOnClickListener
+                }
+            }
+            else if(dayChoice=="Sunday"){
+                //check that that start date is a sunday
+                if(startCal.get(Calendar.DAY_OF_WEEK)!=Calendar.SUNDAY){
+                    this.invalidStartDate(dayChoice)
+                    //end this onClickListener function
+                    return@setOnClickListener
+                }
+            }
+            else if(dayChoice=="Weekday"){
+                //check that hte start dat is not a saturday or sunday
+                if(startCal.get(Calendar.DAY_OF_WEEK)==Calendar.SATURDAY){
+                    this.invalidStartDate(dayChoice)
+                    //end this onClickListener function
+                    return@setOnClickListener
+                }
+                if(startCal.get(Calendar.DAY_OF_WEEK)==Calendar.SUNDAY){
+                    this.invalidStartDate(dayChoice)
+                    //end this onClickListener function
+                    return@setOnClickListener
+                }
+            }
+
+
+            val fixedTime= fixedTimeSwitch.isSelected
 
             if(MainActivity.selectedTask==null) {
-                val task:Task=Task(taskName)
+                val task:RepeatingTask=RepeatingTask(taskName,fixedTime,startDate,everyOther)
 
-
-                task.setdueDate(dueDate)
-                task.setPlannedTime(plannedTime)
+                if(fixedTime) {
+                    task.setPlannedTime(plannedTime)
+                }
                 task.setDescription(descript)
 
                 task.tags.addAll(selectedTags)
 
-                //we are going to make a new task
-                //add the new task to the list
-                MainActivity.getSelectedDayList().addTask(this,task)
-
-                //schedule the notification for the task
-                MainActivity.toSchedule.push(task)
-                MainActivity.toScheduleDays.push(MainActivity.getSelectedDayList())
+                //add to mainActivity
+                MainActivity.repatingTasks.add(task)
+                //TODO save
 
                 //google analytics
                 mTracker.send(
@@ -204,38 +285,32 @@ class AddNewRepeatingTask : AppCompatActivity() {
             else{
 
                 //we are going to update exsisting task
-                MainActivity.selectedTask!!.setName(taskName)
-                MainActivity.selectedTask!!.setdueDate(dueDate)
-                MainActivity.selectedTask!!.setPlannedTime(plannedTime)
-                MainActivity.selectedTask!!.setDescription(descript)
+                MainActivity.selectedRepeatingTask!!.setName(taskName)
+                MainActivity.selectedRepeatingTask!!.setStartDate(startDate)
+                if(fixedTime) {
+                    MainActivity.selectedRepeatingTask!!.setPlannedTime(plannedTime)
+                }
+                else{
+                    MainActivity.selectedRepeatingTask!!.setPlannedTime(null)
+                    //this prevents mistakes from being made elsewhere
+                }
+                MainActivity.selectedRepeatingTask!!.setDescription(descript)
 
                 //deal with tags
                 //clear all tags
-                MainActivity.selectedTask!!.tags.clear()
+                MainActivity.selectedRepeatingTask!!.tags.clear()
                 //readd tags
-                MainActivity.selectedTask!!.tags.addAll(selectedTags)
-
-                //delete scheduled notification in case the time has changed
-                MainActivity.selectedTask!!.cancelNotification(this)
-                //this may not work
-                //because I suspect that one needs to pass the context for the MainActivity
-
-                //the task has to be reordered in the daylist
-                MainActivity.getSelectedDayList().reOrderTask(this,MainActivity.selectedTask!!)
-
-                //schedule the notification for the task
-                MainActivity.toSchedule.push(MainActivity.selectedTask)
-                MainActivity.toScheduleDays.push(MainActivity.getSelectedDayList())
+                MainActivity.selectedRepeatingTask!!.tags.addAll(selectedTags)
 
                 //google analytics
                 mTracker.send(
                     HitBuilders.EventBuilder()
                     .setCategory("Action")
-                    .setAction("EditTask")
+                    .setAction("EditRepeatingTask")
                     .build())
             }
-            //start main activity
-            startActivity(Intent(this, MainActivity::class.java))
+            //end
+            finish()
         }
     }
 
@@ -244,5 +319,13 @@ class AddNewRepeatingTask : AppCompatActivity() {
         //Google analytics stuff
         MainActivity.mTracker?.setScreenName("AddNewRepeatingTask");
         MainActivity.mTracker?.send(HitBuilders.ScreenViewBuilder().build())
+    }
+
+    //sends a popup box saying there is an invalid start date
+    private fun invalidStartDate(specification:String){
+        //specification is the condition that the start date has to meet
+        //for example, "Monday" or "Weekday"
+        //TODO
+        Log.e("TODO","invalidStartDte")
     }
 }
