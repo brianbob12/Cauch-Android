@@ -11,6 +11,9 @@ import java.io.Serializable
 import kotlin.random.Random
 
 //class that colds information about each task
+
+//WARNING editing this class will make saved tags invalid
+
 class TaskTag :Serializable{//serializable for export
     private var name:String//tag names cannont include "\n" "\t" or ","
     private var color:Int
