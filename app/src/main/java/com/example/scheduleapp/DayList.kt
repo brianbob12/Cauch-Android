@@ -7,12 +7,11 @@ package com.example.scheduleapp
  */
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.example.scheduleapp.Tasks.Task
 import com.google.android.gms.analytics.HitBuilders
-import org.mortbay.jetty.Main
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -102,7 +101,7 @@ class DayList{
         return output
     }
 
-    public fun addTask(context: Context,task:Task){
+    public fun addTask(context: Context,task: Task){
         //deals with the order of tasks
         if(tasks.size==0) {
             tasks.add(task)
@@ -128,7 +127,7 @@ class DayList{
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    public fun removeTask(context: Context, task:Task){
+    public fun removeTask(context: Context, task: Task){
         //cancell notification
         task.cancelNotification(context)
 
@@ -222,7 +221,8 @@ class DayList{
         tasks= arrayListOf()
         for(taskInfo in out.split("\n")){
             if(taskInfo.length>0) {
-                var newTask: Task = Task("task_quick.xml")
+                var newTask: Task =
+                    Task("task_quick.xml")
                 try {
                     newTask.fromString(taskInfo)
                     this.addTask(context,newTask)
@@ -289,7 +289,7 @@ class DayList{
     //the task in question bust be a member of this DayList
     //returns true if successful
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    public fun changeDayOfTask(context:Context, task: Task,targetDate:Calendar):Boolean{
+    public fun changeDayOfTask(context:Context, task: Task, targetDate:Calendar):Boolean{
         if(!(task in this.tasks)){
             return false
         }

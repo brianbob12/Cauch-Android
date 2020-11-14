@@ -29,6 +29,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.scheduleapp.RepeatingTasks.RepeatingTask
+import com.example.scheduleapp.Tasks.Task
 import com.google.android.gms.analytics.HitBuilders
 import com.google.android.gms.analytics.Tracker
 import com.google.android.material.navigation.NavigationView
@@ -71,7 +72,7 @@ class MainActivity : AppCompatActivity {
 
         //the selected task
         //if this is null nothing is selected
-        public var selectedTask:Task?=null
+        public var selectedTask: Task?=null
 
         //the selected repeating task
         //if this is null nothing is selected
@@ -370,7 +371,7 @@ class MainActivity : AppCompatActivity {
     //takes a task and schedules a notification
     //the notification will run if the app is open or not.
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    public fun scheduleTaskNotification(task:Task,date:Date){
+    public fun scheduleTaskNotification(task: Task, date:Date){
         //check if task has schedlued time
         if(task.getPlannedTime()==null){
             return

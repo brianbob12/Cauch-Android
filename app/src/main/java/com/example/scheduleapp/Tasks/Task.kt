@@ -1,4 +1,4 @@
-package com.example.scheduleapp
+package com.example.scheduleapp.Tasks
 
 /* Copyright (C) Cyrus Singer - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited
@@ -6,14 +6,13 @@ package com.example.scheduleapp
  * Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
  */
 
-import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.getSystemService
-import java.io.Serializable
+import com.example.scheduleapp.MainActivity
+import com.example.scheduleapp.TaskTag
 import java.lang.Exception
 import java.lang.NumberFormatException
 import java.sql.Time
@@ -150,8 +149,8 @@ class Task {
         this.scheduleID?.let { jobScheduler.cancel(it) }
     }
 
-    public fun copy():Task{
-        var out=Task(name)
+    public fun copy(): Task {
+        var out= Task(name)
         out.setDescription(descripton)
         out.setActive(active)
         out.setPlannedTime(plannedTime)

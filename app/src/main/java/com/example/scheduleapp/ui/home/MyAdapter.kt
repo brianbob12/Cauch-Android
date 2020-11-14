@@ -9,21 +9,15 @@ package com.example.scheduleapp.ui.home
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.shapes.Shape
 import android.os.Build
 import android.text.Html
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.scheduleapp.*
+import com.example.scheduleapp.Tasks.Task
 import com.google.android.gms.analytics.HitBuilders
-import kotlinx.android.synthetic.main.activity_add_new_task.*
-import org.mortbay.jetty.Main
-import org.w3c.dom.Text
-import java.sql.Date
 import java.util.*
 
 

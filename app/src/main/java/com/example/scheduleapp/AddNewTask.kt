@@ -18,6 +18,7 @@ import android.widget.PopupMenu
 import android.widget.TimePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.example.scheduleapp.Tasks.Task
 import com.google.android.gms.analytics.HitBuilders
 import kotlinx.android.synthetic.main.activity_add_new_task.*
 import java.sql.Time
@@ -161,7 +162,8 @@ class AddNewTask : AppCompatActivity() {
                 MainActivity.getSelectedDayList().setup(this)
 
 
-                val task:Task=Task(taskName)
+                val task: Task =
+                    Task(taskName)
 
 
                 task.setdueDate(dueDate)

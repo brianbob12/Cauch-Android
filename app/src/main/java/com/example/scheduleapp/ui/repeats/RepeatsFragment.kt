@@ -6,28 +6,18 @@ package com.example.scheduleapp.ui.repeats
  * Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
  */
 
-import android.app.AlertDialog
-import android.content.Context
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
-import android.text.Html
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import com.example.scheduleapp.DayList
 import com.example.scheduleapp.MainActivity
 import com.example.scheduleapp.R
-import com.example.scheduleapp.Task
 import com.google.android.gms.analytics.HitBuilders
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_repeats.*
-import org.mortbay.jetty.Main
-import java.sql.Date
-import java.util.*
 
 
 class RepeatsFragment : Fragment() {
