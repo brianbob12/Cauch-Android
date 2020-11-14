@@ -12,8 +12,10 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.scheduleapp.MainActivity
+import com.example.scheduleapp.RepeatingTasks.RepeatingTaskInvalidStringException
 import com.example.scheduleapp.TaskTag
 import java.lang.Exception
+import java.lang.IndexOutOfBoundsException
 import java.lang.NumberFormatException
 import java.sql.Time
 import java.sql.Date
@@ -102,41 +104,68 @@ class Task {
         out+="\t"
         //5
        out+=descripton
-
+        out+="\t"
+        //6
+        if(scheduleID==null){
+            out+="NULL"
+        }
+        else {
+            out += scheduleID.toString()
+        }
         return out
     }
 
     //makes task from string
-    //TODO import schedule id
+    @Throws(TaskInvalidStringException::class)
     public fun fromString(str:String) {
         //remember backwards compatibility
         val stuff=str.split("\t")
-
-        this.name=stuff[0]
-        this.plannedTime= Time.valueOf(stuff[1])
-        this.active=stuff[2]=="true"
-
-        //tags
-        val rawTagKeys: List<String> = stuff[3].split(",")
-        //tag lookup
-        for(tagKey in rawTagKeys){
+        try {
+            this.name = stuff[0]
             try {
-                MainActivity.tagLookup.get(tagKey.toInt())?.let { this.tags.add(it) }
+                this.plannedTime = Time.valueOf(stuff[1])
+            } catch (e: Exception) {
+                //fatal
+                throw RepeatingTaskInvalidStringException(
+                    RepeatingTaskInvalidStringException.exceptionCause.INVALIDDATATYPE, str
+                )
             }
-            catch(e:NumberFormatException){
-                //not valid int
-                Log.e("BAD TAG ID",tagKey)
-                continue
-            }
-        }
+            this.active = stuff[2] == "true"
 
-        if(stuff[4]!="NULL"){
-            this.dueDate= Date.valueOf(stuff[4])
+            //tags
+            val rawTagKeys: List<String> = stuff[3].split(",")
+            //tag lookup
+            for (tagKey in rawTagKeys) {
+                try {
+                    MainActivity.tagLookup.get(tagKey.toInt())?.let { this.tags.add(it) }
+                } catch (e: NumberFormatException) {
+                    //not valid int
+                    Log.e("BAD TAG ID", tagKey)
+                    //not fatal
+                    continue
+                }
+            }
         }
-        try{
-            this.descripton=stuff[5]
+        catch (e:IndexOutOfBoundsException){
+            //fatal
+            throw RepeatingTaskInvalidStringException(
+                RepeatingTaskInvalidStringException.exceptionCause.INDEXOUTOFBOUNDS,str)
+        }
+        //lots of nice error handeling here
+        try {
+            if (stuff[4] != "NULL") {
+                this.dueDate = Date.valueOf(stuff[4])
+            }
+            this.descripton = stuff[5]
+            if(stuff[6]=="NULL"){
+                this.scheduleID=null
+            }
+            else{
+                this.scheduleID=stuff[6] as? Int //avoids exceptions
+            }
         }
         catch(e:Exception){
+            //non-fatal
             Log.e("Tag Import Error",e.toString())
         }
     }
