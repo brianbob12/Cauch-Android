@@ -8,22 +8,18 @@ package com.example.scheduleapp
 
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.scheduleapp.RepeatingTasks.RepeatingTask
 import com.google.android.gms.analytics.HitBuilders
 import kotlinx.android.synthetic.main.activity_add_new_repeating_task.*
-import org.mortbay.jetty.Main
 import java.sql.Time
 import java.util.*
 import kotlin.collections.ArrayList
@@ -299,7 +295,13 @@ class AddNewRepeatingTask : AppCompatActivity() {
             val fixedTime= fixedTimeSwitch.isChecked
 
             if(MainActivity.selectedRepeatingTask==null) {
-                val task:RepeatingTask=RepeatingTask(taskName,fixedTime,startDate,everyOther)
+                val task: RepeatingTask =
+                    RepeatingTask(
+                        taskName,
+                        fixedTime,
+                        startDate,
+                        everyOther
+                    )
 
                 task.setRepeatsSetting(dayChoice)
 

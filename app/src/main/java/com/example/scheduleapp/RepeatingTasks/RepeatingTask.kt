@@ -1,11 +1,9 @@
-package com.example.scheduleapp
+package com.example.scheduleapp.RepeatingTasks
 
-import android.app.job.JobScheduler
-import android.content.Context
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
-import java.lang.Exception
+import com.example.scheduleapp.MainActivity
+import com.example.scheduleapp.TaskTag
+import java.lang.IndexOutOfBoundsException
 import java.lang.NumberFormatException
 import java.sql.Date
 import java.sql.Time
@@ -16,6 +14,7 @@ import java.sql.Time
  * Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
  */
 
+//holds methods and data for a repeating task
 
 class RepeatingTask {
     //everything is private to avoid pointers leaving the object
@@ -41,7 +40,6 @@ class RepeatingTask {
     public var friday=false
     public var saturday=false
 
-    public var scheduleID:Int?=null
 
     //holds a tag for the task
     public var tags:ArrayList<TaskTag> = arrayListOf()
@@ -136,7 +134,6 @@ class RepeatingTask {
 
     //makes task string for saving to files
 
-    //TODO add schedule id
     public override fun toString():String{
         var out:String=""
 
@@ -144,7 +141,12 @@ class RepeatingTask {
         out+=this.name
         out+="\t"
         //1
-        out+=this.plannedTime.toString()
+        if(this.plannedTime==null){
+            out+="NULL"
+        }
+        else {
+            out += this.plannedTime.toString()
+        }
         out+="\t"
         //2
         out+=this.fixedTime.toString()
@@ -165,55 +167,79 @@ class RepeatingTask {
         out+="\t"
         //5
         out+=descripton
+        out+="\t"
+        //6
+        out+=this.everyOther
+        out+="\t"
+        //7
+        out+=this.repeatsSettingString
+        out+="\t"
+
 
         return out
     }
 
     //makes task from string
-    //TODO import schedule id
-    public fun fromString(str:String) {
-        //remember backwards compatibility
-        val stuff=str.split("\t")
+    @Throws(RepeatingTaskInvalidStringException::class)
+    public fun fromString(str:String)  {
+        try {
+            //remember backwards compatibility
+            val stuff = str.split("\t")
 
-        this.name=stuff[0]
-        this.plannedTime= Time.valueOf(stuff[1])
-        this.fixedTime=stuff[2]=="true"
+            this.name = stuff[0]
+            if (stuff[1] == "NULL") {
+                this.plannedTime = null
+            } else {
+                try {
+                    this.plannedTime = Time.valueOf(stuff[1])
+                }
+                catch (e:Error){
+                    throw RepeatingTaskInvalidStringException(
+                        RepeatingTaskInvalidStringException.exceptionCause.INVALIDDATATYPE,str)
+                }
+            }
+            this.fixedTime = stuff[2] == "true"
 
-        //tags
-        val rawTagKeys: List<String> = stuff[3].split(",")
-        //tag lookup
-        for(tagKey in rawTagKeys){
+            //tags
+            val rawTagKeys: List<String> = stuff[3].split(",")
+            //tag lookup
+            for (tagKey in rawTagKeys) {
+                try {
+                    MainActivity.tagLookup.get(tagKey.toInt())?.let { this.tags.add(it) }
+                } catch (e: NumberFormatException) {
+                    //not valid int
+                    Log.e("BAD TAG ID", tagKey)
+                    //not fatal
+                    continue
+                }
+            }
             try {
-                MainActivity.tagLookup.get(tagKey.toInt())?.let { this.tags.add(it) }
+                this.startDate = Date.valueOf(stuff[4])
             }
-            catch(e: NumberFormatException){
-                //not valid int
-                Log.e("BAD TAG ID",tagKey)
-                continue
+            catch(e:Error){
+                throw RepeatingTaskInvalidStringException(
+                    RepeatingTaskInvalidStringException.exceptionCause.INVALIDDATATYPE,str)
             }
-        }
 
-        if(stuff[4]!="NULL"){
-            this.startDate= Date.valueOf(stuff[4])
+            this.descripton = stuff[5]
+            this.everyOther = stuff[6] == "true"
+
+            this.setRepeatsSetting(stuff[7])
         }
-        try{
-            this.descripton=stuff[5]
-        }
-        catch(e: Exception){
-            Log.e("Tag Import Error",e.toString())
+        catch (e:IndexOutOfBoundsException){
+            throw RepeatingTaskInvalidStringException(
+                RepeatingTaskInvalidStringException.exceptionCause.INDEXOUTOFBOUNDS,str)
         }
     }
 
-    //cancels the notification attributed to this task
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    public fun cancelNotification(context: Context){
-        // cancel notification
-        val jobScheduler: JobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-        this.scheduleID?.let { jobScheduler.cancel(it) }
-    }
 
-    public fun copy():RepeatingTask{
-        var out=RepeatingTask(name,fixedTime,startDate,everyOther)
+    public fun copy(): RepeatingTask {
+        var out= RepeatingTask(
+            name,
+            fixedTime,
+            startDate,
+            everyOther
+        )
         out.setDescription(descripton)
         plannedTime?.let { out.setPlannedTime(it) }
         out.setStartDate(startDate)

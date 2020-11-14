@@ -28,6 +28,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.scheduleapp.RepeatingTasks.RepeatingTask
 import com.google.android.gms.analytics.HitBuilders
 import com.google.android.gms.analytics.Tracker
 import com.google.android.material.navigation.NavigationView
@@ -74,7 +75,7 @@ class MainActivity : AppCompatActivity {
 
         //the selected repeating task
         //if this is null nothing is selected
-        public var selectedRepeatingTask:RepeatingTask?=null
+        public var selectedRepeatingTask: RepeatingTask?=null
 
         //a list of all of the repeating tasks
         public var repatingTasks:LinkedList<RepeatingTask> = LinkedList<RepeatingTask>()
@@ -198,6 +199,15 @@ class MainActivity : AppCompatActivity {
 
             outStream.close()
             file.close()
+        }
+
+        //uses a txt file to export repeating tasks
+        public fun importRepeatingTasks(context:Context){
+
+        }
+        //uses a txt file to export repeating tasks
+        public fun exportRepeatingTasks(context:Context){
+
         }
 
     }
