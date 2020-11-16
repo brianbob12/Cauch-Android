@@ -312,9 +312,9 @@ class AddNewRepeatingTask : AppCompatActivity() {
 
                 task.tags.addAll(selectedTags)
 
-                //add to mainActivity
-                MainActivity.repatingTasks.add(task)
-                //TODO save
+                //add to persistent container
+                MainActivity.persistentContainer.repeatingTasks.add(task)
+                MainActivity.persistentContainer.save(this)
 
                 //google analytics
                 mTracker.send(
@@ -343,6 +343,9 @@ class AddNewRepeatingTask : AppCompatActivity() {
                 MainActivity.selectedRepeatingTask!!.tags.clear()
                 //readd tags
                 MainActivity.selectedRepeatingTask!!.tags.addAll(selectedTags)
+
+                //save persistentContainer
+                MainActivity.persistentContainer.save(this)
 
                 //google analytics
                 mTracker.send(

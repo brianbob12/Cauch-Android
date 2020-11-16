@@ -2,6 +2,9 @@ package com.example.scheduleapp
 
 import android.content.Context
 import android.util.Log
+import com.example.scheduleapp.RepeatingTasks.RepeatingTask
+import com.example.scheduleapp.RepeatingTasks.RepeatingTaskInvalidStringException
+import com.example.scheduleapp.Tasks.Task
 import java.io.*
 import java.sql.Date
 import java.util.*
@@ -14,11 +17,17 @@ import java.util.*
  */
 
 //a class to hold persistent information that is ot best suited anywhere else
+//currently includes:
+// - daysWithStuff
+// - repeatingTasks
 class PersistentContainer(){
     //a list of days that have tasks in them
     //when a user is prompted to postpone the tasks that date is removed
     //note java.util.date
     public var daysWithStuff: LinkedList<Date> = LinkedList<Date>()//empty
+
+    //a list of all of the repeating taks
+    public var repeatingTasks: LinkedList<RepeatingTask> = LinkedList<RepeatingTask>()//empy
 
     //adds to days with stuff and saves if need be
     public fun daysWithStuffAdd(context: Context,x:Date){
@@ -86,6 +95,28 @@ class PersistentContainer(){
 
         outStream.close()
         file.close()
+
+        //export repeatingTasks to txt file
+        //setup content
+        var content:String=""
+        for(task in repeatingTasks){
+            content+=task.toString()
+            content+="\n"//one character
+        }
+        //getFile
+        //var name:String="D"+this.date.toString()
+        var name:String="persistentContainerRepeatingTasks.txt"
+        val repeatFile = File(context.filesDir,name)
+
+        repeatFile.createNewFile()//creates a new empty file if this file does not exsist
+        try {
+            val outputStreamWriter = OutputStreamWriter(context.openFileOutput(name,Context.MODE_PRIVATE))
+            outputStreamWriter.write(content)
+            outputStreamWriter.close()
+        } catch (e: IOException) {
+            //non-fatal
+            Log.e("Exception", "File write failed: " + e.toString())
+        }
     }
 
     //retrieve the data for tje Persistent Container from a file
@@ -121,6 +152,50 @@ class PersistentContainer(){
         }
         catch (e: InvalidClassException) {
             Log.e("ERROR",e.toString())
+        }
+
+        //load repeating tasks
+
+        //filename
+        var name:String="persistentContainerRepeatingTasks.txt"
+        //getFile
+
+        val file = File(context.filesDir,name)
+        var out:String=""
+
+        try{
+            val fis:FileInputStream=context.openFileInput(name)
+
+            var i:Int=0
+
+            while (fis.read().also { i = it } !== -1) {
+                out+=i.toChar()
+            }
+            fis.close()
+        }
+        catch(e:Exception){
+            Log.e("Test",e.toString())
+        }
+
+        //implement read tasks
+        //clear old task
+        //note maintains the same pointer
+        repeatingTasks.clear()
+        for(taskInfo in out.split("\n")){
+            if(taskInfo.length>0) {
+                var newTask: RepeatingTask =
+                    RepeatingTask("IMPORTED",false,java.sql.Date(0,0,0),false)
+                try {
+                    newTask.fromString(taskInfo)
+                } catch (e: RepeatingTaskInvalidStringException) {
+                    //non-fatal
+                    Log.e("Task Error", e.toString())
+                }
+                finally {
+                    //only runs if the fromString was successful
+                    repeatingTasks.add(newTask)
+                }
+            }
         }
     }
 

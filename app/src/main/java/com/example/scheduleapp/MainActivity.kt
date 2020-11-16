@@ -78,9 +78,6 @@ class MainActivity : AppCompatActivity {
         //if this is null nothing is selected
         public var selectedRepeatingTask: RepeatingTask?=null
 
-        //a list of all of the repeating tasks
-        public var repatingTasks:LinkedList<RepeatingTask> = LinkedList<RepeatingTask>()
-
         //the selected tag
         //if this is null nothing is selected
         public var selectedTag:TaskTag?=null
@@ -200,15 +197,6 @@ class MainActivity : AppCompatActivity {
 
             outStream.close()
             file.close()
-        }
-
-        //uses a txt file to export repeating tasks
-        public fun importRepeatingTasks(context:Context){
-
-        }
-        //uses a txt file to export repeating tasks
-        public fun exportRepeatingTasks(context:Context){
-
         }
 
     }

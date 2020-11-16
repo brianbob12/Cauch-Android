@@ -59,7 +59,7 @@ class RepeatingTask {
     }
     //returns a clone of the time
     public fun getPlannedTime(): Time? {
-        return plannedTime?.clone() as Time
+        return plannedTime?.clone() as Time?
     }
     //setPlannedTime creates a clone of the time provided
     public fun setPlannedTime(value: Time?){

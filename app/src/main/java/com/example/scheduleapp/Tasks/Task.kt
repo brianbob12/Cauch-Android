@@ -75,7 +75,6 @@ class Task {
 
     //makes task string for saving to files
 
-    //TODO add schedule id
     public override fun toString():String{
         var out:String=""
 

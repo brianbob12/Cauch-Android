@@ -57,7 +57,7 @@ class RepeatsFragment : Fragment() {
         repeatingTaskList.removeAllViews()
 
         //add repeating tasks to the list
-        for(task in MainActivity.repatingTasks){
+        for(task in MainActivity.persistentContainer.repeatingTasks){
             val toAdd= LinearLayout(context)
             layoutInflater.inflate(R.layout.repeating_task_card_row,toAdd)
 
@@ -107,8 +107,8 @@ class RepeatsFragment : Fragment() {
                     //do stuff
                     if(name=="Delete"){
                         //remove task
-                        MainActivity.repatingTasks.remove(task)
-                        //TODO save
+                        MainActivity.persistentContainer.repeatingTasks.remove(task)
+                        context?.let { MainActivity.persistentContainer.save(it) }
 
                         //TODO refresh view
 
