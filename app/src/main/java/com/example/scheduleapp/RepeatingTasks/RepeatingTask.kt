@@ -9,6 +9,8 @@ import java.lang.IndexOutOfBoundsException
 import java.lang.NumberFormatException
 import java.sql.Date
 import java.sql.Time
+import java.util.*
+import kotlin.collections.ArrayList
 
 /* Copyright (C) Cyrus Singer - All Rights Reserved
  * Unauthorized copying of this file, via any medium is strictly prohibited
@@ -268,5 +270,80 @@ class RepeatingTask {
         plannedTime?.let { out.setPlannedTime(it) }
         out.setStartDate(startDate)
         return out
+    }
+
+    //returns true if the task should repeat for the given Date
+    public fun validDay(subject: java.sql.Date):Boolean{
+        //setup calendar for subject
+        val subjectCal:Calendar = Calendar.getInstance()
+        subjectCal.time=subject
+
+        //setup calendar for the start date
+        val startDateCal:Calendar = Calendar.getInstance()
+        startDateCal.time=this.startDate
+
+        //check that the subject is after the start date
+        if(subjectCal.time.time - startDateCal.time.time <0){
+            //before start date
+            return false
+        }
+        if(this.repeatsSettingString=="Day"){
+            //deal with the day setting
+            if(this.everyOther){
+                //we have shit to do
+                val timeDifference= (
+                        (subjectCal.time.time - startDateCal.time.time) / (1000 * 60 * 60 * 24)
+                        ) as Int//number of full days between subject and startDate
+                return timeDifference%2==0
+            }
+            else{
+                //we're good here
+                return true
+            }
+        }
+        //if we got here then everyOther means every other week
+        if(everyOther){
+            //check if even number of weeks away from the start week
+            val fullWeeks= (
+                    (subjectCal.time.time - startDateCal.time.time) / (1000 * 60 * 60 * 24 * 7)
+                    ) as Int//find the number of full weeks between start date and subject
+            if(fullWeeks%2==0){
+                //continue
+                //must pass next check
+            }
+            else{
+                //failure
+                //dissapointing I know
+                return false
+            }
+        }
+        //last check
+        //check day of week is correct
+        if(subjectCal.get(Calendar.DAY_OF_WEEK)==Calendar.SUNDAY){
+            return this.sunday
+        }
+        else if(subjectCal.get(Calendar.DAY_OF_WEEK)==Calendar.MONDAY){
+            return this.monday
+        }
+        else if(subjectCal.get(Calendar.DAY_OF_WEEK)==Calendar.TUESDAY){
+            return this.tuesday
+        }
+        else if(subjectCal.get(Calendar.DAY_OF_WEEK)==Calendar.WEDNESDAY){
+            return this.wednesday
+        }
+        else if(subjectCal.get(Calendar.DAY_OF_WEEK)==Calendar.THURSDAY){
+            return this.thursday
+        }
+        else if(subjectCal.get(Calendar.DAY_OF_WEEK)==Calendar.FRIDAY){
+            return this.friday
+        }
+        else if(subjectCal.get(Calendar.DAY_OF_WEEK)==Calendar.SATURDAY){
+            return this.saturday
+        }
+
+
+        //just here to stop compile time errors
+        //this will never run
+        return true
     }
 }
