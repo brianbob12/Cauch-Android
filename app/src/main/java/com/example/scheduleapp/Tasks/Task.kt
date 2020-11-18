@@ -63,8 +63,8 @@ class Task {
         return dueDate?.clone() as Date?
     }
     //setPlannedDate creates a clone of the time provided
-    public fun setdueDate(value:Date){
-        dueDate=value.clone() as Date?
+    public fun setdueDate(value:Date?){
+        dueDate=value?.clone() as Date?
     }
 
 

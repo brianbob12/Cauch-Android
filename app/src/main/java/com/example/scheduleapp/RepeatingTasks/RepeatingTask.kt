@@ -1,8 +1,10 @@
 package com.example.scheduleapp.RepeatingTasks
 
 import android.util.Log
+import com.example.scheduleapp.DayList
 import com.example.scheduleapp.MainActivity
 import com.example.scheduleapp.TaskTag
+import com.example.scheduleapp.Tasks.Task
 import java.lang.IndexOutOfBoundsException
 import java.lang.NumberFormatException
 import java.sql.Date
@@ -230,6 +232,28 @@ class RepeatingTask {
             throw RepeatingTaskInvalidStringException(
                 RepeatingTaskInvalidStringException.exceptionCause.INDEXOUTOFBOUNDS,str)
         }
+    }
+
+    //makes a task of the repeating task for a specific day
+    public fun makeTaskInstance(daylist:DayList):Task{
+        val out:Task = Task(this.name)
+        out.setDescription(this.descripton)
+        //deal with the time
+        if(this.fixedTime && this.plannedTime!=null){
+            out.setPlannedTime(this.plannedTime!!)
+        }
+        else{
+            //whenever's convient
+            out.setPlannedTime(daylist.findNewTime())
+            //keep in mind findNewTime might change
+        }
+        //deal with due date
+        //set as null
+        out.setdueDate(null)
+        //copy over tags
+        out.tags.addAll(this.tags)//no pointers being passed here
+        //done for now
+        return out
     }
 
 

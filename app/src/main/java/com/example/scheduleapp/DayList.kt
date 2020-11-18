@@ -60,6 +60,14 @@ class DayList{
         if(!MainActivity.getSelectedDayList().loaded){
             MainActivity.getSelectedDayList().readDay(context)
         }
+
+        //check for repeated tasks
+        if(future){
+            //check all repeating tasks
+            for(task in MainActivity.persistentContainer.repeatingTasks){
+                if(task.)
+            }
+        }
     }
 
     //gets an integer value of the day of the week for this day starting with 0 as a Sunday
