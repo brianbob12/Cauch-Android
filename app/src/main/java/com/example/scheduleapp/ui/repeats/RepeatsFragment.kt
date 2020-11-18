@@ -38,7 +38,7 @@ class RepeatsFragment : Fragment() {
 
         addTask.setOnClickListener {
             //deselect task
-            MainActivity.selectedTask=null
+            MainActivity.selectedRepeatingTask=null
             (activity as MainActivity?)?.startAddNewRepeatingTaskFragment()
 
         }

@@ -20,6 +20,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.scheduleapp.RepeatingTasks.RepeatingTask
 import com.google.android.gms.analytics.HitBuilders
 import kotlinx.android.synthetic.main.activity_add_new_repeating_task.*
+import org.mortbay.jetty.Main
 import java.sql.Time
 import java.util.*
 import kotlin.collections.ArrayList
@@ -118,6 +119,9 @@ class AddNewRepeatingTask : AppCompatActivity() {
 
         })
 
+        val timePicker: TimePicker =findViewById(R.id.timePicker)
+        val timeHolder:ConstraintLayout=findViewById(R.id.timeHolder)
+
         if(MainActivity.selectedRepeatingTask!=null){
             //there is a task selected
             //lets fill in the values
@@ -141,7 +145,12 @@ class AddNewRepeatingTask : AppCompatActivity() {
                 tagList?.addView(newTagView)
             }
             //set fixed time switch
-            switch.isChecked= MainActivity.selectedRepeatingTask!!.fixedTime
+            switch.isChecked= !MainActivity.selectedRepeatingTask!!.fixedTime
+            if(MainActivity.selectedRepeatingTask!!.fixedTime&& MainActivity.selectedRepeatingTask!!.getPlannedTime()!=null){
+                //update clock
+                timePicker.hour= MainActivity.selectedRepeatingTask!!.getPlannedTime()?.hours!!
+                timePicker.minute= MainActivity.selectedRepeatingTask!!.getPlannedTime()?.minutes!!
+            }
 
             //deal with start date
             val cal:Calendar = Calendar.getInstance()
@@ -191,10 +200,8 @@ class AddNewRepeatingTask : AppCompatActivity() {
             inflater.inflate(R.menu.tag_select_menu, popup.getMenu())
             popup.show()
         }
-        //deal with switch
 
-        val timePicker: TimePicker =findViewById(R.id.timePicker)
-        val timeHolder:ConstraintLayout=findViewById(R.id.timeHolder)
+
 
         SubmitButton.setOnClickListener {
             //setup our new repeating task
@@ -292,7 +299,7 @@ class AddNewRepeatingTask : AppCompatActivity() {
             }
 
 
-            val fixedTime= fixedTimeSwitch.isChecked
+            val fixedTime= !fixedTimeSwitch.isChecked
 
             if(MainActivity.selectedRepeatingTask==null) {
                 val task: RepeatingTask =
@@ -305,7 +312,7 @@ class AddNewRepeatingTask : AppCompatActivity() {
 
                 task.setRepeatsSetting(dayChoice)
 
-                if(!fixedTime) {
+                if(fixedTime) {
                     task.setPlannedTime(plannedTime)
                 }
                 task.setDescription(descript)
@@ -326,10 +333,12 @@ class AddNewRepeatingTask : AppCompatActivity() {
             else{
 
                 //we are going to update exsisting task
+                MainActivity.selectedRepeatingTask!!.everyOther=everyOther
+                MainActivity.selectedRepeatingTask!!.fixedTime=!switch.isChecked
                 MainActivity.selectedRepeatingTask!!.setName(taskName)
                 MainActivity.selectedRepeatingTask!!.setRepeatsSetting(dayChoice)
                 MainActivity.selectedRepeatingTask!!.setStartDate(startDate)
-                if(!fixedTime) {
+                if(fixedTime) {
                     MainActivity.selectedRepeatingTask!!.setPlannedTime(plannedTime)
                 }
                 else{
@@ -337,6 +346,9 @@ class AddNewRepeatingTask : AppCompatActivity() {
                     //this prevents mistakes from being made elsewhere
                 }
                 MainActivity.selectedRepeatingTask!!.setDescription(descript)
+
+                //setup repeat setting
+                MainActivity.selectedRepeatingTask!!.setRepeatsSetting(dayChoice)
 
                 //deal with tags
                 //clear all tags

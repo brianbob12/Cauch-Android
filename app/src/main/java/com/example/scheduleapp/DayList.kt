@@ -60,12 +60,33 @@ class DayList{
         if(!MainActivity.getSelectedDayList().loaded){
             MainActivity.getSelectedDayList().readDay(context)
         }
-
         //check for repeated tasks
         if(future){
             //check all repeating tasks
             for(task in MainActivity.persistentContainer.repeatingTasks){
-                if(task.)
+                Log.e("TESTING",this.date.toString()+" - "+task.toString()+" - "+task.validDay(this.date))
+                if(task.validDay(this.date)){
+                    //check if the task already exist
+                    //TODO change this system
+                    var already:Boolean=false
+                    for(exsistingTask in this.tasks){
+                        //super hackey solution
+                        //slow
+                        if(exsistingTask.getName()==task.getName()
+                            &&exsistingTask.getDescription()==task.getDescription()){
+                            already=true
+                            break
+                        }
+                    }
+                    if(!already){
+                        //add the repeating task
+                        val newTask = task.makeTaskInstance(this)
+                        this.addTask(context,newTask)
+                        //save the daylist
+                        this.saveDay(context)
+                    }
+
+                }
             }
         }
     }

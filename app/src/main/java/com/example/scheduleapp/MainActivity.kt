@@ -120,10 +120,8 @@ class MainActivity : AppCompatActivity {
             c.time = selectedDay
             c.add(Calendar.DATE, 1)
             selectedDay=java.sql.Date(c.timeInMillis)
-            //load day if need be
-            if(!getSelectedDayList().loaded){
-                getSelectedDayList().readDay(context)
-            }
+            //setup day
+            getSelectedDayList().setup(context)
 
 
         }
@@ -134,10 +132,8 @@ class MainActivity : AppCompatActivity {
             c.time = selectedDay
             c.add(Calendar.DATE, -1)
             selectedDay=java.sql.Date(c.timeInMillis)
-            //load day if need be
-            if(!getSelectedDayList().loaded){
-                getSelectedDayList().readDay(context)
-            }
+            //setup day
+            getSelectedDayList().setup(context)
         }
         //import tags from cache
         public fun importTags(context: Context){
@@ -218,7 +214,8 @@ class MainActivity : AppCompatActivity {
         //note if the channel alredy exsits nothing is done
         createNotificationChannel()
 
-
+        //import persistent container
+        persistentContainer.load(this)
 
         //schedule unsheduled tasks
 
@@ -257,8 +254,6 @@ class MainActivity : AppCompatActivity {
         //setup dayList
         getSelectedDayList().setup(this)
         
-        //import persistent container
-        persistentContainer.load(this)
 
         //this is to do with postponing tasks
         //check peristant container for days that have now passed

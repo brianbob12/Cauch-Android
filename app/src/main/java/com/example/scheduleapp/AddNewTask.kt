@@ -124,10 +124,14 @@ class AddNewTask : AppCompatActivity() {
                 tagList?.addView(newTagView)
             }
             //set date
-            val cal1:Calendar= Calendar.getInstance()
-            cal1.time=MainActivity.selectedTask!!.getdueDate()
-            addTaskDatePicker.updateDate(cal1.get(Calendar.YEAR),cal1.get(Calendar.MONTH),
-                cal1.get(Calendar.DAY_OF_MONTH))
+            if(MainActivity.selectedTask!!.getdueDate()!=null) {
+                val cal1: Calendar = Calendar.getInstance()
+                cal1.time = MainActivity.selectedTask!!.getdueDate()
+                addTaskDatePicker.updateDate(
+                    cal1.get(Calendar.YEAR), cal1.get(Calendar.MONTH),
+                    cal1.get(Calendar.DAY_OF_MONTH)
+                )
+            }
 
         }
         //deal with adding tasks

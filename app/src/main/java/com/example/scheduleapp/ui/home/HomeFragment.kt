@@ -202,5 +202,8 @@ class HomeFragment : Fragment() {
         recycleAdapter!!.changeDay(MainActivity.getSelectedDayList())
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        context?.let { MainActivity.getSelectedDayList().setup(it) }
+    }
 }

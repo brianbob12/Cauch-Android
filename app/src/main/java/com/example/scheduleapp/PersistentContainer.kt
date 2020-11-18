@@ -176,7 +176,6 @@ class PersistentContainer(){
         catch(e:Exception){
             Log.e("Test",e.toString())
         }
-
         //implement read tasks
         //clear old task
         //note maintains the same pointer
@@ -197,6 +196,7 @@ class PersistentContainer(){
                 }
             }
         }
+        Log.e("TESTING",this.repeatingTasks.toString())
     }
 
     //finds days that had tasks that were never completed. Offers to move them to today

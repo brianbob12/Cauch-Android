@@ -274,6 +274,7 @@ class RepeatingTask {
 
     //returns true if the task should repeat for the given Date
     public fun validDay(subject: java.sql.Date):Boolean{
+
         //setup calendar for subject
         val subjectCal:Calendar = Calendar.getInstance()
         subjectCal.time=subject
@@ -293,7 +294,7 @@ class RepeatingTask {
                 //we have shit to do
                 val timeDifference= (
                         (subjectCal.time.time - startDateCal.time.time) / (1000 * 60 * 60 * 24)
-                        ) as Int//number of full days between subject and startDate
+                        ).toInt()//number of full days between subject and startDate
                 return timeDifference%2==0
             }
             else{
@@ -306,7 +307,7 @@ class RepeatingTask {
             //check if even number of weeks away from the start week
             val fullWeeks= (
                     (subjectCal.time.time - startDateCal.time.time) / (1000 * 60 * 60 * 24 * 7)
-                    ) as Int//find the number of full weeks between start date and subject
+                    ).toInt()//find the number of full weeks between start date and subject
             if(fullWeeks%2==0){
                 //continue
                 //must pass next check
