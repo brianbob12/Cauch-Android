@@ -7,9 +7,11 @@ package com.example.scheduleapp
  */
 
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.text.Html
 import android.util.Log
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -382,7 +384,15 @@ class AddNewRepeatingTask : AppCompatActivity() {
     private fun invalidStartDate(specification:String){
         //specification is the condition that the start date has to meet
         //for example, "Monday" or "Weekday"
-        //TODO
-        Log.e("TODO","invalidStartDte")
+        //an alert box confirming the delete
+        //this builder is used to setup the dialogue box
+        val builder: AlertDialog.Builder= AlertDialog.Builder(this)
+            .setMessage(
+                Html.fromHtml(
+                    "Ivalid start date please select a <b>"
+                            + specification + "</b> ."))
+            .setCancelable(true)//
+
+        builder.create().show()
     }
 }
