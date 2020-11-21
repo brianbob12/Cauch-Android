@@ -262,12 +262,14 @@ class MainActivity : AppCompatActivity {
         val today:Calendar= Calendar.getInstance()
         today.time=java.util.Date()
         for(date in persistentContainer.daysWithStuff.clone() as LinkedList<java.sql.Date>){
-            //TODO check Date is now in the past
+            //check Date is now in the past
             if(date.time-oldDate.time==0L){
                 continue
             }
+            //this will only run if the date is in the past
             if(!MainActivity.getSelectedDayList().future) {
                 //setup date
+
                 MainActivity.selectedDay = date
                 getSelectedDayList().setup(this)
                 //move all tasks to today
@@ -276,10 +278,13 @@ class MainActivity : AppCompatActivity {
                         this, getSelectedDayList().tasks.get(0), today
                     )
                 }
+                //remove date from the list
+                persistentContainer.daysWithStuff.remove(date)
+                //remeber .clone is a shallow copy
             }
         }
         //clear persisteantContainer's daysWithStuff
-        persistentContainer.daysWithStuff.clear()
+        //persistentContainer.daysWithStuff.clear()
         persistentContainer.save(this)
 
         //reset selected day
