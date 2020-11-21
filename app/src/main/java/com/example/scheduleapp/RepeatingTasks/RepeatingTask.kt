@@ -80,6 +80,7 @@ class RepeatingTask {
     constructor(name:String,fixedTime:Boolean,startDate:Date,everyOther:Boolean){
         this.name=name
         this.startDate=startDate
+
         this.everyOther=everyOther
         this.fixedTime=fixedTime
         if(!fixedTime) {
