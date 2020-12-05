@@ -30,5 +30,9 @@ Written by Cyrus Singer <japaneserhino@gmail.com>, October 2020
             android:id="@+id/nav_repeats"
             android:icon="@drawable/ic_menu_repeats"
             android:title="@string/menu_repeats" />
+        <item
+            android:id="@+id/nav_pomodoro"
+            android:icon="@drawable/ic_menu_pomodoro"
+            android:title="@string/menu_pomodoro" />
     </group>
 </menu>

@@ -12,6 +12,7 @@
 
     <string name="menu_home">Daily Schedule</string>
     <string name="menu_analytics">Analytics</string>
+    <string name="menu_pomodoro">Pomodoro</string>
     <string name="menu_classroom">Google Classroom</string>
     <string name="menu_tags">Your Tags</string>
     <string name="menu_repeats">Repeating Tasks</string>

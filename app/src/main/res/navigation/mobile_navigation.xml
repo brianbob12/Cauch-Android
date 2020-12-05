@@ -22,6 +22,12 @@
         tools:layout="@layout/fragment_analytics" />
 
     <fragment
+        android:id="@+id/nav_pomodoro"
+        android:name="com.example.scheduleapp.ui.pomodoro.PomodoroFragment"
+        android:label="@string/menu_pomodoro"
+        tools:layout="@layout/fragment_pomodoro" />
+
+    <fragment
         android:id="@+id/nav_classroom"
         android:name="com.example.scheduleapp.ui.classroom.ClassroomFragment"
         android:label="@string/menu_classroom"
