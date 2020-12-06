@@ -21,16 +21,178 @@ class PomodoroFragment() : Fragment() {
         val root: View = inflater.inflate(R.layout.fragment_pomodoro, container, false)
         //Making timer
         val text: TextView = root.findViewById(R.id.timerText)
-        object : CountDownTimer(20000, 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                text.setText("seconds remaining: " + millisUntilFinished / 1000)
-            }
+        val voluntary: Boolean = true
+        while (voluntary == true) {
+            object : CountDownTimer(1800000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
 
-            override fun onFinish() {
-                text.setText("Time's finished!")
-            }
-        }.start()
+                    val minutes: Long = millisUntilFinished / 1000 / 60
+                    val seconds: Long =
+                        millisUntilFinished / 1000 - 60 * (millisUntilFinished / 1000 / 60)
+                    if (seconds >= 10) {
+                        text.setText("" + minutes + ":" + seconds)
+                    }
+                    if (seconds < 10) {
+                        text.setText("" + minutes + ":" + "0" + seconds)
+                    }
+                }
 
+
+                override fun onFinish() {
+                    text.setText("Well done! You're doing great!")
+                    text.setText("-Why not take a little break?")
+                }
+
+            }.start()
+            object : CountDownTimer(300000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+
+                    val minutes: Long = millisUntilFinished / 1000 / 60
+                    val seconds: Long =
+                        millisUntilFinished / 1000 - 60 * (millisUntilFinished / 1000 / 60)
+                    if (seconds >= 10) {
+                        text.setText("" + minutes + ":" + seconds)
+                    }
+                    if (seconds < 10) {
+                        text.setText("" + minutes + ":" + "0" + seconds)
+                    }
+                }
+
+
+                override fun onFinish() {
+                    text.setText("Let's get back to work!")
+
+                }
+            }.start()
+            object : CountDownTimer(1800000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+
+                    val minutes: Long = millisUntilFinished / 1000 / 60
+                    val seconds: Long =
+                        millisUntilFinished / 1000 - 60 * (millisUntilFinished / 1000 / 60)
+                    if (seconds >= 10) {
+                        text.setText("" + minutes + ":" + seconds)
+                    }
+                    if (seconds < 10) {
+                        text.setText("" + minutes + ":" + "0" + seconds)
+                    }
+                }
+
+
+                override fun onFinish() {
+                    text.setText("Well done! You're doing great!")
+                    text.setText("-Why not take a little break?")
+                }
+
+            }.start()
+            object : CountDownTimer(300000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+
+                    val minutes: Long = millisUntilFinished / 1000 / 60
+                    val seconds: Long =
+                        millisUntilFinished / 1000 - 60 * (millisUntilFinished / 1000 / 60)
+                    if (seconds >= 10) {
+                        text.setText("" + minutes + ":" + seconds)
+                    }
+                    if (seconds < 10) {
+                        text.setText("" + minutes + ":" + "0" + seconds)
+                    }
+                }
+
+
+                override fun onFinish() {
+                    text.setText("Let's get back to work!")
+
+                }
+            }.start()
+            object : CountDownTimer(1800000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+
+                    val minutes: Long = millisUntilFinished / 1000 / 60
+                    val seconds: Long =
+                        millisUntilFinished / 1000 - 60 * (millisUntilFinished / 1000 / 60)
+                    if (seconds >= 10) {
+                        text.setText("" + minutes + ":" + seconds)
+                    }
+                    if (seconds < 10) {
+                        text.setText("" + minutes + ":" + "0" + seconds)
+                    }
+                }
+
+
+                override fun onFinish() {
+                    text.setText("Well done! You're doing great!")
+                    text.setText("-Why not take a little break?")
+                }
+
+            }.start()
+            object : CountDownTimer(300000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+
+                    val minutes: Long = millisUntilFinished / 1000 / 60
+                    val seconds: Long =
+                        millisUntilFinished / 1000 - 60 * (millisUntilFinished / 1000 / 60)
+                    if (seconds >= 10) {
+                        text.setText("" + minutes + ":" + seconds)
+                    }
+                    if (seconds < 10) {
+                        text.setText("" + minutes + ":" + "0" + seconds)
+                    }
+                }
+
+
+                override fun onFinish() {
+                    text.setText("Let's get back to work!")
+
+                }
+            }.start()
+            object : CountDownTimer(1800000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+
+                    val minutes: Long = millisUntilFinished / 1000 / 60
+                    val seconds: Long =
+                        millisUntilFinished / 1000 - 60 * (millisUntilFinished / 1000 / 60)
+                    if (seconds >= 10) {
+                        text.setText("" + minutes + ":" + seconds)
+                    }
+                    if (seconds < 10) {
+                        text.setText("" + minutes + ":" + "0" + seconds)
+                    }
+                }
+
+
+                override fun onFinish() {
+                    text.setText("Well done! You're doing great!")
+                    text.setText("-Why not take a little break?")
+                }
+
+            }.start()
+            object : CountDownTimer(900000, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+
+                    val minutes: Long = millisUntilFinished / 1000 / 60
+                    val seconds: Long =
+                        millisUntilFinished / 1000 - 60 * (millisUntilFinished / 1000 / 60)
+                    if (seconds >= 10) {
+                        text.setText("" + minutes + ":" + seconds)
+                    }
+                    if (seconds < 10) {
+                        text.setText("" + minutes + ":" + "0" + seconds)
+                    }
+                }
+
+
+                override fun onFinish() {
+                    text.setText("Well done! You have completed one full set of work.")
+
+
+
+                }
+            }.start()
+
+
+
+        }
         return root
     }
 }
