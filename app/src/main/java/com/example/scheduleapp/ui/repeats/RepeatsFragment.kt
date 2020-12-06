@@ -106,11 +106,17 @@ class RepeatsFragment : Fragment() {
                     val name: String = menuItem!!.toString()//gets selected option
                     //do stuff
                     if(name=="Delete"){
-                        //remove task
+                        //remove task from permentant storge
                         MainActivity.persistentContainer.repeatingTasks.remove(task)
                         context?.let { MainActivity.persistentContainer.save(it) }
 
-                        //TODO refresh view
+                        //removing task from screen
+
+
+                        repeatingTaskList.removeView(toAdd)
+
+
+
 
                         //google analytics
                         MainActivity.mTracker?.send(HitBuilders.EventBuilder()
